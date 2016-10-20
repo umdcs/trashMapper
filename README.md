@@ -1,0 +1,1 @@
+This is a git repostory for the UMD CS4531 EPA Trashmapping application.  This will allow users to take pictures of trash they see, and it will appear on a map for others to view  
