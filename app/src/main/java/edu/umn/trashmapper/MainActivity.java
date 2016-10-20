@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
      * and then saves them to the devices storage using
      * createImageFile() and stores them to
      * Android/data/edu.umn.trashmapper/files/Pictures"
+     * Made following
+     * https://developer.android.com/training/camera/photobasics.html
      */
     static final int REQUEST_TAKE_PHOTO = 1;
     private void dispatchTakePictureIntent() {
@@ -68,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * This function creates a file for the picture
      * with the time and day in the filename
+     * Made following
+     * https://developer.android.com/training/camera/photobasics.html
      */
     String mCurrentPhotoPath;
     private File createImageFile() throws IOException {
