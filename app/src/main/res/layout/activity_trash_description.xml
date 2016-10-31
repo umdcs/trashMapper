@@ -55,16 +55,22 @@
             android:textColorHint="#FFFFFFFF"
             android:textColor="#FFFFFFFF"/>
 
-
-
-
     <ImageButton
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="100dp"
         android:background="@drawable/camera_filled"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
 
         android:id="@+id/button" />
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:id="@+id/map_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onClick"
+        android:text="Go to Map"/>
 
 </LinearLayout>

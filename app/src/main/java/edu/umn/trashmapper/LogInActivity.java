@@ -160,7 +160,6 @@ public class LogInActivity extends AppCompatActivity {
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
     public  void CollectUserInformation(View a){
-
         Intent intent = new Intent(this, UserInformationActivity.class);
         startActivity(intent);
     }

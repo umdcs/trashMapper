@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -26,7 +27,16 @@ public class TrashDescription extends AppCompatActivity {
 
         setContentView(R.layout.activity_trash_description);
         ImageButton button = (ImageButton) findViewById(R.id.button);
+        Button mapButton = (Button) findViewById(R.id.map_button);
 
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Intent intent = new Intent(TrashDescription.this, MapsActivity.class);
+                startActivity(intent);
+
+            }
+        });
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
