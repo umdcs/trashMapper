@@ -55,22 +55,36 @@
             android:textColorHint="#FFFFFFFF"
             android:textColor="#FFFFFFFF"/>
 
-    <ImageButton
-        android:layout_marginTop="100dp"
-        android:background="@drawable/camera_filled"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        android:id="@+id/button" />
+        <Button
+            android:text="@string/gallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/gallery"
+            android:layout_weight="1" />
 
-    <Button
-        android:layout_marginTop="20dp"
-        android:id="@+id/map_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:onClick="onClick"
-        android:text="Go to Map"/>
+        <ImageButton
+            android:layout_marginTop="100dp"
+            android:background="@drawable/camera_filled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+
+            android:id="@+id/button" />
+
+        <Button
+            android:layout_marginTop="20dp"
+            android:id="@+id/map_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="onClick"
+            android:text="Go to Map"
+            android:layout_weight="1" />
+    </LinearLayout>
 
 </LinearLayout>
