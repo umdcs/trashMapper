@@ -1,0 +1,70 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/trash_description"
+    android:background="@drawable/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    >
+
+
+        <TextView android:id="@+id/trash_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/type_of_trash"
+            android:textSize="23sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFFFF"/>
+
+        <CheckBox android:id="@+id/checkbox_organic"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Food and garden waste "
+            android:textColor="#FFFFFFFF"/>
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/recyclable"
+            android:layout_margin="10dp"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFFFF"
+            android:text="Mixed dry recycling"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/non_recyclable"
+            android:layout_margin="10dp"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Non-recyclable waste"
+            android:textColor="#FFFFFFFF"
+            android:onClick="onCheckboxClicked"/>
+
+        <EditText android:id="@+id/reason"
+            android:layout_marginTop="100dp"
+            android:textSize="26sp"
+            android:textStyle="italic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Any reason for the trash?"
+            android:textColorHint="#FFFFFFFF"
+            android:textColor="#FFFFFFFF"/>
+
+
+
+
+    <ImageButton
+        android:layout_marginTop="150dp"
+        android:background="@drawable/camera_filled"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+
+        android:id="@+id/button" />
+
+</LinearLayout>
