@@ -1,5 +1,10 @@
 package edu.umn.trashmapper;
 
+/**
+ * Created by wei on 16/10/31.
+ */
+
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -10,18 +15,20 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-/**
- * Created by wei on 16/10/31.
- */
 
+
+
+/**
+ * Utility class for access to runtime permissions.
+ */
 public abstract class PermissionUtils {
+
     /**
      * Requests the fine location permission. If a rationale with an additional explanation should
      * be shown to the user, displays a dialog that triggers the request.
      */
     public static void requestPermission(AppCompatActivity activity, int requestId,
                                          String permission, boolean finishActivity) {
-
         if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
             // Display a dialog with rationale.
             PermissionUtils.RationaleDialog.newInstance(requestId, finishActivity)
@@ -129,7 +136,7 @@ public abstract class PermissionUtils {
             return dialog;
         }
 
-        @Override
+        /*@Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             Bundle arguments = getArguments();
             final int requestCode = arguments.getInt(ARGUMENT_PERMISSION_REQUEST_CODE);
@@ -142,7 +149,7 @@ public abstract class PermissionUtils {
                         public void onClick(DialogInterface dialog, int which) {
                             // After click on Ok, request the permission.
                             ActivityCompat.requestPermissions(getActivity(),
-                                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                     requestCode);
                             // Do not finish the Activity while requesting permission.
                             mFinishActivity = false;
@@ -150,7 +157,7 @@ public abstract class PermissionUtils {
                     })
                     .setNegativeButton(android.R.string.cancel, null)
                     .create();
-        }
+        }*/
 
         @Override
         public void onDismiss(DialogInterface dialog) {
