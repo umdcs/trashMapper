@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -32,12 +33,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 public class MapsActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,
-        OnMapReadyCallback {
+        OnMapReadyCallback,
+        GoogleMap.OnMyLocationButtonClickListener{
 
     public static final String TAG = MapsActivity.class.getSimpleName();
 
@@ -87,6 +88,7 @@ public class MapsActivity extends AppCompatActivity implements
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
+
 
         //The following are for the map interface
         mDrawerList = (ListView)findViewById(R.id.navList);
@@ -167,10 +169,9 @@ public class MapsActivity extends AppCompatActivity implements
 
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
-                .title("Trash!");
+                .title("Initial Location!");
         mMap.addMarker(options);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        //mMap.animateCamera(CameraUpdateFactory.zoomIn());
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,18));
     }
 
     @Override
@@ -183,36 +184,67 @@ public class MapsActivity extends AppCompatActivity implements
         } else {
             Log.d("DEBUG","granteed last location");
             location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
         }
 
         if (location == null) {
             Log.d("UPDATES","When Location is null");
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-
+                startLocationUpdates();
         }
-        else {
+        else if(!onMyLocationButtonClick()){
             Log.d("UPDATES","When Location is not null");
             handleNewLocation(location);
         }
     }
 
+    private void startLocationUpdates() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission to access the location is missing.
+            PermissionUtils.requestPermission(this, LOCATION_PERMISSION_REQUEST_CODE,
+                    Manifest.permission.ACCESS_FINE_LOCATION, true);
+        } else  {
+            // Access to the location has been granted to the app.
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        }
+    }
+
+    private void enableMyLocation() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission to access the location is missing.
+            PermissionUtils.requestPermission(this, LOCATION_PERMISSION_REQUEST_CODE,
+                    Manifest.permission.ACCESS_FINE_LOCATION, true);
+        } else if (mMap != null) {
+            // Access to the location has been granted to the app.
+            mMap.setMyLocationEnabled(true);
+        }
+    }
+
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    location = null;
-                    Log.d("Test","Permission granteed");
-                }
-                if (PermissionUtils.isPermissionGranted(permissions, grantResults,
-                        Manifest.permission.ACCESS_FINE_LOCATION)) {
-                    // Enable the my location layer if the permission has been granted.
-                    enableMyLocation();
-                }
-                break;
+    public boolean onMyLocationButtonClick() {
+        //Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
+        // Return false so that we don't consume the event and the default behavior still occurs
+        // (the camera animates to the user's current position).
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+
+        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
+            return;
+        }
+
+        if (PermissionUtils.isPermissionGranted(permissions, grantResults,
+                Manifest.permission.ACCESS_FINE_LOCATION)) {
+            // Enable the my location layer if the permission has been granted.
+            enableMyLocation();
+            startLocationUpdates();
+        } else {
+            // Display the missing permission error dialog when the fragments resume.
+            //Still have to play around with the logic here
+             // mPermissionDenied = false;
         }
     }
 
@@ -250,6 +282,8 @@ public class MapsActivity extends AppCompatActivity implements
         }
     }
 
+
+
     @Override
     public void onLocationChanged(Location location) {
         handleNewLocation(location);
@@ -268,17 +302,7 @@ public class MapsActivity extends AppCompatActivity implements
         googleMap.getUiSettings().setZoomControlsEnabled(true);
     }
 
-    private void enableMyLocation() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission to access the location is missing.
-            PermissionUtils.requestPermission(this, LOCATION_PERMISSION_REQUEST_CODE,
-                    Manifest.permission.ACCESS_FINE_LOCATION, true);
-        } else if (mMap != null) {
-            // Access to the location has been granted to the app.
-            mMap.setMyLocationEnabled(true);
-        }
-    }
+
 
 
 
@@ -297,7 +321,7 @@ public class MapsActivity extends AppCompatActivity implements
      */
     private void showMissingPermissionError() {
         PermissionUtils.PermissionDeniedDialog
-                .newInstance(true).show(getSupportFragmentManager(), "dialog");
+                .newInstance(mPermissionDenied).show(getSupportFragmentManager(), "dialog");
     }
 
 
