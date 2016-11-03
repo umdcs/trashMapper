@@ -59,6 +59,8 @@ public class MapsActivity extends AppCompatActivity implements
     private Location location;
     private boolean mPermissionDenied = false;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    private boolean check = true;
+    private int count = 0;
 
     /*
      * The instance fields for the map interface
@@ -165,13 +167,24 @@ public class MapsActivity extends AppCompatActivity implements
         double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
 
+        String sLattitude = String.valueOf(location.getLatitude());
+        String sLongitude = String.valueOf(location.getLongitude());
+
+        String s = "Lattitude is " + sLattitude + " Longitude is " + sLongitude;
+
+
+
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
 
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
                 .title("Initial Location!");
-        mMap.addMarker(options);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,18));
+        if(count == 0) {
+            Toast.makeText(MapsActivity.this, s, Toast.LENGTH_SHORT).show();
+            mMap.addMarker(options);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+            count++;
+        }
     }
 
     @Override
@@ -188,32 +201,38 @@ public class MapsActivity extends AppCompatActivity implements
 
         if (location == null) {
             Log.d("UPDATES","When Location is null");
-                startLocationUpdates();
+            startLocationUpdates();
+            check = false;
         }
-        else if(!onMyLocationButtonClick()){
+        else if(check && count == 0){
             Log.d("UPDATES","When Location is not null");
             handleNewLocation(location);
+            count++;
         }
     }
 
     private void startLocationUpdates() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            // Permission to access the location is missing.
-            PermissionUtils.requestPermission(this, LOCATION_PERMISSION_REQUEST_CODE,
-                    Manifest.permission.ACCESS_FINE_LOCATION, true);
-        } else  {
-            // Access to the location has been granted to the app.
+            ActivityCompat.requestPermissions(MapsActivity.this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSION_REQUEST_CODE);
+        } else {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
     }
 
     private void enableMyLocation() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            // Permission to access the location is missing.
-            PermissionUtils.requestPermission(this, LOCATION_PERMISSION_REQUEST_CODE,
-                    Manifest.permission.ACCESS_FINE_LOCATION, true);
+            ActivityCompat.requestPermissions(MapsActivity.this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSION_REQUEST_CODE);
         } else if (mMap != null) {
             // Access to the location has been granted to the app.
             mMap.setMyLocationEnabled(true);
@@ -232,19 +251,19 @@ public class MapsActivity extends AppCompatActivity implements
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
 
-        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
-            return;
-        }
+        if(requestCode == PERMISSION_REQUEST_CODE) {
 
-        if (PermissionUtils.isPermissionGranted(permissions, grantResults,
-                Manifest.permission.ACCESS_FINE_LOCATION)) {
-            // Enable the my location layer if the permission has been granted.
-            enableMyLocation();
-            startLocationUpdates();
-        } else {
-            // Display the missing permission error dialog when the fragments resume.
-            //Still have to play around with the logic here
-             // mPermissionDenied = false;
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //location = null;
+                enableMyLocation();
+                startLocationUpdates();
+                Log.d("Test","Permission granteed");
+            }
+            else{
+                mPermissionDenied = false;
+            }
+
         }
     }
 
@@ -295,7 +314,6 @@ public class MapsActivity extends AppCompatActivity implements
         mMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         enableMyLocation();
-        // googleMap.setMyLocationEnabled(true);
         googleMap.setTrafficEnabled(true);
         googleMap.setIndoorEnabled(true);
         googleMap.setBuildingsEnabled(true);
@@ -332,7 +350,7 @@ public class MapsActivity extends AppCompatActivity implements
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MapsActivity.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapsActivity.this, "HaHaHaHaHa!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -398,4 +416,3 @@ public class MapsActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 }
-
