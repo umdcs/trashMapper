@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.Manifest;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
