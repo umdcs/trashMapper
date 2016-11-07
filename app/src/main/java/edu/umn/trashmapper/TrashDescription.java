@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,21 +20,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.Manifest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -40,7 +40,6 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static android.provider.Telephony.Mms.Part.FILENAME;
 import static android.util.Base64.DEFAULT;
 import static android.util.Base64.encodeToString;
 
@@ -275,7 +274,6 @@ public class TrashDescription extends AppCompatActivity
         new HTTPAsyncTask().execute("http://131.212.155.181:4321/userData", "POST", jason.toString());
     }
 
-
     //Creates image file from JSON Object on server.
     private void createFile(JSONObject jason) throws JSONException
     {
@@ -284,39 +282,11 @@ public class TrashDescription extends AppCompatActivity
             String encrypted = jason.getString("picture");
             Log.d("Debug", "String is " + encrypted);
             byte[] decoded = Base64.decode(encrypted, DEFAULT);
-            Log.d("Debug", "Attempting to show element of byte array " + decoded[5]);
-            OutputStream stream = null;
-            try
-            {
-                FileOutputStream outputStream = new FileOutputStream(new File(this.getCacheDir(), FILENAME), false);
-                stream = new BufferedOutputStream(outputStream);
-                // stream = new BufferedOutputStream(new FileOutputStream("Android/data/edu.umn.trashmapper/files/Pictures"));
-            } catch (FileNotFoundException e)
-            {
-                e.printStackTrace();
-            }
-            try
-            {
-                stream.write(decoded);
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-            if (stream != null)
-            {
-                try
-                {
-                    stream.close();
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-            }
+            Bitmap pic = BitmapFactory.decodeByteArray(decoded, 0, decoded.length);
+            ImageView image = (ImageView) findViewById(R.id.trash);
+            image.setImageBitmap(pic);
         }
     }
-
 
     public void restGET()
     {
