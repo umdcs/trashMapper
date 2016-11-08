@@ -91,6 +91,14 @@ public class UserInformationActivity extends AppCompatActivity implements Loader
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        final Button button = (Button) findViewById(R.id.email_sign_in_button);
+        button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchToDescription(button);
+            }
+        });
     }
 
     private void populateAutoComplete() {
@@ -350,7 +358,7 @@ public class UserInformationActivity extends AppCompatActivity implements Loader
     }
 
     public void switchToDescription(View a){
-        Intent intent = new Intent(this, TrashDescription.class);
+        Intent intent = new Intent(this, SelectActivity.class);
         startActivity(intent);
     }
 }
