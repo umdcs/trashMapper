@@ -51,6 +51,14 @@ public class MapBins extends AppCompatActivity {
                 dispatchTakePictureIntent();
             }
         });
+        button = (Button) findViewById(R.id.map);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MapBins.this, MapsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     //opens the gallery after permissions granted

@@ -30,6 +30,15 @@ public class SelectActivity extends AppCompatActivity {
             }
         });
 
+        button = (Button) findViewById(R.id.map);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SelectActivity.this, MapsActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void mapBins(){
