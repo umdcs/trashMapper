@@ -257,7 +257,7 @@ public class TrashDescription extends AppCompatActivity
     public void restPOST(JSONObject jason)
     {
         Log.d("DEBUG:", jason.toString());
-        new HTTPAsyncTask().execute("http://131.212.155.181:4321/userData", "POST", jason.toString());
+        new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "POST", jason.toString());
     }
 
     //Creates image file from JSON Object on server.
@@ -276,7 +276,7 @@ public class TrashDescription extends AppCompatActivity
 
     public void restGET()
     {
-        new HTTPAsyncTask().execute("http://131.212.155.181:4321/userData", "GET");
+        new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");
     }
 
     //Runs a background thread that
