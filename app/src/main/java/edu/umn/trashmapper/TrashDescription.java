@@ -208,6 +208,10 @@ public class TrashDescription extends AppCompatActivity
             try
             {
                 jason.put("picture", createPhotoString(photo));
+                jason.put("foodwaste", R.id.checkbox_organic);
+                jason.put("recyclable", R.id.recyclable);
+                jason.put("nrecyclable", R.id.non_recyclable);
+                jason.put("description", R.id.trash_description);
             }
             catch (IOException e)
             {
@@ -257,7 +261,7 @@ public class TrashDescription extends AppCompatActivity
     public void restPOST(JSONObject jason)
     {
         Log.d("DEBUG:", jason.toString());
-        new HTTPAsyncTask().execute("http://131.212.155.181:4321/userData", "POST", jason.toString());
+        new HTTPAsyncTask().execute("http://131.212.148.234:4321/userData", "POST", jason.toString());
     }
 
     //Creates image file from JSON Object on server.
@@ -276,7 +280,7 @@ public class TrashDescription extends AppCompatActivity
 
     public void restGET()
     {
-        new HTTPAsyncTask().execute("http://131.212.155.181:4321/userData", "GET");
+        new HTTPAsyncTask().execute("http://131.212.148.234:4321/userData", "GET");
     }
 
     //Runs a background thread that
@@ -357,6 +361,10 @@ public class TrashDescription extends AppCompatActivity
             {
                 JSONObject jsondata = new JSONObject(result);
                 createFile(jsondata);
+                Log.d("DEBUG", jsondata.get("foodwaste").toString());
+                Log.d("DEBUG", jsondata.get("recyclable").toString());
+                Log.d("DEBUG", jsondata.get("nrecyclable").toString());
+                Log.d("DEBUG", jsondata.get("description").toString());
             }
             catch (JSONException e)
             {
