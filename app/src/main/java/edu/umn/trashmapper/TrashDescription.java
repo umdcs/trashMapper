@@ -263,19 +263,53 @@ public class TrashDescription extends AppCompatActivity
     I tried send two HTTP request in two activities
     Crash...crash...and crash...
      */
-    public void sendMessageUpdate(File photo)
+    public void sendJSONUserInformation(File photo)
     {
         try
         {
             JSONObject jason = new JSONObject();
             try
-            {   jason.put("user_name", userEmail);
+            {   jason.put("type", "UserInformation");
+                jason.put("user_name", userEmail);
                 jason.put("user_password", userPassword);
                 jason.put("type_of_trash", testTypeOfTrash());
                 jason.put("trash_latitude", trashGenLatitude);
                 jason.put("trash_longtitude", trashGenLongtitude);
                 jason.put("trash_generate_date", trashGenDate);
                 jason.put("trash_information", trashInformation);
+                jason.put("picture", createPhotoString(photo));
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            restPOST(jason);
+        }
+        catch(JSONException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendJSONTrashBin(File photo)
+    {
+        try
+        {
+            JSONObject jason = new JSONObject();
+            /*
+              send the trash bin's location
+              send the day when users find that trash bin
+              send the picture of the trash bin
+             */
+            /*the MapActivity needs the server to send two arrays back
+            one is the trash bin array (pin all the trash bins on the map)
+            one is the userInformation array (pin all the users' data on the map(share between friends))
+             */
+            try
+            {   jason.put("type", "TrashBin");
+                jason.put("trash_bin_latitude", trashGenLatitude);
+                jason.put("trash_bin_longtitude", trashGenLongtitude);
+                jason.put("trash_bin_find_date", trashGenDate);
                 jason.put("picture", createPhotoString(photo));
             }
             catch (IOException e)
