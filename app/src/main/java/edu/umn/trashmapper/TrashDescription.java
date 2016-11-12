@@ -1,12 +1,13 @@
 package edu.umn.trashmapper;
 
-import android.app.Activity;
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,7 +24,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.Manifest;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,13 +45,12 @@ import java.util.Date;
 import static android.util.Base64.DEFAULT;
 import static android.util.Base64.encodeToString;
 
-
 public class TrashDescription extends AppCompatActivity
 {
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
-    {
+    {   getUserInformation();
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_trash_description);
@@ -90,6 +90,20 @@ public class TrashDescription extends AppCompatActivity
             }
         });
     }
+
+    //get the user's information
+    public void getUserInformation(){
+        try{
+        Intent intent = getIntent();
+        userEmail = intent.getStringExtra(UserInformationActivity.USER_NAME);
+        userPassword= intent.getStringExtra(UserInformationActivity.USER_PASSWORD);
+         Log.d("User Email",userEmail);
+         Log.d("User password",userPassword);}
+        catch(Exception e){
+            Log.d("user","failed");
+        }
+    }
+
 
     //opens the gallery after permissions granted
     @Override
@@ -181,10 +195,31 @@ public class TrashDescription extends AppCompatActivity
                 Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
                 // Move to first row
                 cursor.moveToFirst();
+                String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 String imgDecodableString = cursor.getString(columnIndex);
                 cursor.close();
                 photoFile = new File(imgDecodableString);
+                String filePath=photoFile.getAbsolutePath();
+                ////////////////lI KUN: track the history location where the user took the photos
+                try{
+                ExifInterface exif = new ExifInterface(path);
+                    float[] latLong = new float[2];
+                    boolean hasLatLong = exif.getLatLong(latLong);
+
+                    Log.d("his", "gps latitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF));
+                    Log.d("his", "gps latitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE));	// 緯度
+                    Log.d("his", "gps longitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF));
+                    Log.d("his", "gps datetime" +
+                            ": " + exif.getAttribute(ExifInterface.TAG_DATETIME));	// 経度
+                    trashGenDate=exif.getAttribute(ExifInterface.TAG_DATETIME);
+                    trashGenLatitude=exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
+                    trashGenLongtitude=exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+
+                }
                 sendMessage(photoFile);
             }
         }
@@ -220,6 +255,63 @@ public class TrashDescription extends AppCompatActivity
             e.printStackTrace();
         }
     }
+
+    /*
+    generate the jason object including the user's information and image
+    ?????!!! how to implement the user log in function if we actually
+    going to need the HTTP request there to verify the password there
+    I tried send two HTTP request in two activities
+    Crash...crash...and crash...
+     */
+    public void sendMessageUpdate(File photo)
+    {
+        try
+        {
+            JSONObject jason = new JSONObject();
+            try
+            {   jason.put("user_name", userEmail);
+                jason.put("user_password", userPassword);
+                jason.put("type_of_trash", testTypeOfTrash());
+                jason.put("trash_latitude", trashGenLatitude);
+                jason.put("trash_longtitude", trashGenLongtitude);
+                jason.put("trash_generate_date", trashGenDate);
+                jason.put("trash_information", trashInformation);
+                jason.put("picture", createPhotoString(photo));
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            restPOST(jason);
+        }
+        catch(JSONException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    /*
+    return the type of trash
+     */
+    public String testTypeOfTrash(){
+        String returenTypeOfTrash=null;
+        if(paper){
+            returenTypeOfTrash="paper";
+        }
+        if(organic){
+            returenTypeOfTrash="organic";
+        }
+        if(cans){
+            returenTypeOfTrash="cans";
+        }
+        if(plastic){
+            returenTypeOfTrash="plastic";
+        }
+        if(battery){
+            returenTypeOfTrash="battery";
+        }
+        return returenTypeOfTrash;
+    }
+
 
     //Creates base64 encoded string for JSON storage.
     private String createPhotoString(File photo) throws IOException
@@ -257,7 +349,8 @@ public class TrashDescription extends AppCompatActivity
     public void restPOST(JSONObject jason)
     {
         Log.d("DEBUG:", jason.toString());
-        new HTTPAsyncTask().execute("http://131.212.155.181:4321/userData", "POST", jason.toString());
+       // new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "POST", jason.toString());
+        new HTTPAsyncTask().execute("http://131.212.216.63:4321/userData", "POST", jason.toString());
     }
 
     //Creates image file from JSON Object on server.
@@ -276,7 +369,7 @@ public class TrashDescription extends AppCompatActivity
 
     public void restGET()
     {
-        new HTTPAsyncTask().execute("http://131.212.155.181:4321/userData", "GET");
+        new HTTPAsyncTask().execute("http://131.212.216.63:4321/userData", "GET");
     }
 
     //Runs a background thread that
@@ -365,12 +458,48 @@ public class TrashDescription extends AppCompatActivity
         }
     }
 
+
+
     //This is the picture that the user takes using the camera.
     private File photoFile = null;
     private static final int PICK_IMAGE=100;
     private Toast toast;
+    /**
+     *  GPS information
+     */
     private String mCurrentPhotoPath;
+    private String trashGenDate;
+    private String trashGenLatitude;
+    private String trashGenLongtitude;
+    /**
+     * User's information
+     */
+    //private String userEmail;
+    //private String userPassword;
 
+    private String userEmail;
+    private String userPassword;
+    /*
+    trash type
+    */
+    private boolean organic;
+    private boolean paper;
+    private boolean cans;
+    private boolean plastic;
+    private boolean battery;
+    /*
+    map the trash bin
+     */
+    private boolean trashBin;
+    /*
+    map the trash bin
+     */
+    private String trashInformation;
+    /*
+    photo location
+     */
+    private String latitude;
+    private String longtitude;
 
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;

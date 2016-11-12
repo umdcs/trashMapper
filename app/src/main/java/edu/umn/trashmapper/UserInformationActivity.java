@@ -18,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,12 +38,26 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that offers login via email/password.
  */
 public class UserInformationActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+    /**
+     * Id to identity USER_NAME.
+     */
+    public final static String USER_NAME = "edu.umn.trashmapper.USER_NAME";
+    /**
+     * Id to identity USER_PASSWORD.
+     */
+    public final static String USER_PASSWORD = "edu.umn.trashmapper.USER_PASSWORD";
 
     /**
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-
+    /**
+     * store the user's information.
+     */
+    private String email;
+    private String password;
+    private  String mEmail=null; //final
+     private  String mPassword=null; //final
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -92,13 +107,13 @@ public class UserInformationActivity extends AppCompatActivity implements Loader
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        final Button button = (Button) findViewById(R.id.email_sign_in_button);
-        button.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switchToDescription(button);
-            }
-        });
+//        final Button button = (Button) findViewById(R.id.email_sign_in_button);
+//        button.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                switchToDescription(button);
+//            }
+//        });
     }
 
     private void populateAutoComplete() {
@@ -160,8 +175,8 @@ public class UserInformationActivity extends AppCompatActivity implements Loader
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        email = mEmailView.getText().toString();
+        password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -196,6 +211,8 @@ public class UserInformationActivity extends AppCompatActivity implements Loader
             mAuthTask.execute((Void) null);
             ////////////////////////
             Intent intent = new Intent(this, TrashDescription.class);
+            intent.putExtra(USER_NAME, mEmail);
+            intent.putExtra(USER_PASSWORD, mPassword);
             startActivity(intent);
         }
     }
@@ -305,10 +322,10 @@ public class UserInformationActivity extends AppCompatActivity implements Loader
      * the user.
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
+/////////////likun
+      //  private final String mEmail;
+      //  private final String mPassword;
+///////////////////likun
         UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
@@ -358,7 +375,11 @@ public class UserInformationActivity extends AppCompatActivity implements Loader
     }
 
     public void switchToDescription(View a){
-        Intent intent = new Intent(this, SelectActivity.class);
+        Intent intent = new Intent(this, TrashDescription.class);
+        intent.putExtra(USER_NAME, mEmail);
+        intent.putExtra(USER_PASSWORD, mPassword);
+        Log.d("user_ori",email);
+        Log.d("user_ori",password);
         startActivity(intent);
     }
 }

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:id="@+id/trash_description"
-    android:background="@drawable/background"
+    android:background="@drawable/background2_copy_2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -20,42 +20,108 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
+            android:orientation="vertical">
             <TextView android:id="@+id/trash_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/type_of_trash"
-                    android:textSize="23sp"
+                    android:text="Take the picture of my trash"
+                    android:textSize="50sp"
                     android:textStyle="bold"
                     android:textColor="#FFFFFFFF"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="50dp"
+            android:orientation="horizontal" >
+            <ImageButton
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/carrot_48"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/orgainc" />
 
-            <CheckBox android:id="@+id/checkbox_organic"
-                    android:layout_margin="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:text="Food and garden waste "
-                    android:textColor="#FFFFFFFF"/>
+            <TextView android:id="@+id/organic_text"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Organic"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFFFF"/>
 
-            <CheckBox android:id="@+id/recyclable"
-                    android:layout_margin="10dp"
-                    android:textSize="20sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="#FFFFFFFF"
-                    android:text="Mixed dry recycling"
-                    android:onClick="onCheckboxClicked"/>
+            <ImageButton
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/paper_plane_50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/paper" />
+            <TextView android:id="@+id/paper_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Paper"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFFFF"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="50dp"
+            android:orientation="horizontal" >
+            <ImageButton
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="50dp"
+                android:background="@drawable/tin_can_48"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-            <CheckBox android:id="@+id/non_recyclable"
-                    android:layout_margin="10dp"
-                    android:textSize="20sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Non-recyclable waste"
-                    android:textColor="#FFFFFFFF"
-                    android:onClick="onCheckboxClicked"/>
-
+                android:id="@+id/cans" />
+            <TextView android:id="@+id/cans_text"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Canse"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFFFF"/>
+            <ImageButton
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/plastic_50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/plastic" />
+            <TextView android:id="@+id/plastic_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Plastic"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFFFF"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="50dp"
+            android:orientation="horizontal" >
+            <ImageButton
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="50dp"
+                android:background="@drawable/charged_battery_50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/battery" />
+            <TextView android:id="@+id/battery_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Battery"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFFFF"/>
+        </LinearLayout>
             <EditText android:id="@+id/reason"
                     android:layout_marginTop="100dp"
                     android:textSize="26sp"
@@ -104,16 +170,5 @@
                     android:layout_weight="1" />
             </LinearLayout>
         </LinearLayout>
-    </ScrollView><![CDATA[
-
-    android:onClick="onCheckboxClicked"/>
-
-
-
-
-
-
-
-
-    ]]>
+    </ScrollView>
 </LinearLayout>
