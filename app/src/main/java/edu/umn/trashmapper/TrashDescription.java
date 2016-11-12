@@ -54,10 +54,14 @@ public class TrashDescription extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_trash_description);
-        ImageButton button = (ImageButton) findViewById(R.id.button);
+         organicCamera = (ImageButton) findViewById(R.id.orgainc);
+         paperCamera = (ImageButton) findViewById(R.id.paper);
+         plasticCamera = (ImageButton) findViewById(R.id.plastic);
+         cansCamera = (ImageButton) findViewById(R.id.cans);
+         batteryCamera = (ImageButton) findViewById(R.id.battery);
         Button mapButton = (Button) findViewById(R.id.map_button);
         Button galleryButton = (Button) findViewById(R.id.gallery);
-
+        takePhoto();
         restGET();
 
         mapButton.setOnClickListener(new View.OnClickListener() {
@@ -67,12 +71,7 @@ public class TrashDescription extends AppCompatActivity
 
             }
         });
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dispatchTakePictureIntent();
-            }
-        });
+
 
         galleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +90,41 @@ public class TrashDescription extends AppCompatActivity
         });
     }
 
+    /*
+      user take photos when icon button is clicked
+     */
+    public void takePhoto(){
+    paperCamera.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            dispatchTakePictureIntent();
+        }
+    });
+    plasticCamera.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            dispatchTakePictureIntent();
+        }
+    });
+    cansCamera.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            dispatchTakePictureIntent();
+        }
+    });
+    batteryCamera.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            dispatchTakePictureIntent();
+        }
+    });
+    organicCamera.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            dispatchTakePictureIntent();
+        }
+    });
+}
     //get the user's information
     public void getUserInformation(){
         try{
@@ -534,7 +568,14 @@ public class TrashDescription extends AppCompatActivity
      */
     private String latitude;
     private String longtitude;
-
+    /*
+     icon buttons
+     */
+    private ImageButton organicCamera;
+    private ImageButton plasticCamera;
+    private ImageButton paperCamera;
+    private ImageButton cansCamera;
+    private ImageButton batteryCamera;
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
 }
