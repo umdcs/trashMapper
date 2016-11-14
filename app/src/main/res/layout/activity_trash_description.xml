@@ -28,67 +28,71 @@
                     android:textSize="50sp"
                     android:textStyle="bold"
                     android:textColor="#FFFFFFFF"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:layout_marginLeft="50dp"
-            android:orientation="horizontal" >
-            <ImageButton
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/carrot_48"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/orgainc" />
 
-            <TextView android:id="@+id/organic_text"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="Organic"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                android:textColor="#FFFFFFFF"/>
-
-            <ImageButton
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/paper_plane_50"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/paper" />
-            <TextView android:id="@+id/paper_text"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Paper"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                android:textColor="#FFFFFFFF"/>
-        </LinearLayout>
-        <LinearLayout
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="0dp"
+                android:orientation="horizontal" >
+                <ImageButton
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="0dp"
+                    android:background="@drawable/carrot_48"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/orgainc" />
+
+                <TextView android:id="@+id/organic_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Organic"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFFFF"/>
+
+                <ImageButton
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="0dp"
+                    android:background="@drawable/paper_plane_50"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/paper" />
+                <TextView android:id="@+id/paper_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Paper"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFFFF"/>
+            </LinearLayout>
+
+            <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="0dp"
             android:orientation="horizontal" >
             <ImageButton
                 android:layout_marginTop="20dp"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="0dp"
                 android:background="@drawable/tin_can_48"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:id="@+id/cans" />
-            <TextView android:id="@+id/cans_text"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="Canse"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                android:textColor="#FFFFFFFF"/>
-            <ImageButton
+
+                <TextView android:id="@+id/cans_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cans"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFFFF"/>
+
+                <ImageButton
                 android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="30dp"
                 android:background="@drawable/plastic_50"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -101,27 +105,29 @@
                 android:textStyle="bold"
                 android:textColor="#FFFFFFFF"/>
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="50dp"
-            android:orientation="horizontal" >
-            <ImageButton
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="50dp"
-                android:background="@drawable/charged_battery_50"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/battery" />
-            <TextView android:id="@+id/battery_text"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Battery"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                android:textColor="#FFFFFFFF"/>
-        </LinearLayout>
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="0dp"
+                android:orientation="horizontal" >
+                <ImageButton
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="0dp"
+                    android:background="@drawable/charged_battery_50"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/battery" />
+                <TextView android:id="@+id/battery_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Battery"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFFFF"/>
+            </LinearLayout>
+
             <EditText android:id="@+id/reason"
                     android:layout_marginTop="100dp"
                     android:textSize="26sp"

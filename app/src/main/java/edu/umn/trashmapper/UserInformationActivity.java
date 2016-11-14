@@ -210,7 +210,8 @@ public class UserInformationActivity extends AppCompatActivity implements Loader
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
             ////////////////////////
-            Intent intent = new Intent(this, TrashDescription.class);
+            //Intent intent = new Intent(this, TrashDescription.class);
+            Intent intent = new Intent(this, SelectActivity.class);
             intent.putExtra(USER_NAME, mEmail);
             intent.putExtra(USER_PASSWORD, mPassword);
             startActivity(intent);
@@ -375,7 +376,7 @@ public class UserInformationActivity extends AppCompatActivity implements Loader
     }
 
     public void switchToDescription(View a){
-        Intent intent = new Intent(this, TrashDescription.class);
+        Intent intent = new Intent(this, SelectActivity.class);
         intent.putExtra(USER_NAME, mEmail);
         intent.putExtra(USER_PASSWORD, mPassword);
         Log.d("user_ori",email);
