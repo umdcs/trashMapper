@@ -17,7 +17,7 @@ public class DisplayActivity extends AppCompatActivity {
         //Get the values of the the messages in the intent from the MainActivity
         String message = extra.getString("TRASH_INFO");
         TextView textView = new TextView(this);
-        textView.setTextSize(13);
+        textView.setTextSize(15);
         textView.setText(message);
 
         ViewGroup layout = (ViewGroup) findViewById(R.id.activity_display);

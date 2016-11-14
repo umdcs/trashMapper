@@ -503,7 +503,7 @@ public class MapsActivity extends AppCompatActivity implements
         return badge;
     }
 
-   
+
     private void addDrawerItems() {
         String[] itemArray = {"Saved locations", "Others on the map", "Profile"};
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, itemArray);
