@@ -75,7 +75,8 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".SelectActivity" />
-        <activity android:name=".MapBins"></activity>
+        <activity android:name=".MapBins" />
+        <activity android:name=".DisplayActivity"></activity>
     </application>
 
 </manifest>

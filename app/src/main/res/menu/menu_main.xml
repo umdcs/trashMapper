@@ -7,4 +7,20 @@
         android:title="@string/action_settings"
         android:orderInCategory="100"
         app:showAsAction="never"/>
+    <!-- Side navigation drawer UI
+    <group>
+        <item
+            android:id="@+id/nav_saved"
+            android:icon="@drawable/ic_menu_saved"
+            android:title="Saved Locations" />
+        <item
+            android:id="@+id/nav_others"
+            android:icon="@drawable/ic_menu_others"
+            android:title="Others on the map" />
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_menu_profile"
+            android:title="Profile" />
+    </group>
+    -->
 </menu>

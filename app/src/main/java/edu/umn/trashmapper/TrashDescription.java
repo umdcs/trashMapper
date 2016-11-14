@@ -244,11 +244,12 @@ public class TrashDescription extends AppCompatActivity
                     Log.d("his", "gps latitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF));
                     Log.d("his", "gps latitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE));	// 緯度
                     Log.d("his", "gps longitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF));
+                    Log.d("his", "gps longitude: "+ exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE));
                     Log.d("his", "gps datetime" +
                             ": " + exif.getAttribute(ExifInterface.TAG_DATETIME));	// 経度
-                    trashGenDate=exif.getAttribute(ExifInterface.TAG_DATETIME);
-                    trashGenLatitude=exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
-                    trashGenLongtitude=exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
+                    trashGenDate = exif.getAttribute(ExifInterface.TAG_DATETIME);
+                    trashGenLatitude = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
+                    trashGenLongtitude = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
                 }
                 catch(Exception e){
                     e.printStackTrace();
@@ -417,8 +418,9 @@ public class TrashDescription extends AppCompatActivity
     public void restPOST(JSONObject jason)
     {
         Log.d("DEBUG:", jason.toString());
-       // new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "POST", jason.toString());
-        new HTTPAsyncTask().execute("http://131.212.216.63:4321/userData", "POST", jason.toString());
+        //new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "POST", jason.toString());
+        //new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData", "POST", jason.toString());
+        new HTTPAsyncTask().execute("http://131.212.221.228:4321/userData", "POST", jason.toString());
     }
 
     //Creates image file from JSON Object on server.
@@ -437,7 +439,9 @@ public class TrashDescription extends AppCompatActivity
 
     public void restGET()
     {
-        new HTTPAsyncTask().execute("http://131.212.216.63:4321/userData", "GET");
+        new HTTPAsyncTask().execute("http://131.212.221.228:4321/userData/userData", "GET");
+       // new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData/userData", "GET");
+       // new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");
     }
 
     //Runs a background thread that

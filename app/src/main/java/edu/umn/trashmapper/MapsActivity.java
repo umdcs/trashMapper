@@ -1,24 +1,37 @@
 package edu.umn.trashmapper;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -31,14 +44,27 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.InputStream;
+import java.util.Scanner;
+
 public class MapsActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,
         OnMapReadyCallback,
-        GoogleMap.OnMyLocationButtonClickListener{
+        GoogleMap.OnMyLocationButtonClickListener,
+        GoogleMap.OnMarkerClickListener,
+        GoogleMap.OnInfoWindowClickListener,
+        NavigationView.OnNavigationItemSelectedListener{
 
     public static final String TAG = MapsActivity.class.getSimpleName();
 
@@ -71,6 +97,16 @@ public class MapsActivity extends AppCompatActivity implements
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
 
+    /*
+     * The instance fields for the marker display
+     */
+
+    JSONObject obj;
+    JSONArray inter;
+    private static final String REGEX_INPUT_BOUNDARY_BEGINNING = "\\A";
+    private Marker customMarker;
+    private String returned1 = "";
+    private Button goToInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -318,11 +354,13 @@ public class MapsActivity extends AppCompatActivity implements
         googleMap.setIndoorEnabled(true);
         googleMap.setBuildingsEnabled(true);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
+        addMarkers();
+        //mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
+        mMap.setOnMarkerClickListener(this);
+        //mMap.setOnInfoWindowClickListener(this);
+
+
     }
-
-
-
-
 
     @Override
     protected void onResumeFragments() {
@@ -343,9 +381,132 @@ public class MapsActivity extends AppCompatActivity implements
     }
 
 
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Toast.makeText(this, "Click Info Window", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onMarkerClick(final Marker marker) {
+
+            // This causes the marker at Perth to bounce into position when it is clicked.
+            final Handler handler = new Handler();
+            final long start = SystemClock.uptimeMillis();
+            final long duration = 1500;
+
+            final Interpolator interpolator = new BounceInterpolator();
+
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    long elapsed = SystemClock.uptimeMillis() - start;
+                    float t = Math.max(
+                            1 - interpolator.getInterpolation((float) elapsed / duration), 0);
+                    marker.setAnchor(0.5f, 1.0f + 2 * t);
+
+                    if (t > 0.0) {
+                        // Post again 16ms later.
+                        handler.postDelayed(this, 16);
+                    }
+                }
+            });
+        // We return false to indicate that we have not consumed the event and that we wish
+        // for the default behavior to occur (which is for the camera to move such that the
+        // marker is centered and for the marker's info window to open, if it has one).
+        return false;
+    }
+    private void addMarkers(){
+        InputStream inputStream = getResources().openRawResource(R.raw.mock_data);
+        String json = new Scanner(inputStream).useDelimiter(REGEX_INPUT_BOUNDARY_BEGINNING).next();
+       try {
+           inter = new JSONArray(json);
+       }
+       catch (JSONException e){
+           Log.e("NOTE", "Cannot parse JSON");
+           e.printStackTrace();
+       }
+
+        try {
+            for (int i = 0; i < inter.length(); ++i) {
+                JSONObject each = inter.getJSONObject(i);
+                final String userName = each.getString("user_name");
+                final String trashType = each.getString("type_of_trash");
+                final Double trashLat = each.getDouble("trash_latitude");
+                final Double trashLong = each.getDouble("trash_longtitude");
+
+                LatLng latLng = new LatLng(trashLat, trashLong);
+
+                final String returned = "User Name: " + userName + "\n" + "Trash Type: " + trashType + "\n"
+                        + "Trash Latitude: " + trashLat + "\n" + "Trash Longitude: " + trashLong;
+
+                setString(returned);
+
+                MarkerOptions options = new MarkerOptions()
+                        .position(latLng)
+                        .title("Trash")
+                        .snippet(returned)
+                        .icon(BitmapDescriptorFactory.fromResource(chooseMarker(trashType)));
+
+                //System.out.println("returned is" + returned);
+
+                customMarker = mMap.addMarker(options);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+                mMap.setOnInfoWindowClickListener(
+                        new GoogleMap.OnInfoWindowClickListener(){
+                            public void onInfoWindowClick(Marker marker){
+                                Toast.makeText(getBaseContext(),returned, Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(MapsActivity.this, DisplayActivity.class);
+                                Bundle extras = new Bundle();
+                                extras.putString("TRASH_INFO", marker.getSnippet()); // put the mpg_message var into bundle
+                                System.out.println("returned is" + marker.getSnippet());
+                                intent.putExtras(extras);
+                                startActivity(intent);
+                                //startActivityForResult(intent, 1);
+
+                            }
+                        }
+                );
+
+            }
+
+        }
+
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
+        catch (NullPointerException e)
+        {
+            Log.d("NULL", "NULL POINTER EXCEPTION");
+        }
+
+    }
+
+    private void setString(String string){
+        returned1 = string;
+    }
+    private int chooseMarker(String trashType){
+        int badge;
+        // Use the equals() method on a Marker to check for equals.  Do not use ==.
+        if (trashType.equals("organic")) {
+            badge = R.drawable.carrot_48;
+        } else if (trashType.equals("cans")) {
+            badge = R.drawable.tin_can_48;
+        } else if (trashType.equals("battery")) {
+            badge = R.drawable.charged_battery_50;
+        } else {
+            // Passing 0 to setImageResource will clear the image view.
+            badge = 0;
+        }
+      //  ((ImageView) view.findViewById(R.id.badge)).setImageResource(badge);
+        return badge;
+    }
+
+   
     private void addDrawerItems() {
-        String[] osArray = {"Saved locations", "Others on the map", "Profile"};
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
+        String[] itemArray = {"Saved locations", "Others on the map", "Profile"};
+        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, itemArray);
         mDrawerList.setAdapter(mAdapter);
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -397,6 +558,17 @@ public class MapsActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -415,4 +587,23 @@ public class MapsActivity extends AppCompatActivity implements
 
         return super.onOptionsItemSelected(item);
     }
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+       /* int id = item.getItemId();
+
+        if (id == R.id.nav_saved) {
+
+        } else if (id == R.id.nav_others) {
+
+        } else if (id == R.id.nav_profile) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);*/
+        return true;
+    }
+
 }
