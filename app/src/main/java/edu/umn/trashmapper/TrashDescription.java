@@ -356,8 +356,8 @@ public class TrashDescription extends AppCompatActivity
                 jason.put("user_name", userEmail);
                 jason.put("user_password", userPassword);
                 jason.put("type_of_trash", testTypeOfTrash());
-                jason.put("trash_latitude", latitude);
-                jason.put("trash_longtitude", longtitude);
+                jason.put("trash_latitude", Latitude);
+                jason.put("trash_longtitude", Longitude);
                 jason.put("trash_generate_date", trashGenDate);
                 jason.put("trash_information", trashInformation);
                 jason.put("picture", createPhotoString(photo));
@@ -390,8 +390,8 @@ public class TrashDescription extends AppCompatActivity
              */
             try
             {   jason.put("type", "TrashBin");
-                jason.put("trash_bin_latitude", trashGenLatitude);
-                jason.put("trash_bin_longtitude", trashGenLongtitude);
+                jason.put("trash_bin_latitude", Latitude);
+                jason.put("trash_bin_longtitude", Longitude);
                 jason.put("trash_bin_find_date", trashGenDate);
                 jason.put("picture", createPhotoString(photo));
             }
