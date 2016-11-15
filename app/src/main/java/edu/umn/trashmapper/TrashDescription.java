@@ -250,6 +250,9 @@ public class TrashDescription extends AppCompatActivity
                     trashGenDate = exif.getAttribute(ExifInterface.TAG_DATETIME);
                     trashGenLatitude = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
                     trashGenLongtitude = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
+                    trashGenLatitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
+                    trashGenLongtitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
+                    fixLocation();
                 }
                 catch(Exception e){
                     e.printStackTrace();
@@ -265,8 +268,53 @@ public class TrashDescription extends AppCompatActivity
         }
     }
 
-    public void onCheckboxClicked(View a)
-    {
+
+    /**
+     * Converts the EXIF Location data to a Double containing the location in degrees
+     * http://stackoverflow.com/questions/5269462/how-do-i-convert-exif-long-lat-to-real-values
+     */
+    private void fixLocation(){
+
+        if(trashGenLatitudeRef.equals("N")){
+            Latitude = convertToDegree(trashGenLatitude);
+        }
+        else{
+            Latitude = 0 - convertToDegree(trashGenLatitude);
+        }
+
+        if(trashGenLongtitudeRef.equals("E")){
+            Longitude = convertToDegree(trashGenLongtitude);
+        }
+        else{
+            Longitude = 0 - convertToDegree(trashGenLongtitude);
+        }
+
+        Log.d("", Latitude.toString());
+        Log.d("", Longitude.toString());
+    }
+
+    private Double convertToDegree(String stringDMS){
+        Double result = null;
+        String[] DMS = stringDMS.split(",", 3);
+
+        String[] stringD = DMS[0].split("/", 2);
+        Double D0 = new Double(stringD[0]);
+        Double D1 = new Double(stringD[1]);
+        Double FloatD = D0/D1;
+
+        String[] stringM = DMS[1].split("/", 2);
+        Double M0 = new Double(stringM[0]);
+        Double M1 = new Double(stringM[1]);
+        Double FloatM = M0/M1;
+
+        String[] stringS = DMS[2].split("/", 2);
+        Double S0 = new Double(stringS[0]);
+        Double S1 = new Double(stringS[1]);
+        Double FloatS = S0/S1;
+
+        result = new Double(FloatD + (FloatM/60) + (FloatS/3600));
+
+        return result;
     }
 
     //Packages the image file in a JSON object and calls restPOST() in it.
@@ -308,8 +356,8 @@ public class TrashDescription extends AppCompatActivity
                 jason.put("user_name", userEmail);
                 jason.put("user_password", userPassword);
                 jason.put("type_of_trash", testTypeOfTrash());
-                jason.put("trash_latitude", trashGenLatitude);
-                jason.put("trash_longtitude", trashGenLongtitude);
+                jason.put("trash_latitude", latitude);
+                jason.put("trash_longtitude", longtitude);
                 jason.put("trash_generate_date", trashGenDate);
                 jason.put("trash_information", trashInformation);
                 jason.put("picture", createPhotoString(photo));
@@ -528,6 +576,7 @@ public class TrashDescription extends AppCompatActivity
                 e.printStackTrace();
             }
         }
+
     }
 
 
@@ -543,6 +592,9 @@ public class TrashDescription extends AppCompatActivity
     private String trashGenDate;
     private String trashGenLatitude;
     private String trashGenLongtitude;
+    private String trashGenLatitudeRef;
+    private String trashGenLongtitudeRef;
+    private Double Latitude=0.0, Longitude=0.0;
     /**
      * User's information
      */
