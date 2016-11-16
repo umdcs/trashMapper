@@ -24,6 +24,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.Manifest;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -117,7 +119,8 @@ public class TrashDescription extends AppCompatActivity
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            try {
+            try
+            {
                 photoFile = createImageFile();
             }
             catch (IOException ex) {
@@ -134,7 +137,6 @@ public class TrashDescription extends AppCompatActivity
             }
         }
     }
-
     /**
      * This function creates a file for the picture
      * with the time and day in the filename
@@ -208,10 +210,9 @@ public class TrashDescription extends AppCompatActivity
             try
             {
                 jason.put("picture", createPhotoString(photo));
-                jason.put("foodwaste", R.id.checkbox_organic);
-                jason.put("recyclable", R.id.recyclable);
-                jason.put("nrecyclable", R.id.non_recyclable);
-                jason.put("description", R.id.trash_description);
+                jason.put("longitude", "one");
+                jason.put("latitude", "two");
+                jason.put("index", "index");
             }
             catch (IOException e)
             {
@@ -258,23 +259,18 @@ public class TrashDescription extends AppCompatActivity
     }
 
     //Gets called when a user clicks on a photo in the gallery.
-    public void restPOST(JSONObject jason)
+    public void restPOST(JSONObject jasonarr)
     {
-        Log.d("DEBUG:", jason.toString());
-<<<<<<< HEAD
-        new HTTPAsyncTask().execute("http://131.212.148.234:4321/userData", "POST", jason.toString());
-=======
-        new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "POST", jason.toString());
->>>>>>> f14bb4500bfbb2d1e09e47a644d1c2ec8414fae5
+        Log.d("DEBUG:", jasonarr.toString());
+        new HTTPAsyncTask().execute("http://131.212.149.130:4321/userData", "POST", jasonarr.toString());
+        //new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "POST", jason.toString());
     }
 
     //Creates image file from JSON Object on server.
-    private void createFile(JSONObject jason) throws JSONException
+    private void createFile(String encrypted) throws JSONException
     {
-        if(jason != null)
+        if(encrypted != null)
         {
-            String encrypted = jason.getString("picture");
-            Log.d("Debug", "String is " + encrypted);
             byte[] decoded = Base64.decode(encrypted, DEFAULT);
             Bitmap pic = BitmapFactory.decodeByteArray(decoded, 0, decoded.length);
             ImageView image = (ImageView) findViewById(R.id.trash);
@@ -284,11 +280,8 @@ public class TrashDescription extends AppCompatActivity
 
     public void restGET()
     {
-<<<<<<< HEAD
-        new HTTPAsyncTask().execute("http://131.212.148.234:4321/userData", "GET");
-=======
-        new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");
->>>>>>> f14bb4500bfbb2d1e09e47a644d1c2ec8414fae5
+        new HTTPAsyncTask().execute("http://131.212.149.130:4321/userData", "GET");
+        //new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");
     }
 
     //Runs a background thread that
@@ -367,12 +360,11 @@ public class TrashDescription extends AppCompatActivity
         {
             try
             {
-                JSONObject jsondata = new JSONObject(result);
-                createFile(jsondata);
-                Log.d("DEBUG", jsondata.get("foodwaste").toString());
-                Log.d("DEBUG", jsondata.get("recyclable").toString());
-                Log.d("DEBUG", jsondata.get("nrecyclable").toString());
-                Log.d("DEBUG", jsondata.get("description").toString());
+                JSONObject bjason = new JSONObject(result);
+                JSONArray jasonarr = bjason.getJSONArray("pictures");
+                JSONObject sjason = jasonarr.getJSONObject(1);
+                Log.d("DEBUG", sjason.getString("longitude"));
+                createFile(sjason.getString("picture"));
             }
             catch (JSONException e)
             {

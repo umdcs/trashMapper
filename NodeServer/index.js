@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 app.use(bodyParser.json({limit: '50mb'})); 
 
-var json = {};
+var json = '{"pictures":[]}';
 
 app.get('/userData', function(req, res) 
 	{
@@ -18,25 +18,14 @@ app.get('/userData', function(req, res)
 
 app.post('/userData', function (req, res) 
 	 {
+	     
 	     if (!req.body) return res.sendStatus(400)
 	     var tempjson = req.body;
-	     var picture = tempjson["picture"];
-	     var fw = tempjson["foodwaste"];
-	     var rec = tempjson["recyclable"];
-	     var nrec = tempjson["nrecyclable"];
-	     var desc = tempjson["description"];
-    	     json[picture] = {};
-	     json[fw] = {};
-	     json[rec] = {};
-	     json[nrec] = {};
-	     json[desc] = {};
-	     json[picture]["picture"] = tempjson["picture"];
-	     json[fw]["foodwaste"] = tempjson["foodwaste"];
-	     json[rec]["recyclable"] = tempjson["recyclable"];
-	     json[nrec]["nrecyclable"] = tempjson["nrecyclable"];
-	     json[desc]["description"] = tempjson["description"];
+	     var obj = JSON.parse(json);
+	     obj['pictures'].push(tempjson);
+	     json = JSON.stringify(obj);
 	     console.log('/userData POST URI accessed');
-	     res.json(req.body);
+	     res.send(json);
 	 })
 
     app.get('/', function(req, res) 
