@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -13,16 +14,26 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MapBins extends AppCompatActivity {
+import static android.util.Base64.DEFAULT;
+import static android.util.Base64.encodeToString;
+
+public class MapBins extends AppCompatActivity implements AsyncResponse{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +66,16 @@ public class MapBins extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(photoFile != null) {
+                    sendJSONTrashBin(photoFile);
+                }
                 Intent intent = new Intent(MapBins.this, MapsActivity.class);
                 startActivity(intent);
             }
         });
+        recycling = (CheckBox) findViewById(R.id.recycling);
+        trash = (CheckBox) findViewById(R.id.trash);
+        compost = (CheckBox) findViewById(R.id.compost);
     }
 
     //opens the gallery after permissions granted
@@ -141,36 +158,171 @@ public class MapBins extends AppCompatActivity {
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        try
-        {
-            if (requestCode == PICK_IMAGE)
-            {
+        try {
+            if (requestCode == PICK_IMAGE) {
                 Uri selectedImage = data.getData();
-                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
                 // Get the cursor
                 Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
                 // Move to first row
                 cursor.moveToFirst();
+                String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 String imgDecodableString = cursor.getString(columnIndex);
                 cursor.close();
                 photoFile = new File(imgDecodableString);
+                String filePath = photoFile.getAbsolutePath();
                 //sendMessage(photoFile);
+                ////////////////lI KUN: track the history location where the user took the photos
+                try {
+                    ExifInterface exif = new ExifInterface(path);
+                    float[] latLong = new float[2];
+                    boolean hasLatLong = exif.getLatLong(latLong);
+
+                    Log.d("his", "gps latitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF));
+                    Log.d("his", "gps latitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE));    // 緯度
+                    Log.d("his", "gps longitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF));
+                    Log.d("his", "gps longitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE));
+                    Log.d("his", "gps datetime" +
+                            ": " + exif.getAttribute(ExifInterface.TAG_DATETIME));    // 経度
+                    trashGenDate = exif.getAttribute(ExifInterface.TAG_DATETIME);
+                    trashGenLatitude = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
+                    trashGenLongtitude = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
+                    trashGenLatitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
+                    trashGenLongtitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
+                    fixLocation();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        }
-        catch (NullPointerException e)
-        {
+        } catch (NullPointerException e) {
             toast = Toast.makeText(this, "Invalid picture selected.", Toast.LENGTH_SHORT);
             toast.show();
         }
     }
 
+    public void sendJSONTrashBin(File photo) {
+        try {
+            JSONObject jason = new JSONObject();
+            /*
+              send the trash bin's location
+              send the day when users find that trash bin
+              send the picture of the trash bin
+             */
+            /*the MapActivity needs the server to send two arrays back
+            one is the trash bin array (pin all the trash bins on the map)
+            one is the userInformation array (pin all the users' data on the map(share between friends))
+             */
+            try {
+                jason.put("type", "TrashBin");
+                jason.put("trash_latitude", Latitude);
+                jason.put("trash_longtitude", Longitude);
+                jason.put("trash_generate_date", trashGenDate);
+                jason.put("picture", createPhotoString(photo));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            restPOST(jason);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void restPOST(JSONObject jason){
+        httpAsyncTask.execute("http://131.212.131.178:4321/userData", "POST", jason.toString());
+    }
+
+    //Creates base64 encoded string for JSON storage.
+    private String createPhotoString(File photo) throws IOException {
+        RandomAccessFile stream = null;
+        try {
+            stream = new RandomAccessFile(photo, "r");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        byte[] photoArray = new byte[0];
+        try {
+            photoArray = new byte[(int) stream.length()];
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            stream.readFully(photoArray);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return (encodeToString(photoArray, DEFAULT).replaceAll("\n", ""));
+    }
+
+    /**
+     * Converts the EXIF Location data to a Double containing the location in degrees
+     * http://stackoverflow.com/questions/5269462/how-do-i-convert-exif-long-lat-to-real-values
+     */
+    private void fixLocation() {
+
+        if (trashGenLatitudeRef.equals("N")) {
+            Latitude = convertToDegree(trashGenLatitude);
+        } else {
+            Latitude = 0 - convertToDegree(trashGenLatitude);
+        }
+
+        if (trashGenLongtitudeRef.equals("E")) {
+            Longitude = convertToDegree(trashGenLongtitude);
+        } else {
+            Longitude = 0 - convertToDegree(trashGenLongtitude);
+        }
+
+        Log.d("Latitude", Latitude.toString());
+        Log.d("Longitude", Longitude.toString());
+    }
+
+    private Double convertToDegree(String stringDMS) {
+        Double result = null;
+        String[] DMS = stringDMS.split(",", 3);
+
+        String[] stringD = DMS[0].split("/", 2);
+        Double D0 = new Double(stringD[0]);
+        Double D1 = new Double(stringD[1]);
+        Double FloatD = D0 / D1;
+
+        String[] stringM = DMS[1].split("/", 2);
+        Double M0 = new Double(stringM[0]);
+        Double M1 = new Double(stringM[1]);
+        Double FloatM = M0 / M1;
+
+        String[] stringS = DMS[2].split("/", 2);
+        Double S0 = new Double(stringS[0]);
+        Double S1 = new Double(stringS[1]);
+        Double FloatS = S0 / S1;
+
+        result = new Double(FloatD + (FloatM / 60) + (FloatS / 3600));
+
+        return result;
+    }
+
     private File photoFile = null;
     private static final int PICK_IMAGE=100;
     private Toast toast;
+    private HTTPAsyncTask httpAsyncTask = new HTTPAsyncTask(this);
+    private CheckBox recycling, compost, trash;
+
+    /**
+     * GPS information
+     */
     private String mCurrentPhotoPath;
+    private String trashGenDate;
+    private String trashGenLatitude;
+    private String trashGenLongtitude;
+    private String trashGenLatitudeRef;
+    private String trashGenLongtitudeRef;
+    private Double Latitude = 0.0, Longitude = 0.0;
 
 
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
+
+    @Override
+    public void processFinish(String output) {
+
+    }
 }

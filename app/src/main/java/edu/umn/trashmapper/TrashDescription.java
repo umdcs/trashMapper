@@ -364,33 +364,6 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         }
     }
 
-    public void sendJSONTrashBin(File photo) {
-        try {
-            JSONObject jason = new JSONObject();
-            /*
-              send the trash bin's location
-              send the day when users find that trash bin
-              send the picture of the trash bin
-             */
-            /*the MapActivity needs the server to send two arrays back
-            one is the trash bin array (pin all the trash bins on the map)
-            one is the userInformation array (pin all the users' data on the map(share between friends))
-             */
-            try {
-                jason.put("type", "TrashBin");
-                jason.put("trash_bin_latitude", Latitude);
-                jason.put("trash_bin_longtitude", Longitude);
-                jason.put("trash_bin_find_date", trashGenDate);
-                jason.put("picture", createPhotoString(photo));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            restPOST(jason);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
     /*
     return the type of trash
      */
@@ -441,7 +414,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     public void restPOST(JSONObject jason) {
         //new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "POST", jason.toString());
         //new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData", "POST", jason.toString());
-        httpAsyncTask.execute("http://131.212.156.246:4321/userData", "POST", jason.toString());
+        httpAsyncTask.execute("http://131.212.131.178:4321/userData", "POST", jason.toString());
         //httpAsyncTask.cancel(true);
     }
 
@@ -457,7 +430,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     }
 
     public void restGET() {
-        httpAsyncTask.execute("http://131.212.156.246:4321/userData/userData", "GET");
+        httpAsyncTask.execute("http://131.212.131.178:4321/userData", "GET");
         //httpAsyncTask.cancel(true);
         // new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData/userData", "GET");
         // new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");

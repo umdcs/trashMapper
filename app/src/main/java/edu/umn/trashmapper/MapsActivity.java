@@ -660,7 +660,7 @@ public class MapsActivity extends AppCompatActivity implements
 
     public void restGET()
     {
-        httpAsyncTask.execute("http://131.212.156.246:4321/userData", "GET");
+        httpAsyncTask.execute("http://131.212.131.178:4321/userData", "GET");
         //httpAsyncTask.cancel(true);
         // new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData/userData", "GET");
         // new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");
