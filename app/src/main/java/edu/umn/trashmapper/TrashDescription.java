@@ -441,7 +441,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     public void restPOST(JSONObject jason) {
         //new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "POST", jason.toString());
         //new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData", "POST", jason.toString());
-        httpAsyncTask.execute("http://131.212.131.178:4321/userData", "POST", jason.toString());
+        httpAsyncTask.execute("http://131.212.156.246:4321/userData", "POST", jason.toString());
         //httpAsyncTask.cancel(true);
     }
 
@@ -457,7 +457,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     }
 
     public void restGET() {
-        httpAsyncTask.execute("http://131.212.131.178:4321/userData/userData", "GET");
+        httpAsyncTask.execute("http://131.212.156.246:4321/userData/userData", "GET");
         //httpAsyncTask.cancel(true);
         // new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData/userData", "GET");
         // new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");
