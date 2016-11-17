@@ -465,7 +465,7 @@ public class MapsActivity extends AppCompatActivity implements
                 Log.d("TEST", inter.toString());
                 JSONObject each = inter.getJSONObject(i);
                 final String userName = "";//each.getString("user_name");
-                final String trashType = "organic";//each.getString("type_of_trash");
+                final String trashType = each.getString("type_of_trash");
                 final Double trashLat = each.getDouble("trash_latitude");
                 final Double trashLong = each.getDouble("trash_longtitude");
                 final String trashDate = each.getString("trash_generate_date");
@@ -545,6 +545,8 @@ public class MapsActivity extends AppCompatActivity implements
             badge = R.drawable.plastic_50;
         } else if (trashType.equals("paper")) {
             badge = R.drawable.paper_plane_50;
+        } else if (trashType.equals("trashcan")){
+            badge = R.drawable.trash_can;
         } else {
             // Passing 0 to setImageResource will clear the image view.
             badge = 0;

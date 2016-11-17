@@ -349,7 +349,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
                 jason.put("type", "UserInformation");
                 jason.put("user_name", userEmail);
                 jason.put("user_password", userPassword);
-                jason.put("type_of_trash", testTypeOfTrash());
+                jason.put("type_of_trash", "organic");//testTypeOfTrash());
                 jason.put("trash_latitude", Latitude);
                 jason.put("trash_longtitude", Longitude);
                 jason.put("trash_generate_date", trashGenDate);
@@ -414,6 +414,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     public void restPOST(JSONObject jason) {
         //new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "POST", jason.toString());
         //new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData", "POST", jason.toString());
+        httpAsyncTask = new HTTPAsyncTask(this);
         httpAsyncTask.execute("http://131.212.131.178:4321/userData", "POST", jason.toString());
         //httpAsyncTask.cancel(true);
     }
@@ -430,6 +431,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     }
 
     public void restGET() {
+        httpAsyncTask = new HTTPAsyncTask(this);
         httpAsyncTask.execute("http://131.212.131.178:4321/userData", "GET");
         //httpAsyncTask.cancel(true);
         // new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData/userData", "GET");
@@ -495,6 +497,6 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
 
     @Override
     public void processFinish(String output) {
-        httpAsyncTask.cancel(true);
+
     }
 }

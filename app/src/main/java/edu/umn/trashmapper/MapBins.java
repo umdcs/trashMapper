@@ -214,7 +214,7 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
             one is the userInformation array (pin all the users' data on the map(share between friends))
              */
             try {
-                jason.put("type", "TrashBin");
+                jason.put("type_of_trash", "trashcan");
                 jason.put("trash_latitude", Latitude);
                 jason.put("trash_longtitude", Longitude);
                 jason.put("trash_generate_date", trashGenDate);
@@ -229,6 +229,7 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
     }
 
     private void restPOST(JSONObject jason){
+        httpAsyncTask = new HTTPAsyncTask(this);
         httpAsyncTask.execute("http://131.212.131.178:4321/userData", "POST", jason.toString());
     }
 
