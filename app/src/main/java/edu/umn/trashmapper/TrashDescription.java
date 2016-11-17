@@ -25,6 +25,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -67,6 +68,14 @@ public class TrashDescription extends AppCompatActivity
         mapButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(TrashDescription.this, MapsActivity.class);
+                //Bundle b = new Bundle();
+
+                /***** Test ******/
+                //b.putDouble("lat", Latitude);
+                //b.putDouble("long", Longitude);
+                //b.putString("jsonArray",temp);
+                //intent.putExtras(b);
+                //intent.putExtra("jsonArray",temp);
                 startActivity(intent);
 
             }
@@ -250,12 +259,15 @@ public class TrashDescription extends AppCompatActivity
                     trashGenDate = exif.getAttribute(ExifInterface.TAG_DATETIME);
                     trashGenLatitude = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
                     trashGenLongtitude = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
+                    trashGenLatitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
+                    trashGenLongtitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
+                    fixLocation();
                 }
                 catch(Exception e){
                     e.printStackTrace();
 
                 }
-                sendMessage(photoFile);
+                sendJSONUserInformation(photoFile);
             }
         }
         catch (NullPointerException e)
@@ -265,8 +277,53 @@ public class TrashDescription extends AppCompatActivity
         }
     }
 
-    public void onCheckboxClicked(View a)
-    {
+
+    /**
+     * Converts the EXIF Location data to a Double containing the location in degrees
+     * http://stackoverflow.com/questions/5269462/how-do-i-convert-exif-long-lat-to-real-values
+     */
+    private void fixLocation(){
+
+        if(trashGenLatitudeRef.equals("N")){
+            Latitude = convertToDegree(trashGenLatitude);
+        }
+        else{
+            Latitude = 0 - convertToDegree(trashGenLatitude);
+        }
+
+        if(trashGenLongtitudeRef.equals("E")){
+            Longitude = convertToDegree(trashGenLongtitude);
+        }
+        else{
+            Longitude = 0 - convertToDegree(trashGenLongtitude);
+        }
+
+        Log.d("Latitude", Latitude.toString());
+        Log.d("Longitude", Longitude.toString());
+    }
+
+    private Double convertToDegree(String stringDMS){
+        Double result = null;
+        String[] DMS = stringDMS.split(",", 3);
+
+        String[] stringD = DMS[0].split("/", 2);
+        Double D0 = new Double(stringD[0]);
+        Double D1 = new Double(stringD[1]);
+        Double FloatD = D0/D1;
+
+        String[] stringM = DMS[1].split("/", 2);
+        Double M0 = new Double(stringM[0]);
+        Double M1 = new Double(stringM[1]);
+        Double FloatM = M0/M1;
+
+        String[] stringS = DMS[2].split("/", 2);
+        Double S0 = new Double(stringS[0]);
+        Double S1 = new Double(stringS[1]);
+        Double FloatS = S0/S1;
+
+        result = new Double(FloatD + (FloatM/60) + (FloatS/3600));
+
+        return result;
     }
 
     //Packages the image file in a JSON object and calls restPOST() in it.
@@ -308,8 +365,8 @@ public class TrashDescription extends AppCompatActivity
                 jason.put("user_name", userEmail);
                 jason.put("user_password", userPassword);
                 jason.put("type_of_trash", testTypeOfTrash());
-                jason.put("trash_latitude", trashGenLatitude);
-                jason.put("trash_longtitude", trashGenLongtitude);
+                jason.put("trash_latitude", Latitude);
+                jason.put("trash_longtitude", Longitude);
                 jason.put("trash_generate_date", trashGenDate);
                 jason.put("trash_information", trashInformation);
                 jason.put("picture", createPhotoString(photo));
@@ -342,8 +399,8 @@ public class TrashDescription extends AppCompatActivity
              */
             try
             {   jason.put("type", "TrashBin");
-                jason.put("trash_bin_latitude", trashGenLatitude);
-                jason.put("trash_bin_longtitude", trashGenLongtitude);
+                jason.put("trash_bin_latitude", Latitude);
+                jason.put("trash_bin_longtitude", Longitude);
                 jason.put("trash_bin_find_date", trashGenDate);
                 jason.put("picture", createPhotoString(photo));
             }
@@ -420,15 +477,14 @@ public class TrashDescription extends AppCompatActivity
         Log.d("DEBUG:", jason.toString());
         //new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "POST", jason.toString());
         //new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData", "POST", jason.toString());
-        new HTTPAsyncTask().execute("http://131.212.221.228:4321/userData", "POST", jason.toString());
+        new HTTPAsyncTask().execute("http://131.212.212.94:4321/userData", "POST", jason.toString());
     }
 
     //Creates image file from JSON Object on server.
-    private void createFile(JSONObject jason) throws JSONException
+    private void createFile(String encrypted) throws JSONException
     {
-        if(jason != null)
+        if(encrypted != null)
         {
-            String encrypted = jason.getString("picture");
             Log.d("Debug", "String is " + encrypted);
             byte[] decoded = Base64.decode(encrypted, DEFAULT);
             Bitmap pic = BitmapFactory.decodeByteArray(decoded, 0, decoded.length);
@@ -439,7 +495,7 @@ public class TrashDescription extends AppCompatActivity
 
     public void restGET()
     {
-        new HTTPAsyncTask().execute("http://131.212.221.228:4321/userData/userData", "GET");
+        new HTTPAsyncTask().execute("http://131.212.212.94:4321/userData/userData", "GET");
        // new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData/userData", "GET");
        // new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");
     }
@@ -520,14 +576,19 @@ public class TrashDescription extends AppCompatActivity
         {
             try
             {
-                JSONObject jsondata = new JSONObject(result);
-                createFile(jsondata);
+                JSONObject bjason = new JSONObject(result);
+                jasonarr = bjason.getJSONArray("pictures");
+                JSONObject sjason = jasonarr.getJSONObject(0);
+               // Log.d("DEBUG", sjason.getString("longitude"));
+                createFile(sjason.getString("picture"));
+                temp = jasonarr.toString();
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
             }
         }
+
     }
 
 
@@ -543,6 +604,9 @@ public class TrashDescription extends AppCompatActivity
     private String trashGenDate;
     private String trashGenLatitude;
     private String trashGenLongtitude;
+    private String trashGenLatitudeRef;
+    private String trashGenLongtitudeRef;
+    private Double Latitude=0.0, Longitude=0.0;
     /**
      * User's information
      */
@@ -582,4 +646,6 @@ public class TrashDescription extends AppCompatActivity
     private ImageButton batteryCamera;
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    JSONArray jasonarr;
+    String temp = "";
 }

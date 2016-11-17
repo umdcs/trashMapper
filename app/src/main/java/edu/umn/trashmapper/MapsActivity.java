@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -53,7 +54,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class MapsActivity extends AppCompatActivity implements
@@ -107,6 +116,14 @@ public class MapsActivity extends AppCompatActivity implements
     private Marker customMarker;
     private String returned1 = "";
     private Button goToInfo;
+    private HashMap<Marker, String> eventMarkerMap;
+
+    /*
+     * TEST
+     */
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,6 +156,21 @@ public class MapsActivity extends AppCompatActivity implements
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+
+        /********** Test ***********/
+    /*    Bundle b = getIntent().getExtras();
+       // lati = b.getDouble("lat");
+       // longi = b.getDouble("long");
+        String jsonArray = b.getString("jsonArray");
+
+        try {
+            inter = new JSONArray(jsonArray);
+           // System.out.println(array.toString(2));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+*/
+        restGET(); // Get the trash
     }
 
     @Override
@@ -211,7 +243,7 @@ public class MapsActivity extends AppCompatActivity implements
 
 
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-
+        //    LatLng latLng = new LatLng(lati, longi);
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
                 .title("Initial Location!");
@@ -416,7 +448,7 @@ public class MapsActivity extends AppCompatActivity implements
         return false;
     }
     private void addMarkers(){
-        InputStream inputStream = getResources().openRawResource(R.raw.mock_data);
+       /* InputStream inputStream = getResources().openRawResource(R.raw.mock_data);
         String json = new Scanner(inputStream).useDelimiter(REGEX_INPUT_BOUNDARY_BEGINNING).next();
        try {
            inter = new JSONArray(json);
@@ -424,7 +456,7 @@ public class MapsActivity extends AppCompatActivity implements
        catch (JSONException e){
            Log.e("NOTE", "Cannot parse JSON");
            e.printStackTrace();
-       }
+       }*/
 
         try {
             for (int i = 0; i < inter.length(); ++i) {
@@ -433,13 +465,18 @@ public class MapsActivity extends AppCompatActivity implements
                 final String trashType = each.getString("type_of_trash");
                 final Double trashLat = each.getDouble("trash_latitude");
                 final Double trashLong = each.getDouble("trash_longtitude");
+                final String trashDate = each.getString("trash_generate_date");
+                final String trashInfo = each.getString("trash_information");
+                final String trashPicture = each.getString("picture");
+
 
                 LatLng latLng = new LatLng(trashLat, trashLong);
 
                 final String returned = "User Name: " + userName + "\n" + "Trash Type: " + trashType + "\n"
-                        + "Trash Latitude: " + trashLat + "\n" + "Trash Longitude: " + trashLong;
+                        + "Trash Latitude: " + trashLat + "\n" + "Trash Longitude: " + trashLong
+                        + "Trash Date: " + trashDate + "\n" + "Trash Info: " + trashInfo;
 
-                setString(returned);
+                //setString(returned);
 
                 MarkerOptions options = new MarkerOptions()
                         .position(latLng)
@@ -450,14 +487,20 @@ public class MapsActivity extends AppCompatActivity implements
                 //System.out.println("returned is" + returned);
 
                 customMarker = mMap.addMarker(options);
+                eventMarkerMap = new HashMap<Marker,String>();
+
+                eventMarkerMap.put(customMarker, trashPicture);
+
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
                 mMap.setOnInfoWindowClickListener(
                         new GoogleMap.OnInfoWindowClickListener(){
                             public void onInfoWindowClick(Marker marker){
-                                Toast.makeText(getBaseContext(),returned, Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getBaseContext(),returned, Toast.LENGTH_SHORT).show();
+                                String pic = eventMarkerMap.get(marker);
                                 Intent intent = new Intent(MapsActivity.this, DisplayActivity.class);
                                 Bundle extras = new Bundle();
                                 extras.putString("TRASH_INFO", marker.getSnippet()); // put the mpg_message var into bundle
+                                extras.putString("TRASH_PIC_STRING",pic);
                                 System.out.println("returned is" + marker.getSnippet());
                                 intent.putExtras(extras);
                                 startActivity(intent);
@@ -495,6 +538,10 @@ public class MapsActivity extends AppCompatActivity implements
             badge = R.drawable.tin_can_48;
         } else if (trashType.equals("battery")) {
             badge = R.drawable.charged_battery_50;
+        } else if (trashType.equals("plastic")) {
+            badge = R.drawable.plastic_50;
+        } else if (trashType.equals("paper")) {
+            badge = R.drawable.paper_plane_50;
         } else {
             // Passing 0 to setImageResource will clear the image view.
             badge = 0;
@@ -606,4 +653,101 @@ public class MapsActivity extends AppCompatActivity implements
         return true;
     }
 
+
+
+    public void restGET()
+    {
+        new MapsActivity.HTTPAsyncTask().execute("http://131.212.212.94:4321/userData/userData", "GET");
+        // new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData/userData", "GET");
+        // new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");
+    }
+
+    //Runs a background thread that
+    private class HTTPAsyncTask extends AsyncTask<String, Integer, String>
+    {
+
+        @Override
+        protected String doInBackground(String... params)
+        {
+            HttpURLConnection serverConnection = null;
+            InputStream is;
+            Log.d("Debug:", "Attempting to connect to: " + params[0]);
+            try
+            {
+                URL url = new URL( params[0] );
+                serverConnection = (HttpURLConnection) url.openConnection();
+                serverConnection.setRequestMethod(params[1]);
+                if (params[1].equals("POST") || params[1].equals("PUT") || params[1].equals("DELETE"))
+                {
+                    Log.d("DEBUG POST/PUT/DELETE:", "In post: params[0]=" + params[0] + ", params[1]=" + params[1] + ", params[2]=" + params[2]);
+                    serverConnection.setDoOutput(true);
+                    serverConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+
+                    // params[2] contains the JSON String to send, make sure we send the
+                    // content length to be the json string length
+                    serverConnection.setRequestProperty("Content-Length", "" + Integer.toString(params[2].toString().getBytes().length));
+
+                    // Send POST data that was provided.
+                    DataOutputStream out = new DataOutputStream(serverConnection.getOutputStream());
+                    out.writeBytes(params[2].toString());
+                    out.flush();
+                    out.close();
+                }
+                int responseCode = serverConnection.getResponseCode();
+                Log.d("Debug:", "\nSending " + params[1] + " request to URL : " + params[0]);
+                Log.d("Debug: ", "Response Code : " + responseCode);
+
+                is = serverConnection.getInputStream();
+
+                if (params[1] == "GET" || params[1] == "POST" || params[1] == "PUT" || params[1] == "DELETE")
+                {
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                    while ((line = br.readLine()) != null)
+                    {
+                        sb.append(line);
+                    }
+                    try
+                    {
+                        JSONObject jason = new JSONObject(sb.toString());
+                        return jason.toString();
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            catch (MalformedURLException e)
+            {
+                e.printStackTrace();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            finally
+            {
+                serverConnection.disconnect();
+            }
+            return "Should not get to this if the data has been sent/received correctly!";
+        }
+
+        protected void onPostExecute(String result)
+        {
+            try
+            {
+                JSONObject bjason = new JSONObject(result);
+                inter = bjason.getJSONArray("pictures");
+                //JSONObject sjason = inter.getJSONObject(0);
+                // Log.d("DEBUG", sjason.getString("longitude"));
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+    }
 }
