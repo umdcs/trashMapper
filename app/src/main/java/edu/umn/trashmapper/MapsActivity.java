@@ -73,7 +73,8 @@ public class MapsActivity extends AppCompatActivity implements
         GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMarkerClickListener,
         GoogleMap.OnInfoWindowClickListener,
-        NavigationView.OnNavigationItemSelectedListener{
+        NavigationView.OnNavigationItemSelectedListener,
+        AsyncResponse {
 
     public static final String TAG = MapsActivity.class.getSimpleName();
 
@@ -127,6 +128,7 @@ public class MapsActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        httpAsyncTask = new HTTPAsyncTask(this);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
 
@@ -386,7 +388,7 @@ public class MapsActivity extends AppCompatActivity implements
         googleMap.setIndoorEnabled(true);
         googleMap.setBuildingsEnabled(true);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-        addMarkers();
+        //addMarkers();
         //mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
         mMap.setOnMarkerClickListener(this);
         //mMap.setOnInfoWindowClickListener(this);
@@ -457,16 +459,17 @@ public class MapsActivity extends AppCompatActivity implements
            Log.e("NOTE", "Cannot parse JSON");
            e.printStackTrace();
        }*/
-
+        Log.d("Map", "Add Markers");
         try {
             for (int i = 0; i < inter.length(); ++i) {
+                Log.d("TEST", inter.toString());
                 JSONObject each = inter.getJSONObject(i);
-                final String userName = each.getString("user_name");
-                final String trashType = each.getString("type_of_trash");
+                final String userName = "";//each.getString("user_name");
+                final String trashType = "organic";//each.getString("type_of_trash");
                 final Double trashLat = each.getDouble("trash_latitude");
                 final Double trashLong = each.getDouble("trash_longtitude");
                 final String trashDate = each.getString("trash_generate_date");
-                final String trashInfo = each.getString("trash_information");
+                final String trashInfo = "";//each.getString("trash_information");
                 final String trashPicture = each.getString("picture");
 
 
@@ -657,97 +660,32 @@ public class MapsActivity extends AppCompatActivity implements
 
     public void restGET()
     {
-        new MapsActivity.HTTPAsyncTask().execute("http://131.212.212.94:4321/userData/userData", "GET");
+        httpAsyncTask.execute("http://131.212.131.178:4321/userData", "GET");
+        //httpAsyncTask.cancel(true);
         // new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData/userData", "GET");
         // new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");
     }
 
-    //Runs a background thread that
-    private class HTTPAsyncTask extends AsyncTask<String, Integer, String>
-    {
+    HTTPAsyncTask httpAsyncTask;
 
-        @Override
-        protected String doInBackground(String... params)
+    @Override
+    public void processFinish(String result) {
+        try
         {
-            HttpURLConnection serverConnection = null;
-            InputStream is;
-            Log.d("Debug:", "Attempting to connect to: " + params[0]);
-            try
-            {
-                URL url = new URL( params[0] );
-                serverConnection = (HttpURLConnection) url.openConnection();
-                serverConnection.setRequestMethod(params[1]);
-                if (params[1].equals("POST") || params[1].equals("PUT") || params[1].equals("DELETE"))
-                {
-                    Log.d("DEBUG POST/PUT/DELETE:", "In post: params[0]=" + params[0] + ", params[1]=" + params[1] + ", params[2]=" + params[2]);
-                    serverConnection.setDoOutput(true);
-                    serverConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+            JSONObject bjason = new JSONObject(result);
+            inter = bjason.getJSONArray("pictures");
+            JSONObject sjason = inter.getJSONObject(0);
+            // Log.d("DEBUG", sjason.getString("longitude"));
+            temp = inter.toString();
+            Log.d("asdasdasdasdas", temp);
+            addMarkers();
 
-                    // params[2] contains the JSON String to send, make sure we send the
-                    // content length to be the json string length
-                    serverConnection.setRequestProperty("Content-Length", "" + Integer.toString(params[2].toString().getBytes().length));
-
-                    // Send POST data that was provided.
-                    DataOutputStream out = new DataOutputStream(serverConnection.getOutputStream());
-                    out.writeBytes(params[2].toString());
-                    out.flush();
-                    out.close();
-                }
-                int responseCode = serverConnection.getResponseCode();
-                Log.d("Debug:", "\nSending " + params[1] + " request to URL : " + params[0]);
-                Log.d("Debug: ", "Response Code : " + responseCode);
-
-                is = serverConnection.getInputStream();
-
-                if (params[1] == "GET" || params[1] == "POST" || params[1] == "PUT" || params[1] == "DELETE")
-                {
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
-                    while ((line = br.readLine()) != null)
-                    {
-                        sb.append(line);
-                    }
-                    try
-                    {
-                        JSONObject jason = new JSONObject(sb.toString());
-                        return jason.toString();
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            catch (MalformedURLException e)
-            {
-                e.printStackTrace();
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-            finally
-            {
-                serverConnection.disconnect();
-            }
-            return "Should not get to this if the data has been sent/received correctly!";
         }
-
-        protected void onPostExecute(String result)
+        catch (JSONException e)
         {
-            try
-            {
-                JSONObject bjason = new JSONObject(result);
-                inter = bjason.getJSONArray("pictures");
-                //JSONObject sjason = inter.getJSONObject(0);
-                // Log.d("DEBUG", sjason.getString("longitude"));
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
+            e.printStackTrace();
         }
-
+        httpAsyncTask.cancel(true);
     }
+    String temp;
 }
