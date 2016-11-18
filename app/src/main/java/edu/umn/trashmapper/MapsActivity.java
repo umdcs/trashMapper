@@ -62,6 +62,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.SQLOutput;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -118,7 +119,7 @@ public class MapsActivity extends AppCompatActivity implements
     private String returned1 = "";
     private Button goToInfo;
     private HashMap<Marker, String> eventMarkerMap;
-
+    private HashMap<Marker, String> infoMarkerMap;
     /*
      * TEST
      */
@@ -464,8 +465,9 @@ public class MapsActivity extends AppCompatActivity implements
             for (int i = 0; i < inter.length(); ++i) {
                 Log.d("TEST", inter.toString());
                 JSONObject each = inter.getJSONObject(i);
-                final String userName = "";//each.getString("user_name");
-                final String trashType = each.getString("type_of_trash");
+                final String userName = "hhhh";//each.getString("user_name");
+                //final String trashType = each.getString("type_of_trash");
+                final String trashType = "organic";
                 final Double trashLat = each.getDouble("trash_latitude");
                 final Double trashLong = each.getDouble("trash_longtitude");
                 final String trashDate = each.getString("trash_generate_date");
@@ -476,35 +478,53 @@ public class MapsActivity extends AppCompatActivity implements
                 LatLng latLng = new LatLng(trashLat, trashLong);
 
                 final String returned = "User Name: " + userName + "\n" + "Trash Type: " + trashType + "\n"
-                        + "Trash Latitude: " + trashLat + "\n" + "Trash Longitude: " + trashLong
-                        + "Trash Date: " + trashDate + "\n" + "Trash Info: " + trashInfo;
-
+                        + "Trash Latitude: " + trashLat + "\n" + "Trash Longitude: " + trashLong + "\n"
+                        + "Trash Date: " + trashDate + "\n" /*+ "Trash Info: " + trashInfo*/;
                 //setString(returned);
-
                 MarkerOptions options = new MarkerOptions()
                         .position(latLng)
-                        .title("Trash")
+                        .title(userName)
+                        //.snippet("Click on to see more information")
                         .snippet(returned)
                         .icon(BitmapDescriptorFactory.fromResource(chooseMarker(trashType)));
-
                 //System.out.println("returned is" + returned);
-
                 customMarker = mMap.addMarker(options);
-                eventMarkerMap = new HashMap<Marker,String>();
+                if(customMarker == null)
+                {
+                    System.out.println("customMarker is null");
+                }
+                else{
+                    System.out.println("customMarker is not null");
+                }
+                infoMarkerMap = new HashMap<Marker, String>();
+                infoMarkerMap.put(customMarker, returned);
 
-                eventMarkerMap.put(customMarker, trashPicture);
+                if(infoMarkerMap == null)
+                {
+                    System.out.println("infoMarkerMap is null");
+                }
+                else{
+                    System.out.println("infoMarkerMap is not null");
+                }
+                //eventMarkerMap = new HashMap<Marker,String>();
+                //eventMarkerMap.put(customMarker, trashPicture);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
 
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
                 mMap.setOnInfoWindowClickListener(
                         new GoogleMap.OnInfoWindowClickListener(){
                             public void onInfoWindowClick(Marker marker){
+                                Log.d("MoveCamera","run");
                                 //Toast.makeText(getBaseContext(),returned, Toast.LENGTH_SHORT).show();
-                                String pic = eventMarkerMap.get(marker);
+                               // String pic = eventMarkerMap.get(marker);
                                 Intent intent = new Intent(MapsActivity.this, DisplayActivity.class);
                                 Bundle extras = new Bundle();
-                                extras.putString("TRASH_INFO", marker.getSnippet()); // put the mpg_message var into bundle
+                                //extras.putString("TRASH_INFO", marker.getSnippet()); // put the mpg_message var into bundle
+                                extras.putString("TRASH_INFO", returned);
+                                //extras.putString("TRASH_INFO", infoMarkerMap.get(marker));
                                 //extras.putString("TRASH_PIC_STRING",pic);
-                                System.out.println("returned is" + marker.getSnippet());
+                                System.out.println("returned is " + marker.getSnippet());
+                               // System.out.println("returned String is " + infoMarkerMap.get(marker));
+                               // System.out.println("returned Picture is " + eventMarkerMap.get(marker));
                                 intent.putExtras(extras);
                                 startActivity(intent);
                                 //startActivityForResult(intent, 1);
@@ -662,7 +682,7 @@ public class MapsActivity extends AppCompatActivity implements
 
     public void restGET()
     {
-        httpAsyncTask.execute("http://131.212.131.178:4321/userData", "GET");
+        httpAsyncTask.execute("http://131.212.212.94:4321/userData", "GET");
         //httpAsyncTask.cancel(true);
         // new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData/userData", "GET");
         // new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");

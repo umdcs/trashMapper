@@ -260,12 +260,16 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
                     trashGenLongtitude = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
                     trashGenLatitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
                     trashGenLongtitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
+
                     fixLocation();
+
                 } catch (Exception e) {
                     e.printStackTrace();
 
                 }
+
                 sendJSONUserInformation(photoFile);
+
             }
         } catch (NullPointerException e) {
             toast = Toast.makeText(this, "Invalid picture selected.", Toast.LENGTH_SHORT);
@@ -415,7 +419,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         //new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "POST", jason.toString());
         //new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData", "POST", jason.toString());
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://131.212.131.178:4321/userData", "POST", jason.toString());
+        httpAsyncTask.execute("http://131.212.212.94:4321/userData", "POST", jason.toString());
         //httpAsyncTask.cancel(true);
     }
 
@@ -432,7 +436,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
 
     public void restGET() {
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://131.212.131.178:4321/userData", "GET");
+        httpAsyncTask.execute("http://131.212.212.94:4321/userData", "GET");
         //httpAsyncTask.cancel(true);
         // new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData/userData", "GET");
         // new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");

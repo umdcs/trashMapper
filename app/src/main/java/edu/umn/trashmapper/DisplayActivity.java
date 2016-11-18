@@ -23,15 +23,16 @@ public class DisplayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_display);
         Intent intent = getIntent();
         Bundle extra = intent.getExtras();
-        //Get the values of the the messages in the intent from the MainActivity
+        //Get the values of the the messages in the intent from the MapsActivity
         String message = extra.getString("TRASH_INFO");
-        String picture = extra.getString("TRASH_PIC_STRING");
+        System.out.println("message is " + message);
+        //String picture = extra.getString("TRASH_PIC_STRING");
 
-        try {
+        /*try {
             createFile(picture);
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
         TextView textView = new TextView(this);
         textView.setTextSize(15);
         textView.setText(message);
@@ -40,7 +41,7 @@ public class DisplayActivity extends AppCompatActivity {
         layout.addView(textView);
     }
 
-    private void createFile(String encrypted) throws JSONException
+    /*private void createFile(String encrypted) throws JSONException
     {
         if(encrypted != null)
         {
@@ -50,5 +51,5 @@ public class DisplayActivity extends AppCompatActivity {
             ImageView image = (ImageView) findViewById(R.id.trash_display);
             image.setImageBitmap(pic);
         }
-    }
+    }*/
 }
