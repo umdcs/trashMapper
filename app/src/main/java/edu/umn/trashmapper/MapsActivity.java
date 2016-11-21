@@ -63,6 +63,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -120,6 +121,8 @@ public class MapsActivity extends AppCompatActivity implements
     private Button goToInfo;
     private HashMap<Marker, String> eventMarkerMap;
     private HashMap<Marker, String> infoMarkerMap;
+    private ArrayList<Marker> markerList;
+    private ArrayList<String> returnedList;
     /*
      * TEST
      */
@@ -391,7 +394,7 @@ public class MapsActivity extends AppCompatActivity implements
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         //addMarkers();
         //mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
-        mMap.setOnMarkerClickListener(this);
+        //mMap.setOnMarkerClickListener(this);
         //mMap.setOnInfoWindowClickListener(this);
 
 
@@ -460,27 +463,31 @@ public class MapsActivity extends AppCompatActivity implements
            Log.e("NOTE", "Cannot parse JSON");
            e.printStackTrace();
        }*/
+        markerList = new ArrayList<>(inter.length());
+        returnedList = new ArrayList<>(inter.length());
         Log.d("Map", "Add Markers");
         try {
             for (int i = 0; i < inter.length(); ++i) {
+
                 Log.d("TEST", inter.toString());
                 JSONObject each = inter.getJSONObject(i);
-                final String userName = "hhhh";//each.getString("user_name");
+                String userName = "hhhh";//each.getString("user_name");
                 //final String trashType = each.getString("type_of_trash");
-                final String trashType = "organic";
-                final Double trashLat = each.getDouble("trash_latitude");
-                final Double trashLong = each.getDouble("trash_longtitude");
-                final String trashDate = each.getString("trash_generate_date");
-                final String trashInfo = "";//each.getString("trash_information");
-                final String trashPicture = each.getString("picture");
-
+                String trashType = "organic";
+                Double trashLat = each.getDouble("trash_latitude");
+                Double trashLong = each.getDouble("trash_longtitude");
+                String trashDate = each.getString("trash_generate_date");
+                String trashInfo = "";//each.getString("trash_information");
+                String trashPicture = each.getString("picture");
+                //String trashPicture = "picture";
 
                 LatLng latLng = new LatLng(trashLat, trashLong);
 
-                final String returned = "User Name: " + userName + "\n" + "Trash Type: " + trashType + "\n"
+                String returned = "User Name: " + userName + "\n" + "Trash Type: " + trashType + "\n"
                         + "Trash Latitude: " + trashLat + "\n" + "Trash Longitude: " + trashLong + "\n"
-                        + "Trash Date: " + trashDate + "\n" /*+ "Trash Info: " + trashInfo*/;
+                        + "Trash Date: " + trashDate + "\n" + "%" + trashPicture;/*+ "Trash Info: " + trashInfo*/;
                 //setString(returned);
+                returnedList.add(returned);
                 MarkerOptions options = new MarkerOptions()
                         .position(latLng)
                         .title(userName)
@@ -488,7 +495,11 @@ public class MapsActivity extends AppCompatActivity implements
                         .snippet(returned)
                         .icon(BitmapDescriptorFactory.fromResource(chooseMarker(trashType)));
                 //System.out.println("returned is" + returned);
-                customMarker = mMap.addMarker(options);
+
+                final Marker customMarker = mMap.addMarker(options);
+                markerList.add(customMarker);
+                String updatedName = String.valueOf(customMarker) + String.valueOf(i);
+
                 if(customMarker == null)
                 {
                     System.out.println("customMarker is null");
@@ -497,7 +508,10 @@ public class MapsActivity extends AppCompatActivity implements
                     System.out.println("customMarker is not null");
                 }
                 infoMarkerMap = new HashMap<Marker, String>();
-                infoMarkerMap.put(customMarker, returned);
+
+                for(int j = 0; j < markerList.size(); ++j) {
+                    infoMarkerMap.put(markerList.get(j), returnedList.get(j));
+                }
 
                 if(infoMarkerMap == null)
                 {
@@ -519,10 +533,11 @@ public class MapsActivity extends AppCompatActivity implements
                                 Intent intent = new Intent(MapsActivity.this, DisplayActivity.class);
                                 Bundle extras = new Bundle();
                                 //extras.putString("TRASH_INFO", marker.getSnippet()); // put the mpg_message var into bundle
-                                extras.putString("TRASH_INFO", returned);
-                                //extras.putString("TRASH_INFO", infoMarkerMap.get(marker));
+                                //extras.putString("TRASH_INFO", returned);
+                                extras.putString("TRASH_INFO", infoMarkerMap.get(marker));
                                 //extras.putString("TRASH_PIC_STRING",pic);
-                                System.out.println("returned is " + marker.getSnippet());
+                                //System.out.println("returned is " + marker.getSnippet());
+                               // System.out.println("returned is: " + returned);
                                // System.out.println("returned String is " + infoMarkerMap.get(marker));
                                // System.out.println("returned Picture is " + eventMarkerMap.get(marker));
                                 intent.putExtras(extras);
