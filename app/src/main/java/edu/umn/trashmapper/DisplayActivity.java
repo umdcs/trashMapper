@@ -26,16 +26,20 @@ public class DisplayActivity extends AppCompatActivity {
         //Get the values of the the messages in the intent from the MapsActivity
         String message = extra.getString("TRASH_INFO");
         System.out.println("message is " + message);
+        String[] split = message.split("%");
+        String normalMessage = split[0];
+        String pictureString = split[1];
         //String picture = extra.getString("TRASH_PIC_STRING");
 
         /*try {
-            createFile(picture);
+            createFile(pictureString);
         } catch (JSONException e) {
             e.printStackTrace();
         }*/
+
         TextView textView = new TextView(this);
         textView.setTextSize(15);
-        textView.setText(message);
+        textView.setText(normalMessage);
 
         ViewGroup layout = (ViewGroup) findViewById(R.id.activity_display);
         layout.addView(textView);
