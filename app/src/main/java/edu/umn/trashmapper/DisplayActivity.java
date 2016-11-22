@@ -7,8 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -133,6 +135,8 @@ public class DisplayActivity extends AppCompatActivity implements AsyncResponse 
             e.printStackTrace();
         }
         httpAsyncTask.cancel(true);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.temp);
+        linearLayout.setVisibility(View.GONE);
     }
 
     String pictureString;

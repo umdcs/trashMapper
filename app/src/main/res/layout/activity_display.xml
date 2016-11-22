@@ -13,7 +13,20 @@
                     <!--android:layout_width="match_parent"-->
                     <!--android:layout_height="wrap_content"-->
                     <!--android:orientation="vertical">-->
-                <TextView
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/temp">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true"
+                    android:layout_weight="1" />
+        </LinearLayout>
+
+        <TextView
                     android:id="@+id/info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -31,6 +44,7 @@
                  android:id="@+id/trash"
                  android:layout_weight="2.3"
              />
-                <!--</LinearLayout>-->
+
+        <!--</LinearLayout>-->
        <!--</ScrollView>-->
 </LinearLayout>
