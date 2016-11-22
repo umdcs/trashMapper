@@ -8,28 +8,73 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 app.use(bodyParser.json({limit: '50mb'}));
 
-var json = '{"pictures":[]}';
+//var json = '{"pictures":[]}';
 
-app.get('/userData', function(req, res) 
-   {
+var basic = {
+    trash:[]
+}
+var split = {
+ 
+ items:[]
+
+};
+
+app.get('/seperate',function(req,res){
+    console.log('/seperate GET URI accessed');
+    res.send(JSON.stringify(split));
+});
+
+app.get('/userData', function(req, res) {
        console.log('/userData GET URI accessed');
-       res.send(json);
+       res.send(basic);
    });
+
+app.post('/seperate',function(req,res){
+	console.log('/seperate POST URI accessed');
+	if(!req.body) return res.sendStatus(400);
+	var pic = req.body.picture;
+	var jsonObject = {
+	    picture:pic
+	};
+	split.items.push(jsonObject);
+	res.json(req.body);
+    });
 
 app.post('/userData', function (req, res) 
     {
         
-        if (!req.body) return res.sendStatus(400)
+        /*if (!req.body) return res.sendStatus(400)
         var tempjson = req.body;
         var obj = JSON.parse(json);
         obj['pictures'].push(tempjson);
         json = JSON.stringify(obj);
         console.log('/userData POST URI accessed');
-        res.send(json);
-    })
+        res.send(json);*/
+	console.log('/userData POST URI accessed');
+	if(!req.body) return res.sendStatus(400);
+	var usr_name = req.body.user_name;
+	var usr_password = req.body.user_password;
+	var trash_type = req.body.type_of_trash;
+	var latitude = req.body.trash_latitude;
+	var longtitude = req.body.trash_longtitude;
+	var date = req.body.trash_generate_date;
+	var info = req.body.trash_information;	
+        var jsonObject = {
+            user_name: usr_name,
+	    user_password: usr_password,
+	    type_of_trash: trash_type,
+	    trash_latitude: latitude,
+	    trash_longtitude: longtitude,
+	    trash_generate_date: date,
+	    trash_information: info
+	};
 
-  app.get('/', function(req, res) 
-       {
+	basic.trash.push(jsonObject);
+
+	res.json(req.body);
+    });
+
+  app.get('/', function(req, res) {
        res.send('<HTML><HEAD></HEAD><BODY><H1>hello world</H1></BODY></HTML>');
        console.log(req);
        });
