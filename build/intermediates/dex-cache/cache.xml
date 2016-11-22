@@ -102,21 +102,21 @@
     </item>
     <item
         is-multidex="true"
-        jar="/Users/wei/trashMapper/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="4ccbcda5c72027c7f7c14be9ff8640d9cb0d8da0">
-        <dex dex="/Users/wei/trashMapper/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.0.0_69e5199f09640548cb2b207cb6a279c7998f2900/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/Users/wei/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.0.0/support-annotations-25.0.0.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
         sha1="a22d2cc94da87b254451fa8ed28afc30b4653773">
         <dex dex="/Users/wei/trashMapper/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.0.0_7349363299a8906d50def4df859d6d17ed7902c8/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/wei/trashMapper/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="4ccbcda5c72027c7f7c14be9ff8640d9cb0d8da0">
+        <dex dex="/Users/wei/trashMapper/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.0.0_69e5199f09640548cb2b207cb6a279c7998f2900/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -133,7 +133,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
-        sha1="00b60ed6c049d037fd20e9912cf55ba56d389956">
+        sha1="80aa4933f344c3a76cd7c23aa0746dbde470bb80">
         <dex dex="/Users/wei/trashMapper/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_a4dd253f32f206957b47f0a5a4aa9f843657f673/classes.dex" />
     </item>
     <item
@@ -142,7 +142,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
-        sha1="bed6ec1c63652d88b431a0dbfbb56ac9dc29a21b">
+        sha1="cc463b21ebcaa77f4464121b1c3979f1c11ff9ef">
         <dex dex="/Users/wei/trashMapper/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_f96b4121901c7306bfa581472eac9e182dd8bef3/classes.dex" />
     </item>
     <item

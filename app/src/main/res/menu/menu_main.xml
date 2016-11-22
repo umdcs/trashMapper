@@ -3,11 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MapsActivity">
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:orderInCategory="100"
-        app:showAsAction="never"/>
-    <!-- Side navigation drawer UI
+
     <group>
         <item
             android:id="@+id/nav_saved"
@@ -22,5 +18,5 @@
             android:icon="@drawable/ic_menu_profile"
             android:title="Profile" />
     </group>
-    -->
+
 </menu>

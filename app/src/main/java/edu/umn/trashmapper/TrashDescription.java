@@ -41,6 +41,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import static android.util.Base64.DEFAULT;
@@ -63,6 +64,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         Button mapButton = (Button) findViewById(R.id.map_button);
         Button galleryButton = (Button) findViewById(R.id.gallery);
         takePhoto();
+
 
         mapButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -240,8 +242,14 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
                 String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 String imgDecodableString = cursor.getString(columnIndex);
+                Log.d("StringBefore", imgDecodableString);
                 cursor.close();
                 photoFile = new File(imgDecodableString);
+                //Add photoFile to a list and add id to a list where the id will be consistent with the picture.
+                fileList.add(imgDecodableString);
+                idList.add(id);
+                id++;
+
                 String filePath = photoFile.getAbsolutePath();
                 ////////////////lI KUN: track the history location where the user took the photos
                 try {
@@ -268,7 +276,8 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
 
                 }
 
-                sendJSONUserInformation(photoFile);
+                sendJSONUserInformation();
+                sendPictureInformation(photoFile);
 
             }
         } catch (NullPointerException e) {
@@ -346,28 +355,36 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     I tried send two HTTP request in two activities
     Crash...crash...and crash...
      */
-    public void sendJSONUserInformation(File photo) {
+    public void sendJSONUserInformation() {
         try {
             JSONObject jason = new JSONObject();
-            try {
-                jason.put("type", "UserInformation");
-                jason.put("user_name", userEmail);
-                jason.put("user_password", userPassword);
-                jason.put("type_of_trash", "organic");//testTypeOfTrash());
-                jason.put("trash_latitude", Latitude);
-                jason.put("trash_longtitude", Longitude);
-                jason.put("trash_generate_date", trashGenDate);
-                jason.put("trash_information", trashInformation);
-                jason.put("picture", createPhotoString(photo));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            jason.put("type", "UserInformation");
+            jason.put("user_name", userEmail);
+            jason.put("user_password", userPassword);
+            jason.put("type_of_trash", "organic");//testTypeOfTrash());
+            jason.put("trash_latitude", Latitude);
+            jason.put("trash_longtitude", Longitude);
+            jason.put("trash_generate_date", trashGenDate);
+            jason.put("trash_information", trashInformation);
+            // jason.put("picture", createPhotoString(photo));
             restPOST(jason);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
+    public void sendPictureInformation(File photo){
+        try{
+            JSONObject jason = new JSONObject();
+            jason.put("picture", createPhotoString(photo));
+            restPOSTPhoto(jason);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
     /*
     return the type of trash
      */
@@ -423,6 +440,10 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         //httpAsyncTask.cancel(true);
     }
 
+    public void restPOSTPhoto(JSONObject jason){
+        httpAsyncTask = new HTTPAsyncTask(this);
+        httpAsyncTask.execute("http://131.212.212.94:4321/seperate", "POST", jason.toString());
+    }
     //Creates image file from JSON Object on server.
     private void createFile(String encrypted) throws JSONException {
         if (encrypted != null) {
@@ -498,6 +519,10 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
 
     private HTTPAsyncTask httpAsyncTask;
+
+    private ArrayList<String> fileList = new ArrayList<>();
+    private ArrayList<Integer> idList = new ArrayList<>();
+    private Integer id = 0;
 
     @Override
     public void processFinish(String output) {

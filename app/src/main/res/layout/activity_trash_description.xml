@@ -178,5 +178,16 @@
                     android:layout_weight="1" />
             </LinearLayout>
         </LinearLayout>
+        <!--
+        <Button
+                android:layout_marginTop="20dp"
+                android:id="@+id/send_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:onClick="restPOSTPhoto"
+                android:text="Send Pictures"
+                />
+                -->
     </ScrollView>
 </LinearLayout>
