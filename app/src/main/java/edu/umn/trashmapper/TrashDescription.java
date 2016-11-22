@@ -436,13 +436,13 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         //new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "POST", jason.toString());
         //new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData", "POST", jason.toString());
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://131.212.212.94:4321/userData", "POST", jason.toString());
+        httpAsyncTask.execute("http://131.212.144.150:4321/userData", "POST", jason.toString());
         //httpAsyncTask.cancel(true);
     }
 
     public void restPOSTPhoto(JSONObject jason){
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://131.212.212.94:4321/seperate", "POST", jason.toString());
+        httpAsyncTask.execute("http://131.212.144.150:4321/seperate", "POST", jason.toString());
     }
     //Creates image file from JSON Object on server.
     private void createFile(String encrypted) throws JSONException {
@@ -457,7 +457,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
 
     public void restGET() {
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://131.212.212.94:4321/userData", "GET");
+        httpAsyncTask.execute("http://131.212.144.150:4321/userData", "GET");
         //httpAsyncTask.cancel(true);
         // new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData/userData", "GET");
         // new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");
