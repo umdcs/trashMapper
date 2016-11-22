@@ -18,6 +18,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
@@ -104,7 +105,7 @@ public class MapsActivity extends AppCompatActivity implements
      * The instance fields for the map interface
      */
     private ListView mDrawerList;
-    private ArrayAdapter<String> mAdapter;
+    //private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
@@ -134,8 +135,24 @@ public class MapsActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         httpAsyncTask = new HTTPAsyncTask(this);
         setContentView(R.layout.activity_maps);
-        setUpMapIfNeeded();
 
+        //The following are for the map interface
+        //mDrawerList = (ListView)findViewById(R.id.navList);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
+        //mActivityTitle = getTitle().toString();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close);
+
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        setUpMapIfNeeded();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addApi(Places.PLACE_DETECTION_API)
@@ -151,16 +168,11 @@ public class MapsActivity extends AppCompatActivity implements
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
 
-        //The following are for the map interface
-        mDrawerList = (ListView)findViewById(R.id.navList);
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        mActivityTitle = getTitle().toString();
+        //addDrawerItems();
+        //setupDrawer();
 
-        addDrawerItems();
-        setupDrawer();
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setHomeButtonEnabled(true);
 
 
         /********** Test ***********/
@@ -463,6 +475,13 @@ public class MapsActivity extends AppCompatActivity implements
            Log.e("NOTE", "Cannot parse JSON");
            e.printStackTrace();
        }*/
+        if(inter == null)
+        {
+            Log.d("Inter", "inter is null");
+        }
+        else{
+            Log.d("Inter", "inter is not null");
+        }
         markerList = new ArrayList<>(inter.length());
         returnedList = new ArrayList<>(inter.length());
         Log.d("Map", "Add Markers");
@@ -478,27 +497,32 @@ public class MapsActivity extends AppCompatActivity implements
                 Double trashLong = each.getDouble("trash_longtitude");
                 String trashDate = each.getString("trash_generate_date");
                 String trashInfo = "";//each.getString("trash_information");
-                String trashPicture = each.getString("picture");
+                //String trashPicture = each.getString("picture");
                 //String trashPicture = "picture";
 
                 LatLng latLng = new LatLng(trashLat, trashLong);
 
+                //String returned = "User Name: " + userName + "\n" + "Trash Type: " + trashType + "\n"
+                //        + "Trash Latitude: " + trashLat + "\n" + "Trash Longitude: " + trashLong + "\n"
+                //        + "Trash Date: " + trashDate + "\n" + "%" + trashPicture;/*+ "Trash Info: " + trashInfo*/;
+
                 String returned = "User Name: " + userName + "\n" + "Trash Type: " + trashType + "\n"
                         + "Trash Latitude: " + trashLat + "\n" + "Trash Longitude: " + trashLong + "\n"
-                        + "Trash Date: " + trashDate + "\n" + "%" + trashPicture;/*+ "Trash Info: " + trashInfo*/;
-                //setString(returned);
+                        + "Trash Date: " + trashDate + "\n" + "%" + String.valueOf(i);
+
+
                 returnedList.add(returned);
                 MarkerOptions options = new MarkerOptions()
                         .position(latLng)
                         .title(userName)
-                        //.snippet("Click on to see more information")
-                        .snippet(returned)
+                        .snippet("Click on to see more information")
+                        //.snippet(returned)
                         .icon(BitmapDescriptorFactory.fromResource(chooseMarker(trashType)));
                 //System.out.println("returned is" + returned);
 
                 final Marker customMarker = mMap.addMarker(options);
                 markerList.add(customMarker);
-                String updatedName = String.valueOf(customMarker) + String.valueOf(i);
+                //String updatedName = String.valueOf(customMarker) + String.valueOf(i);
 
                 if(customMarker == null)
                 {
@@ -564,9 +588,6 @@ public class MapsActivity extends AppCompatActivity implements
 
     }
 
-    private void setString(String string){
-        returned1 = string;
-    }
     private int chooseMarker(String trashType){
         int badge;
         // Use the equals() method on a Marker to check for equals.  Do not use ==.
@@ -591,7 +612,7 @@ public class MapsActivity extends AppCompatActivity implements
     }
 
 
-    private void addDrawerItems() {
+    /*private void addDrawerItems() {
         String[] itemArray = {"Saved locations", "Others on the map", "Profile"};
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, itemArray);
         mDrawerList.setAdapter(mAdapter);
@@ -601,20 +622,20 @@ public class MapsActivity extends AppCompatActivity implements
                 Toast.makeText(MapsActivity.this, "HaHaHaHaHa!", Toast.LENGTH_SHORT).show();
             }
         });
-    }
+    }*/
 
-    private void setupDrawer() {
+    /*private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
 
             /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
+           /* public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 getSupportActionBar().setTitle("Menu");
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
+           /* public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 getSupportActionBar().setTitle(mActivityTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
@@ -623,10 +644,10 @@ public class MapsActivity extends AppCompatActivity implements
 
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-    }
+    }*/
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
+   // @Override
+    /*protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mDrawerToggle.syncState();
     }
@@ -635,7 +656,7 @@ public class MapsActivity extends AppCompatActivity implements
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -668,9 +689,9 @@ public class MapsActivity extends AppCompatActivity implements
         }
 
         // Activate the navigation drawer toggle
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+        /*if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -678,10 +699,11 @@ public class MapsActivity extends AppCompatActivity implements
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-       /* int id = item.getItemId();
+        int id = item.getItemId();
 
         if (id == R.id.nav_saved) {
-
+            Intent intent = new Intent(MapsActivity.this, TrashDescription.class);
+            startActivity(intent);
         } else if (id == R.id.nav_others) {
 
         } else if (id == R.id.nav_profile) {
@@ -689,7 +711,7 @@ public class MapsActivity extends AppCompatActivity implements
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);*/
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -710,11 +732,11 @@ public class MapsActivity extends AppCompatActivity implements
         try
         {
             JSONObject bjason = new JSONObject(result);
-            inter = bjason.getJSONArray("pictures");
+            inter = bjason.getJSONArray("trash");
             JSONObject sjason = inter.getJSONObject(0);
             // Log.d("DEBUG", sjason.getString("longitude"));
             temp = inter.toString();
-            Log.d("asdasdasdasdas", temp);
+            Log.d("asdasdasdasdasMAPS", temp);
             addMarkers();
 
         }
