@@ -23,6 +23,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -58,15 +59,25 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         httpAsyncTask = new HTTPAsyncTask(this);
 
         setContentView(R.layout.activity_trash_description);
-        organicCamera = (ImageButton) findViewById(R.id.orgainc);
-        paperCamera = (ImageButton) findViewById(R.id.paper);
-        plasticCamera = (ImageButton) findViewById(R.id.plastic);
-        cansCamera = (ImageButton) findViewById(R.id.cans);
-        batteryCamera = (ImageButton) findViewById(R.id.battery);
+        organicBox = (CheckBox) findViewById(R.id.checkbox_organic);
+        paperBox = (CheckBox) findViewById(R.id.checkbox_paper);
+        plasticBox = (CheckBox) findViewById(R.id.checkbox_plastic);
+        cansBox = (CheckBox) findViewById(R.id.checkbox_cans);
+        batteryBox = (CheckBox) findViewById(R.id.checkbox_battery);
+        checkBoxes();
+
         Button mapButton = (Button) findViewById(R.id.map_button);
         Button galleryButton = (Button) findViewById(R.id.gallery);
-        takePhoto();
+        //takePhoto();
+        ImageButton cameraButton = (ImageButton) findViewById(R.id.camera_button);
 
+
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dispatchTakePictureIntent();
+            }
+        });
 
         mapButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -80,7 +91,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
                 //intent.putExtras(b);
                 //intent.putExtra("jsonArray",temp);
                 httpAsyncTask.cancel(true);
-                unTint();
+                //unTint();
                 startActivity(intent);
 
             }
@@ -103,10 +114,81 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         });
     }
 
+    private void checkBoxes(){
+        organicBox.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                if(organicBox.isChecked())
+                {
+                    organic = true;
+                }
+                else
+                {
+                   organic = false;
+                }
+            }
+        });
+
+        paperBox.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                if(paperBox.isChecked())
+                {
+                    paper = true;
+                }
+                else
+                {
+                    paper = false;
+                }
+            }
+        });
+
+        plasticBox.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                if(plasticBox.isChecked())
+                {
+                    plastic = true;
+                }
+                else
+                {
+                    plastic = false;
+                }
+            }
+        });
+
+        cansBox.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                if(cansBox.isChecked())
+                {
+                    cans = true;
+                }
+                else
+                {
+                    cans = false;
+                }
+            }
+        });
+
+        batteryBox.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                if(batteryBox.isChecked())
+                {
+                    battery = true;
+                }
+                else
+                {
+                    battery = false;
+                }
+            }
+        });
+    }
     /*
       user take photos when icon button is clicked
      */
-    public void takePhoto() {
+    /*public void takePhoto() {
         paperCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -157,9 +239,9 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
                 organic = true;
             }
         });
-    }
+    }*/
 
-    private void unTint(){
+    /*private void unTint(){
         paperCamera.getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
         plasticCamera.getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
         organicCamera.getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
@@ -173,7 +255,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         cans = false;
         organic = false;
         battery = false;
-    }
+    }*/
 
     //get the user's information
     public void getUserInformation() {
@@ -475,13 +557,15 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         //new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "POST", jason.toString());
         //new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData", "POST", jason.toString());
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://192.168.1.19:4321/userData", "POST", jason.toString());
+        //httpAsyncTask.execute("http://192.168.1.19:4321/userData", "POST", jason.toString());
+        httpAsyncTask.execute("http://131.212.212.94:4321/userData", "POST", jason.toString());
         //httpAsyncTask.cancel(true);
     }
 
     public void restPOSTPhoto(JSONObject jason){
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://192.168.1.19:4321/seperate", "POST", jason.toString());
+        //httpAsyncTask.execute("http://192.168.1.19:4321/seperate", "POST", jason.toString());
+        httpAsyncTask.execute("http://131.212.212.94:4321/seperate", "POST", jason.toString());
     }
     //Creates image file from JSON Object on server.
     private void createFile(String encrypted) throws JSONException {
@@ -497,6 +581,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     public void restGET() {
         httpAsyncTask = new HTTPAsyncTask(this);
         httpAsyncTask.execute("http://192.168.1.19:4321/userData", "GET");
+
         //httpAsyncTask.cancel(true);
         // new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData/userData", "GET");
         // new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");
@@ -554,6 +639,8 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     private ImageButton paperCamera;
     private ImageButton cansCamera;
     private ImageButton batteryCamera;
+
+    private CheckBox organicBox, plasticBox, paperBox, cansBox, batteryBox;
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
 
