@@ -17,6 +17,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+
 import static android.util.Base64.DEFAULT;
 
 public class DisplayActivity extends AppCompatActivity implements AsyncResponse {
@@ -54,12 +56,18 @@ public class DisplayActivity extends AppCompatActivity implements AsyncResponse 
 
     private void createFile(String encrypted) throws JSONException
     {
+        byte[] imageBytes = new byte[0];
         if(encrypted != null)
         {
             System.out.println("TEST IS " + test);
             Log.d("InCreate", "String is " + encrypted);
             byte[] decoded = Base64.decode(encrypted, DEFAULT);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
             Bitmap pic = BitmapFactory.decodeByteArray(decoded, 0, decoded.length);
+            pic.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            imageBytes = baos.toByteArray();
+            pic = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            //Bitmap resized = Bitmap.createScaledBitmap(pic,(int)(pic.getWidth()*0.1), (int)(pic.getHeight()*0.1), true);
             ImageView image = (ImageView) findViewById(R.id.trash);
             image.setImageBitmap(pic);
             //image.setImageResource(R.drawable.carrot_48);
@@ -85,7 +93,10 @@ public class DisplayActivity extends AppCompatActivity implements AsyncResponse 
         {
             JSONObject bjason = new JSONObject(result);
             inter = bjason.getJSONArray("items");
+            if(index < inter.length())
             obj = inter.getJSONObject(index);
+            else
+            obj = inter.getJSONObject(inter.length());
             // Log.d("DEBUG", sjason.getString("longitude"));
             pictureString = obj.getString("picture");
             Log.d("asdasdasdasdasDISP", pictureString);
@@ -113,5 +124,5 @@ public class DisplayActivity extends AppCompatActivity implements AsyncResponse 
     JSONArray inter;
     int index;
     ImageView image;
-    String test;
+    String test = "In createImage";
 }
