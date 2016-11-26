@@ -112,6 +112,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
             public void onClick(View view) {
                 dispatchTakePictureIntent();
                 unTint();
+                unSelect();
                 paperCamera.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_ATOP);
                 paper = true;
             }
@@ -121,6 +122,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
             public void onClick(View view) {
                 dispatchTakePictureIntent();
                 unTint();
+                unSelect();
                 plasticCamera.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_ATOP);
                 plastic = true;
             }
@@ -130,6 +132,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
             public void onClick(View view) {
                 dispatchTakePictureIntent();
                 unTint();
+                unSelect();
                 cansCamera.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_ATOP);
                 cans = true;
             }
@@ -139,6 +142,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
             public void onClick(View view) {
                 dispatchTakePictureIntent();
                 unTint();
+                unSelect();
                 batteryCamera.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_ATOP);
                 battery = true;
             }
@@ -148,6 +152,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
             public void onClick(View view) {
                 dispatchTakePictureIntent();
                 unTint();
+                unSelect();
                 organicCamera.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_ATOP);
                 organic = true;
             }
@@ -160,6 +165,14 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         organicCamera.getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
         batteryCamera.getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
         cansCamera.getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
+    }
+
+    private void unSelect(){
+        paper = false;
+        plastic = false;
+        cans = false;
+        organic = false;
+        battery = false;
     }
 
     //get the user's information
