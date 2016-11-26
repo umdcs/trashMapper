@@ -268,7 +268,7 @@ public class MapsActivity extends AppCompatActivity implements
         if(count == 0) {
             Toast.makeText(MapsActivity.this, s, Toast.LENGTH_SHORT).show();
             mMap.addMarker(options);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
             count++;
         }
     }
@@ -465,6 +465,27 @@ public class MapsActivity extends AppCompatActivity implements
         // marker is centered and for the marker's info window to open, if it has one).
         return false;
     }
+
+    private LatLng adjustMarkers(LatLng current, ArrayList<Marker> markerList){
+        LatLng finalLatLng = current;
+        if (markerList.size() != 0) {
+            for (int i = 0; i < markerList.size(); i++) {
+                Marker existingMarker = markerList.get(i);
+                LatLng pos = existingMarker.getPosition();
+
+                //if a marker already exists in the same position as this marker
+                if (current.equals(pos)) {
+                    //update the position of the coincident marker by applying a small multipler to its coordinates
+                    double newLat = current.latitude + (Math.random() -.5) / 1500;// * (Math.random() * (max - min) + min);
+                    double newLng = current.longitude + (Math.random() -.5) / 1500;// * (Math.random() * (max - min) + min);
+                    finalLatLng = new LatLng(newLat,newLng);
+                    break;
+                }
+            }
+        }
+    return finalLatLng;
+
+    }
     private void addMarkers(){
        /* InputStream inputStream = getResources().openRawResource(R.raw.mock_data);
         String json = new Scanner(inputStream).useDelimiter(REGEX_INPUT_BOUNDARY_BEGINNING).next();
@@ -475,13 +496,7 @@ public class MapsActivity extends AppCompatActivity implements
            Log.e("NOTE", "Cannot parse JSON");
            e.printStackTrace();
        }*/
-        if(inter == null)
-        {
-            Log.d("Inter", "inter is null");
-        }
-        else{
-            Log.d("Inter", "inter is not null");
-        }
+
         markerList = new ArrayList<>(inter.length());
         returnedList = new ArrayList<>(inter.length());
         Log.d("Map", "Add Markers");
@@ -500,73 +515,57 @@ public class MapsActivity extends AppCompatActivity implements
                 //String trashPicture = "picture";
 
                 LatLng latLng = new LatLng(trashLat, trashLong);
-
+                LatLng latLngNew = adjustMarkers(latLng, markerList);
                 //String returned = "User Name: " + userName + "\n" + "Trash Type: " + trashType + "\n"
                 //        + "Trash Latitude: " + trashLat + "\n" + "Trash Longitude: " + trashLong + "\n"
                 //        + "Trash Date: " + trashDate + "\n" + "%" + trashPicture;/*+ "Trash Info: " + trashInfo*/;
-
-                String returned = "User Name: " + userName + "\n" + "Trash Type: " + trashType + "\n"
-                        + "Trash Latitude: " + trashLat + "\n" + "Trash Longitude: " + trashLong + "\n"
-                        + "Trash Date: " + trashDate + "\n" + "%" + String.valueOf(i);
-
+                String returned = "";
+                if(trashType.equals("recycling")|| trashType.equals("compost") || trashType.equals("waste")) {
+                    returned = "User Name: " + userName + "\n" + "Trash Bin Type: " + trashType + "\n"
+                            + "Trash Bin Latitude: " + trashLat + "\n" + "Trash Bin Longitude: " + trashLong + "\n"
+                            + "Trash Bin Date: " + trashDate + "\n" + "%" + String.valueOf(i);
+                }
+                else{
+                    returned = "User Name: " + userName + "\n" + "Trash Type: " + trashType + "\n"
+                            + "Trash Latitude: " + trashLat + "\n" + "Trash Longitude: " + trashLong + "\n"
+                            + "Trash Date: " + trashDate + "\n" + "%" + String.valueOf(i);
+                }
 
                 returnedList.add(returned);
                 MarkerOptions options = new MarkerOptions()
-                        .position(latLng)
+                        .position(latLngNew)
                         .title(userName)
                         .snippet("Click on to see more information")
                         //.snippet(returned)
                         .icon(BitmapDescriptorFactory.fromResource(chooseMarker(trashType)));
                 //System.out.println("returned is" + returned);
 
-                final Marker customMarker = mMap.addMarker(options);
+                Marker customMarker = mMap.addMarker(options);
                 markerList.add(customMarker);
-                //String updatedName = String.valueOf(customMarker) + String.valueOf(i);
-
-                if(customMarker == null)
-                {
-                    System.out.println("customMarker is null");
-                }
-                else{
-                    System.out.println("customMarker is not null");
-                }
                 infoMarkerMap = new HashMap<Marker, String>();
 
                 for(int j = 0; j < markerList.size(); ++j) {
                     infoMarkerMap.put(markerList.get(j), returnedList.get(j));
                 }
 
-                if(infoMarkerMap == null)
-                {
-                    System.out.println("infoMarkerMap is null");
-                }
-                else{
-                    System.out.println("infoMarkerMap is not null");
-                }
-                //eventMarkerMap = new HashMap<Marker,String>();
-                //eventMarkerMap.put(customMarker, trashPicture);
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
 
                 mMap.setOnInfoWindowClickListener(
                         new GoogleMap.OnInfoWindowClickListener(){
                             public void onInfoWindowClick(Marker marker){
-                                Log.d("MoveCamera","run");
-                                //Toast.makeText(getBaseContext(),returned, Toast.LENGTH_SHORT).show();
-                               // String pic = eventMarkerMap.get(marker);
-                                Intent intent = new Intent(MapsActivity.this, DisplayActivity.class);
-                                Bundle extras = new Bundle();
-                                //extras.putString("TRASH_INFO", marker.getSnippet()); // put the mpg_message var into bundle
-                                //extras.putString("TRASH_INFO", returned);
-                                extras.putString("TRASH_INFO", infoMarkerMap.get(marker));
-                                //extras.putString("TRASH_PIC_STRING",pic);
-                                //System.out.println("returned is " + marker.getSnippet());
-                               // System.out.println("returned is: " + returned);
-                               // System.out.println("returned String is " + infoMarkerMap.get(marker));
-                               // System.out.println("returned Picture is " + eventMarkerMap.get(marker));
-                                intent.putExtras(extras);
-                                startActivity(intent);
-                                //startActivityForResult(intent, 1);
-
+                                if(!marker.getTitle().equals("Initial Location!")) {
+                                    Intent intent = new Intent(MapsActivity.this, DisplayActivity.class);
+                                    Bundle extras = new Bundle();
+                                    //extras.putString("TRASH_INFO", marker.getSnippet()); // put the mpg_message var into bundle
+                                    //extras.putString("TRASH_INFO", returned);
+                                    extras.putString("TRASH_INFO", infoMarkerMap.get(marker));
+                                    //extras.putString("TRASH_PIC_STRING",pic);
+                                    //System.out.println("returned is " + marker.getSnippet());
+                                    // System.out.println("returned is: " + returned);
+                                    // System.out.println("returned String is " + infoMarkerMap.get(marker));
+                                    intent.putExtras(extras);
+                                    startActivity(intent);
+                                }
                             }
                         }
                 );
@@ -600,9 +599,10 @@ public class MapsActivity extends AppCompatActivity implements
             badge = R.drawable.plastic_50;
         } else if (trashType.equals("paper")) {
             badge = R.drawable.paper_plane_50;
-        } else if (trashType.equals("trashcan")){
+        } else if (trashType.equals("recycling") || trashType.equals("compost") || trashType.equals("waste")){
             badge = R.drawable.trash_can;
-        } else {
+        }
+        else {
             // Passing 0 to setImageResource will clear the image view.
             badge = 0;
         }
@@ -675,7 +675,7 @@ public class MapsActivity extends AppCompatActivity implements
     }
 
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -692,20 +692,25 @@ public class MapsActivity extends AppCompatActivity implements
             return true;
         }*/
 
-        return super.onOptionsItemSelected(item);
-    }
+        //return super.onOptionsItemSelected(item);
+   // }*/
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_saved) {
+        if (id == R.id.nav_trash) {
             Intent intent = new Intent(MapsActivity.this, TrashDescription.class);
             startActivity(intent);
-        } else if (id == R.id.nav_others) {
+        } else if (id == R.id.nav_trash_bin) {
+            Intent intent = new Intent(MapsActivity.this, MapBins.class);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_profile) {
+        } else if (id == R.id.nav_statistics){
+
+        }
+        else if (id == R.id.nav_profile) {
 
         }
 
@@ -718,7 +723,8 @@ public class MapsActivity extends AppCompatActivity implements
 
     public void restGET()
     {
-        httpAsyncTask.execute("http://192.168.1.19:4321/userData", "GET");
+       // httpAsyncTask.execute("http://192.168.1.19:4321/userData", "GET");
+        httpAsyncTask.execute("http://131.212.212.94:4321/userData", "GET");
         //httpAsyncTask.cancel(true);
         // new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData/userData", "GET");
         // new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");
@@ -732,7 +738,7 @@ public class MapsActivity extends AppCompatActivity implements
         {
             JSONObject bjason = new JSONObject(result);
             inter = bjason.getJSONArray("trash");
-            JSONObject sjason = inter.getJSONObject(0);
+           // JSONObject sjason = inter.getJSONObject(0);
             // Log.d("DEBUG", sjason.getString("longitude"));
             temp = inter.toString();
             Log.d("asdasdasdasdasMAPS", temp);
