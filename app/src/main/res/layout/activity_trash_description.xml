@@ -33,10 +33,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginLeft="0dp"
                 android:orientation="horizontal" >
-                <ImageButton
+                <ImageView
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="0dp"
                     android:background="@drawable/carrot_48"
@@ -44,28 +44,36 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/orgainc" />
 
-                <TextView android:id="@+id/organic_text"
-                    android:layout_width="wrap_content"
+                <CheckBox android:id="@+id/checkbox_organic"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Organic"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:text="Organic "
                     android:textColor="#FFFFFFFF"/>
+            </LinearLayout>
 
-                <ImageButton
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="0dp"
+                android:orientation="horizontal" >
+                <ImageView
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="0dp"
                     android:background="@drawable/paper_plane_50"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/paper" />
-                <TextView android:id="@+id/paper_text"
+                <CheckBox android:id="@+id/checkbox_paper"
+                    android:layout_margin="10dp"
+                    android:textSize="20sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="#FFFFFFFF"
                     android:text="Paper"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    android:textColor="#FFFFFFFF"/>
+                    android:onClick="onCheckboxClicked"/>
             </LinearLayout>
 
             <LinearLayout
@@ -74,38 +82,49 @@
             android:layout_marginTop="20dp"
             android:layout_marginLeft="0dp"
             android:orientation="horizontal" >
-            <ImageButton
+            <ImageView
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="0dp"
                 android:background="@drawable/tin_can_48"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:id="@+id/cans" />
 
-                <TextView android:id="@+id/cans_text"
-                    android:layout_width="wrap_content"
+                <CheckBox android:id="@+id/checkbox_cans"
+                    android:layout_margin="10dp"
+                    android:textSize="20sp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="#FFFFFFFF"
                     android:text="Cans"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    android:textColor="#FFFFFFFF"/>
+                    android:onClick="onCheckboxClicked"/>
 
-                <ImageButton
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="0dp"
+                android:orientation="horizontal" >
+
+                <ImageView
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="0dp"
                 android:background="@drawable/plastic_50"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/plastic" />
 
-                <TextView android:id="@+id/plastic_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Plastic"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                android:textColor="#FFFFFFFF"/>
+                <CheckBox android:id="@+id/checkbox_plastic"
+                    android:layout_margin="10dp"
+                    android:textSize="20sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFFFF"
+                    android:text="Plastic"
+                    android:onClick="onCheckboxClicked"/>
+
         </LinearLayout>
 
             <LinearLayout
@@ -114,20 +133,21 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="0dp"
                 android:orientation="horizontal" >
-                <ImageButton
+                <ImageView
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="0dp"
                     android:background="@drawable/charged_battery_50"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/battery" />
-                <TextView android:id="@+id/battery_text"
-                    android:layout_width="wrap_content"
+                <CheckBox android:id="@+id/checkbox_battery"
+                    android:layout_margin="10dp"
+                    android:textSize="20sp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="#FFFFFFFF"
                     android:text="Battery"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    android:textColor="#FFFFFFFF"/>
+                    android:onClick="onCheckboxClicked"/>
             </LinearLayout>
 
             <EditText android:id="@+id/reason"
@@ -165,7 +185,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
 
-                    android:id="@+id/button" />
+                    android:id="@+id/camera_button" />
 
                 <Button
                     android:layout_marginTop="20dp"
