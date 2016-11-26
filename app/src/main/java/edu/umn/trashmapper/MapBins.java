@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
@@ -14,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -312,7 +316,7 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
         httpAsyncTask.execute("http://131.212.212.94:4321/seperate", "POST", jason.toString());
     }
     //Creates base64 encoded string for JSON storage.
-    private String createPhotoString(File photo) throws IOException {
+    /*private String createPhotoString(File photo) throws IOException {
         RandomAccessFile stream = null;
         try {
             stream = new RandomAccessFile(photo, "r");
@@ -331,6 +335,18 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
             e.printStackTrace();
         }
         return (encodeToString(photoArray, DEFAULT).replaceAll("\n", ""));
+    }
+*/
+    private String createPhotoString(File photo) throws IOException {
+        byte[] imageBytes = new byte[0];
+        String encodedImage = "";
+            Bitmap pic = BitmapFactory.decodeFile(photo.getPath());
+            Log.d("Photo.getPath()",photo.getPath());
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            pic.compress(Bitmap.CompressFormat.JPEG, 14, baos);
+            imageBytes = baos.toByteArray();
+            encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
     }
 
     /**
