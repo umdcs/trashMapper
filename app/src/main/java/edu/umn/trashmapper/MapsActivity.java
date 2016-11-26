@@ -268,7 +268,7 @@ public class MapsActivity extends AppCompatActivity implements
         if(count == 0) {
             Toast.makeText(MapsActivity.this, s, Toast.LENGTH_SHORT).show();
             mMap.addMarker(options);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5));
             count++;
         }
     }
