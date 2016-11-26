@@ -20,26 +20,74 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="0dp"
+        android:orientation="horizontal" >
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="0dp"
+            android:background="@drawable/recycling"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:id="@+id/recycle_bin" />
         <CheckBox
             android:text="@string/recycling"
+            android:layout_margin="10dp"
+            android:textSize="20sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/recycling"
             android:textColor="#FFFFFFFF"/>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="0dp"
+        android:orientation="horizontal" >
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="0dp"
+            android:background="@drawable/trash_can"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:id="@+id/waste_bin" />
         <CheckBox
-            android:text="@string/trash"
+            android:text="@string/waste"
+            android:layout_margin="10dp"
+            android:textSize="20sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/trash"
+            android:id="@+id/waste"
             android:textColor="#FFFFFFFF"/>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="0dp"
+        android:orientation="horizontal" >
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="0dp"
+            android:background="@drawable/compost_bin"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:id="@+id/compost_bin" />
         <CheckBox
             android:text="@string/compost"
+            android:layout_margin="10dp"
+            android:textSize="20sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/compost"
             android:textColor="#FFFFFFFF"/>
+    </LinearLayout>
 
         <EditText
             android:layout_width="match_parent"
