@@ -67,17 +67,77 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
             @Override
             public void onClick(View view) {
                 if(photoFile != null) {
-                    sendJSONTrashBin(photoFile);
+                  //  sendJSONTrashBin();
+
                 }
                 Intent intent = new Intent(MapBins.this, MapsActivity.class);
                 startActivity(intent);
             }
         });
-        recycling = (CheckBox) findViewById(R.id.recycling);
-        trash = (CheckBox) findViewById(R.id.trash);
-        compost = (CheckBox) findViewById(R.id.compost);
+        recyclingBox = (CheckBox) findViewById(R.id.recycling);
+        trashBox = (CheckBox) findViewById(R.id.waste);
+        compostBox = (CheckBox) findViewById(R.id.compost);
+        checkBoxes();
     }
 
+    private void checkBoxes(){
+        recyclingBox.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                if(recyclingBox.isChecked())
+                {
+                    recycling = true;
+                }
+                else
+                {
+                    recycling = false;
+                }
+            }
+        });
+
+        compostBox.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                if(compostBox.isChecked())
+                {
+                    compost = true;
+                }
+                else
+                {
+                    compost = false;
+                }
+            }
+        });
+
+        trashBox.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                if(trashBox.isChecked())
+                {
+                    trash = true;
+                }
+                else
+                {
+                    trash = false;
+                }
+            }
+        });
+
+    }
+
+    public String typeOfTrash() {
+        String returenTypeOfTrash = null;
+        if (recycling) {
+            returenTypeOfTrash = "recycling";
+        }
+        if (compost) {
+            returenTypeOfTrash = "compost";
+        }
+        if (trash) {
+            returenTypeOfTrash = "waste";
+        }
+        return returenTypeOfTrash;
+    }
     //opens the gallery after permissions granted
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
@@ -194,6 +254,9 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                sendJSONTrashBin();
+                sendPictureInformation(photoFile);
             }
         } catch (NullPointerException e) {
             toast = Toast.makeText(this, "Invalid picture selected.", Toast.LENGTH_SHORT);
@@ -201,7 +264,7 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
         }
     }
 
-    public void sendJSONTrashBin(File photo) {
+    public void sendJSONTrashBin(/*File photo*/) {
         try {
             JSONObject jason = new JSONObject();
             /*
@@ -213,26 +276,41 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
             one is the trash bin array (pin all the trash bins on the map)
             one is the userInformation array (pin all the users' data on the map(share between friends))
              */
-            try {
-                jason.put("type_of_trash", "trashcan");
+
+                jason.put("type_of_trash", typeOfTrash());
                 jason.put("trash_latitude", Latitude);
                 jason.put("trash_longtitude", Longitude);
                 jason.put("trash_generate_date", trashGenDate);
-                jason.put("picture", createPhotoString(photo));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                //jason.put("picture", createPhotoString(photo));
+
             restPOST(jason);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
+    public void sendPictureInformation(File photo){
+        try{
+            JSONObject jason = new JSONObject();
+            jason.put("picture", createPhotoString(photo));
+            restPOSTPhoto(jason);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
     private void restPOST(JSONObject jason){
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://131.212.144.150:4321/userData", "POST", jason.toString());
+        httpAsyncTask.execute("http://131.212.212.94:4321/userData", "POST", jason.toString());
     }
 
+    public void restPOSTPhoto(JSONObject jason){
+        httpAsyncTask = new HTTPAsyncTask(this);
+        //httpAsyncTask.execute("http://192.168.1.19:4321/seperate", "POST", jason.toString());
+        httpAsyncTask.execute("http://131.212.212.94:4321/seperate", "POST", jason.toString());
+    }
     //Creates base64 encoded string for JSON storage.
     private String createPhotoString(File photo) throws IOException {
         RandomAccessFile stream = null;
@@ -305,8 +383,8 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
     private static final int PICK_IMAGE=100;
     private Toast toast;
     private HTTPAsyncTask httpAsyncTask = new HTTPAsyncTask(this);
-    private CheckBox recycling, compost, trash;
-
+    private CheckBox recyclingBox, compostBox, trashBox;
+    private boolean recycling, compost, trash;
     /**
      * GPS information
      */
