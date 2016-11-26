@@ -31,59 +31,25 @@ public class DisplayActivity extends AppCompatActivity implements AsyncResponse 
         //Get the values of the the messages in the intent from the MapsActivity
         String message = extra.getString("TRASH_INFO");
         System.out.println("message is " + message);
-        String[] split = message.split("%");
-        String normalMessage = split[0];
-        //String pictureString = split[1];
-        String indexString = split[1];
-        index = Integer.parseInt(indexString);
-       /* if(inter == null)
-        {
-            Log.d("Inter", "inter is null");
-        }
-        else{
-            Log.d("Inter", "inter is not null");
-        }
-        try {
-            obj = inter.getJSONObject(index);
-            pictureString = obj.getString("picture");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } *//*catch (NullPointerException e)
-        {
-            Log.d("NULL", "NULL POINTER EXCEPTION");
-        }*/
+       try {
+           String[] split = message.split("%");
+           String normalMessage = split[0];
+           //String pictureString = split[1];
+           String indexString = split[1];
+           index = Integer.parseInt(indexString);
+           restGETPhoto();
+           //String picture = extra.getString("TRASH_PIC_STRING");
+           TextView textView = new TextView(this);
+           textView.setTextSize(15);
+           textView.setText(normalMessage);
 
-        /*if(pictureString == null)
-        {
-            Log.d("pictureString", pictureString);
-        }
-        else{
-            Log.d("pictureString","NOTNULL");
-        }*/
-        // Log.d("DEBUG", sjason.getString("longitude"));
+           ViewGroup layout = (ViewGroup) findViewById(R.id.activity_display);
+           layout.addView(textView);
+       }catch (NullPointerException e){
+           e.printStackTrace();
+       }
 
-        restGETPhoto();
-        //String picture = extra.getString("TRASH_PIC_STRING");
 
-        TextView textView = new TextView(this);
-        textView.setTextSize(15);
-        textView.setText(normalMessage);
-
-       // image = new ImageView(this);
-
-        Log.d("Before", "Haha");
-        /*try {
-            createFile(pictureString);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
-
-        Log.d("After", "HaHahaha");
-        ViewGroup layout = (ViewGroup) findViewById(R.id.activity_display);
-        layout.addView(textView);
-        //layout.addView(image);
-
-        Log.d("Final", "Xixixi");
     }
 
     private void createFile(String encrypted) throws JSONException
@@ -105,7 +71,9 @@ public class DisplayActivity extends AppCompatActivity implements AsyncResponse 
 
     public void restGETPhoto()
     {
-        httpAsyncTask.execute("http://192.168.1.19:4321/seperate", "GET");
+        //httpAsyncTask.execute("http://192.168.1.19:4321/seperate", "GET");
+
+        httpAsyncTask.execute("http://131.212.212.94:4321/seperate", "GET");
         //httpAsyncTask.cancel(true);
         // new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData/userData", "GET");
         // new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");
