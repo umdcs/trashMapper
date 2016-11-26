@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:id = "@+id/activity_display"
     android:layout_height="match_parent"
-    android:weightSum="1">
+   >
 
         <!--<ScrollView-->
             <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent">-->
+            <!--android:layout_height="match_parent"-->
+            <!--tools:ignore="UselessParent">-->
                 <!--<LinearLayout-->
                     <!--android:layout_width="match_parent"-->
                     <!--android:layout_height="wrap_content"-->
@@ -20,7 +22,7 @@
             android:id="@+id/temp">
 
                 <ProgressBar
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:indeterminate="true"
                     android:layout_weight="1" />
@@ -35,25 +37,27 @@
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/trash"
                         android:id="@+id/trash"
-                        android:layout_weight="2.3"
-                        />
+                        android:layout_weight="1"
+                      android:contentDescription="" />
                         <TextView
                             android:id="@+id/info"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:ellipsize="end"
-                            android:singleLine="true"
                             android:textColor="#ff000000"
-                            android:textSize="14dp"
-                            android:textStyle="bold" />
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_weight="1.5"
+                            android:maxLines="1" />
 
                 <!--</RelativeLayout>-->
 
-               <!-- <LinearLayout
+                <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:weightSum="1">
                         <LinearLayout
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
@@ -64,13 +68,13 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:id="@+id/like"
-                                    android:layout_weight="0.5"/>
+                                    android:layout_weight="0.2"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:id="@+id/number_like"
                                     android:text = "0"
-                                    android:layout_weight="0.5"/>
+                                    android:layout_weight="0.2"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -83,15 +87,15 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:id="@+id/dislike"
-                                    android:layout_weight="0.5"/>
+                                    android:layout_weight="0.2"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:id="@+id/number_dislike"
                                     android:text = "0"
-                                    android:layout_weight="0.5"/>
+                                    android:layout_weight="0.2"/>
                         </LinearLayout>
-                </LinearLayout>-->
+                </LinearLayout>
 
                 <!--</LinearLayout>-->
        <!--</ScrollView>-->
