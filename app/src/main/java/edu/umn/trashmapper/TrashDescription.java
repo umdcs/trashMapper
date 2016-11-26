@@ -33,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -530,26 +531,16 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     }
 
 
-    //Creates base64 encoded string for JSON storage.
     private String createPhotoString(File photo) throws IOException {
-        RandomAccessFile stream = null;
-        try {
-            stream = new RandomAccessFile(photo, "r");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        byte[] photoArray = new byte[0];
-        try {
-            photoArray = new byte[(int) stream.length()];
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            stream.readFully(photoArray);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return (encodeToString(photoArray, DEFAULT).replaceAll("\n", ""));
+        byte[] imageBytes = new byte[0];
+        String encodedImage = "";
+        Bitmap pic = BitmapFactory.decodeFile(photo.getPath());
+        Log.d("Photo.getPath()",photo.getPath());
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        pic.compress(Bitmap.CompressFormat.JPEG, 14, baos);
+        imageBytes = baos.toByteArray();
+        encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
     }
 
     //Gets called when a user clicks on a photo in the gallery.
@@ -586,6 +577,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         // new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData/userData", "GET");
         // new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");
     }
+
 
 
     //This is the picture that the user takes using the camera.
