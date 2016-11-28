@@ -348,6 +348,11 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
 
             else if (requestCode == REQUEST_TAKE_PHOTO){
                 getBitmap();
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream .toByteArray();
+                String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                Log.d("picture", encoded);
             }
         } catch (NullPointerException e) {
             toast = Toast.makeText(this, "Invalid picture selected.", Toast.LENGTH_SHORT);
