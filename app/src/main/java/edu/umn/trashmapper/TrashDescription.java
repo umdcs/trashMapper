@@ -186,77 +186,6 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
             }
         });
     }
-    /*
-      user take photos when icon button is clicked
-     */
-    /*public void takePhoto() {
-        paperCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dispatchTakePictureIntent();
-                unTint();
-                unSelect();
-                paperCamera.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_ATOP);
-                paper = true;
-            }
-        });
-        plasticCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dispatchTakePictureIntent();
-                unTint();
-                unSelect();
-                plasticCamera.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_ATOP);
-                plastic = true;
-            }
-        });
-        cansCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dispatchTakePictureIntent();
-                unTint();
-                unSelect();
-                cansCamera.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_ATOP);
-                cans = true;
-            }
-        });
-        batteryCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dispatchTakePictureIntent();
-                unTint();
-                unSelect();
-                batteryCamera.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_ATOP);
-                battery = true;
-            }
-        });
-        organicCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dispatchTakePictureIntent();
-                unTint();
-                unSelect();
-                organicCamera.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_ATOP);
-                organic = true;
-            }
-        });
-    }*/
-
-    /*private void unTint(){
-        paperCamera.getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
-        plasticCamera.getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
-        organicCamera.getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
-        batteryCamera.getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
-        cansCamera.getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
-    }
-
-    private void unSelect(){
-        paper = false;
-        plastic = false;
-        cans = false;
-        organic = false;
-        battery = false;
-    }*/
 
     //get the user's information
     public void getUserInformation() {
@@ -313,6 +242,20 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
+        }
+    }
+
+    private void getBitmap() {
+        try {
+            if (photoFile.exists()) {
+                bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                //ImageView imageView = (ImageView) findViewById(R.id.imageView);
+                //imageView.setImageBitmap(bitmap);
+            }
+        }
+        catch (NullPointerException e){
+            toast = Toast.makeText(this, "No image taken or selected.", Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
 
@@ -401,6 +344,10 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
                 sendJSONUserInformation();
                 sendPictureInformation(photoFile);
 
+            }
+
+            else if (requestCode == REQUEST_TAKE_PHOTO){
+                getBitmap();
             }
         } catch (NullPointerException e) {
             toast = Toast.makeText(this, "Invalid picture selected.", Toast.LENGTH_SHORT);
@@ -584,6 +531,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     private File photoFile = null;
     private static final int PICK_IMAGE = 100;
     private Toast toast;
+    private Bitmap bitmap;
     /**
      * GPS information
      */
