@@ -11,8 +11,6 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static edu.umn.trashmapper.R.id.userName;
-
 public class UserInformationActivity extends AppCompatActivity implements AsyncResponse{
 
     @Override
@@ -25,7 +23,7 @@ public class UserInformationActivity extends AppCompatActivity implements AsyncR
     public void TransferToTrashDes(View a){
         userNameView=(EditText) findViewById(R.id.log_in_email);
         userPasswordView=(EditText)findViewById(R.id.log_in_password);
-        String userName=userNameView.getText().toString();
+        userName=userNameView.getText().toString();
        // String userPassword=userPasswordView.getText().toString();
         try {
             JSONObject jason = new JSONObject();
@@ -74,6 +72,7 @@ public class UserInformationActivity extends AppCompatActivity implements AsyncR
     private HTTPAsyncTask httpAsyncTask;
     public EditText userNameView;
     public EditText userPasswordView;
+    private String userName;
     private String VerifiedPassword;
     public final static String USER_NAME = "com.example.USER_NAME";
     public final static String USER_PASSWORD = "com.example.USER_PASSWORD";

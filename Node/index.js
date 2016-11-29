@@ -4,9 +4,29 @@ var app = express()
 
   app.set("port", 4321);
 
+// The next two sections tell bodyParser which content types to
+// parse. We are mainly interested in JSON, ut eventually, encoded,
+// multipart data may be useful.
+app.use(bodyParser.urlencoded({   // support encoded bodies
+    extended: true
+}));
+app.use(bodyParser.json());  // support json encoded bodies
+
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 app.use(bodyParser.json({limit: '50mb'}));
+
+// ///////////////////////////////////////
+//
+// MongoDB
+//
+// This loads the JS Node.js functions in the mongoDBFunctions.js file. It
+// attempts to provide a sort of interface to some functions useful to this
+// example using anonymous functions.
+//
+// See that file for the details for what is provided.
+var mongodb = require('./trashMapperUser.js')();
+
 
 //var json = '{"pictures":[]}';
 
@@ -69,6 +89,7 @@ app.post('/seperate',function(req,res){
 	    picture:pic
 	};
 	split.items.push(jsonObject);
+	//mongodb.insertPicture( pic );
 	res.json(req.body);
     });
 
@@ -102,13 +123,20 @@ app.post('/userData', function (req, res)
 	};
 
 	basic.trash.push(jsonObject);
-
+	mongodb.insertUsers(jsonObject);
 	res.json(req.body);
+
     });
 
   app.get('/', function(req, res) {
-       res.send('<HTML><HEAD></HEAD><BODY><H1>hello world</H1></BODY></HTML>');
+        // Dump the whole collection for debugging
+                   var str = mongodb.printDatabase('users', function(result) {
+
+               	res.send('<HTML><BODY>' + JSON.stringify(result, null, 2) + '</BODY></HTML>');
+
+                   });
        console.log(req);
+
        });
 
 app.use(function(req, res, next)
