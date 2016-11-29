@@ -326,7 +326,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
 
             }
 
-            else if (requestCode == REQUEST_TAKE_PHOTO) {
+            else if (requestCode == REQUEST_TAKE_PHOTO  && resultCode == RESULT_OK) {
                 getBitmap();
                 processPhotoFile(photoFile.getAbsolutePath());
                 sendJSONUserInformation();
@@ -513,12 +513,12 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     //Gets called when a user clicks on a photo in the gallery.
     public void restPOST(JSONObject jason) {
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://131.212.220.81:4321/userData", "POST", jason.toString());
+        httpAsyncTask.execute("http://131.212.158.248:4321/userData", "POST", jason.toString());
     }
 
     public void restPOSTPhoto(JSONObject jason){
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://131.212.220.81:4321/seperate", "POST", jason.toString());
+        httpAsyncTask.execute("http://131.212.158.248:4321/seperate", "POST", jason.toString());
     }
     //Creates image file from JSON Object on server.
     private void createFile(String encrypted) throws JSONException {
@@ -533,7 +533,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
 
     public void restGET() {
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://131.212.131.178:4321/userData", "GET");
+        httpAsyncTask.execute("http://131.212.158.248:4321/userData", "GET");
     }
 
 
