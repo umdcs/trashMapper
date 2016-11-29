@@ -211,7 +211,19 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
         startActivityForResult(intent, PICK_IMAGE);
     }
 
-
+    private void getBitmap() {
+        try {
+            if (photoFile.exists()) {
+                bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                //ImageView imageView = (ImageView) findViewById(R.id.imageView);
+                //imageView.setImageBitmap(bitmap);
+            }
+        }
+        catch (NullPointerException e){
+            toast = Toast.makeText(this, "No image taken or selected.", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
     /**
      * sets the selected image to photoFile
      * throws NullPointerException if ImageUri is null
@@ -268,6 +280,32 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
         }
     }
 
+    private void processPhotoFile(String path){
+        try {
+            ExifInterface exif = new ExifInterface(path);
+            float[] latLong = new float[2];
+            boolean hasLatLong = exif.getLatLong(latLong);
+
+            Log.d("his", "gps latitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF));
+            Log.d("his", "gps latitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE));    // 緯度
+            Log.d("his", "gps longitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF));
+            Log.d("his", "gps longitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE));
+            Log.d("his", "gps datetime" +
+                    ": " + exif.getAttribute(ExifInterface.TAG_DATETIME));    // 経度
+            trashGenDate = exif.getAttribute(ExifInterface.TAG_DATETIME);
+            trashGenLatitude = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
+            trashGenLongtitude = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
+            trashGenLatitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
+            trashGenLongtitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
+
+            fixLocation();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
+
     public void sendJSONTrashBin(/*File photo*/) {
         try {
             JSONObject jason = new JSONObject();
@@ -307,13 +345,13 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
     }
     private void restPOST(JSONObject jason){
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://131.212.212.94:4321/userData", "POST", jason.toString());
+        httpAsyncTask.execute("http://131.212.220.81:4321/userData", "POST", jason.toString());
     }
 
     public void restPOSTPhoto(JSONObject jason){
         httpAsyncTask = new HTTPAsyncTask(this);
         //httpAsyncTask.execute("http://192.168.1.19:4321/seperate", "POST", jason.toString());
-        httpAsyncTask.execute("http://131.212.212.94:4321/seperate", "POST", jason.toString());
+        httpAsyncTask.execute("http://131.212.220.81:4321/seperate", "POST", jason.toString());
     }
     //Creates base64 encoded string for JSON storage.
     /*private String createPhotoString(File photo) throws IOException {
@@ -396,6 +434,7 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
     }
 
     private File photoFile = null;
+    private Bitmap bitmap;
     private static final int PICK_IMAGE=100;
     private Toast toast;
     private HTTPAsyncTask httpAsyncTask = new HTTPAsyncTask(this);
