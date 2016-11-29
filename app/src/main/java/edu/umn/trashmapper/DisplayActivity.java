@@ -9,6 +9,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -50,6 +51,29 @@ public class DisplayActivity extends AppCompatActivity implements AsyncResponse 
        }catch (NullPointerException e){
            e.printStackTrace();
        }
+
+        like = (Button) findViewById(R.id.like);
+        dislike = (Button) findViewById(R.id.dislike);
+        numberDislike = (TextView) findViewById(R.id.number_dislike);
+        numberLike = (TextView) findViewById(R.id.number_like);
+
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int l = Integer.parseInt(numberLike.getText().toString());
+                l = l + 1;
+                numberLike.setText(Integer.toString(l));
+            }
+        });
+
+        dislike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int l = Integer.parseInt(numberDislike.getText().toString());
+                l = l + 1;
+                numberDislike.setText(Integer.toString(l));
+            }
+        });
 
 
     }
@@ -125,4 +149,7 @@ public class DisplayActivity extends AppCompatActivity implements AsyncResponse 
     int index;
     ImageView image;
     String test = "In createImage";
+
+    private Button like, dislike;
+    private TextView numberLike, numberDislike;
 }
