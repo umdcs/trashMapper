@@ -10,11 +10,16 @@ var app = express()
 app.use(bodyParser.urlencoded({   // support encoded bodies
     extended: true
 }));
-app.use(bodyParser.json());  // support json encoded bodies
+//app.use(bodyParser.json());  // support json encoded bodies
 
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+//app.use(bodyParser.urlencoded({limit: '100000mb', extended: true}));
 
-app.use(bodyParser.json({limit: '50mb'}));
+//app.use(bodyParser.json({limit: '100000mb'}));
+  var jsonParser       = bodyParser.json({limit:1024*1024*20, type:'application/json'});
+  var urlencodedParser = bodyParser.urlencoded({ extended:true,limit:1024*1024*20,type:'application/x-www-form-urlencoding' })
+
+  app.use(jsonParser);
+  app.use(urlencodedParser);
 
 // ///////////////////////////////////////
 //
@@ -89,7 +94,7 @@ app.post('/seperate',function(req,res){
 	    picture:pic
 	};
 	split.items.push(jsonObject);
-	//mongodb.insertPicture( pic );
+	mongodb.insertPicture( pic );
 	res.json(req.body);
     });
 
@@ -130,11 +135,11 @@ app.post('/userData', function (req, res)
 
   app.get('/', function(req, res) {
         // Dump the whole collection for debugging
-                   var str = mongodb.printDatabase('users', function(result) {
+                  var str = mongodb.printDatabase('users', function(result) {
 
                	res.send('<HTML><BODY>' + JSON.stringify(result, null, 2) + '</BODY></HTML>');
 
-                   });
+                  });
        console.log(req);
 
        });

@@ -229,7 +229,8 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
 
     private void restPOST(JSONObject jason){
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://131.212.216.63:4321/userData", "POST", jason.toString());
+       // httpAsyncTask.execute("http://131.212.216.63:4321/userData", "POST", jason.toString());
+        httpAsyncTask.execute("https://lempo.d.umn.edu:8193/userData", "POST", jason.toString());
     }
 
     //Creates base64 encoded string for JSON storage.
