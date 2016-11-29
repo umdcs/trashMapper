@@ -42,6 +42,7 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getUserInformation();
         setContentView(R.layout.activity_map_bins);
         Button button = (Button) findViewById(R.id.gallery);
         button.setOnClickListener(new View.OnClickListener() {
@@ -274,6 +275,13 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
                 sendJSONTrashBin();
                 sendPictureInformation(photoFile);
             }
+
+            else if (requestCode == REQUEST_TAKE_PHOTO  && resultCode == RESULT_OK) {
+                getBitmap();
+                processPhotoFile(photoFile.getAbsolutePath());
+                sendJSONUserInformation();
+                sendCameraPicture();
+            }
         } catch (NullPointerException e) {
             toast = Toast.makeText(this, "Invalid picture selected.", Toast.LENGTH_SHORT);
             toast.show();
@@ -303,6 +311,52 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
         } catch (Exception e) {
             e.printStackTrace();
 
+        }
+    }
+
+    private void sendCameraPicture(){
+        try{
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 14, byteArrayOutputStream);
+            byte[] byteArray = byteArrayOutputStream .toByteArray();
+            encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+            Log.d("picture", encoded);
+
+            JSONObject jason = new JSONObject();
+            jason.put("picture", encoded);
+            restPOSTPhoto(jason);
+        }
+        catch (JSONException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void sendJSONUserInformation() {
+        try {
+            JSONObject jason = new JSONObject();
+            jason.put("type", "UserInformation");
+            jason.put("user_name", userEmail);
+            jason.put("user_password", userPassword);
+            jason.put("type_of_trash", typeOfTrash());
+            jason.put("trash_latitude", Latitude);
+            jason.put("trash_longtitude", Longitude);
+            jason.put("trash_generate_date", trashGenDate);
+            // jason.put("picture", createPhotoString(photo));
+            restPOST(jason);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getUserInformation() {
+        try {
+            Intent intent = getIntent();
+            userEmail = intent.getStringExtra(UserInformationActivity.USER_NAME);
+            userPassword = intent.getStringExtra(UserInformationActivity.USER_PASSWORD);
+            Log.d("User Email", userEmail);
+            Log.d("User password", userPassword);
+        } catch (Exception e) {
+            Log.d("user", "failed");
         }
     }
 
@@ -440,6 +494,7 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
     private HTTPAsyncTask httpAsyncTask = new HTTPAsyncTask(this);
     private CheckBox recyclingBox, compostBox, trashBox;
     private boolean recycling, compost, trash;
+    private String encoded;
     /**
      * GPS information
      */
@@ -450,6 +505,9 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
     private String trashGenLatitudeRef;
     private String trashGenLongtitudeRef;
     private Double Latitude = 0.0, Longitude = 0.0;
+
+    private String userEmail;
+    private String userPassword;
 
 
     // Storage Permissions
