@@ -43,6 +43,7 @@ import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -348,16 +349,30 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
 
             else if (requestCode == REQUEST_TAKE_PHOTO){
                 getBitmap();
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                byte[] byteArray = byteArrayOutputStream .toByteArray();
-                String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
-                Log.d("picture", encoded);
+
+                ExifInterface exif = new ExifInterface(photoFile.getAbsolutePath());
+                Log.d("his", "gps latitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF));
+                Log.d("his", "gps latitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE));    // 緯度
+                Log.d("his", "gps longitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF));
+                Log.d("his", "gps longitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE));
+                Log.d("his", "gps datetime" +
+                        ": " + exif.getAttribute(ExifInterface.TAG_DATETIME));
+                trashGenDate = exif.getAttribute(ExifInterface.TAG_DATETIME);
+                trashGenLatitude = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
+                trashGenLongtitude = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
+                trashGenLatitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
+                trashGenLongtitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
+
+                fixLocation();
             }
         } catch (NullPointerException e) {
             toast = Toast.makeText(this, "Invalid picture selected.", Toast.LENGTH_SHORT);
             toast.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        sendJSONUserInformation();
+        sendCameraPicture();
     }
 
 
@@ -459,6 +474,23 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         }
 
     }
+
+    private void sendCameraPicture(){
+        try{
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+            byte[] byteArray = byteArrayOutputStream .toByteArray();
+            encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+            Log.d("picture", encoded);
+
+            JSONObject jason = new JSONObject();
+            jason.put("picture", encoded);
+            restPOSTPhoto(jason);
+        }
+        catch (JSONException e){
+            e.printStackTrace();
+        }
+    }
     /*
     return the type of trash
      */
@@ -497,18 +529,13 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
 
     //Gets called when a user clicks on a photo in the gallery.
     public void restPOST(JSONObject jason) {
-        //new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "POST", jason.toString());
-        //new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData", "POST", jason.toString());
         httpAsyncTask = new HTTPAsyncTask(this);
-        //httpAsyncTask.execute("http://192.168.1.19:4321/userData", "POST", jason.toString());
-        httpAsyncTask.execute("http://131.212.212.94:4321/userData", "POST", jason.toString());
-        //httpAsyncTask.cancel(true);
+        httpAsyncTask.execute("http://131.212.131.178:4321/userData", "POST", jason.toString());
     }
 
     public void restPOSTPhoto(JSONObject jason){
         httpAsyncTask = new HTTPAsyncTask(this);
-        //httpAsyncTask.execute("http://192.168.1.19:4321/seperate", "POST", jason.toString());
-        httpAsyncTask.execute("http://131.212.212.94:4321/seperate", "POST", jason.toString());
+        httpAsyncTask.execute("http://131.212.131.178:4321/seperate", "POST", jason.toString());
     }
     //Creates image file from JSON Object on server.
     private void createFile(String encrypted) throws JSONException {
@@ -523,11 +550,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
 
     public void restGET() {
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://192.168.1.19:4321/userData", "GET");
-
-        //httpAsyncTask.cancel(true);
-        // new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData/userData", "GET");
-        // new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");
+        httpAsyncTask.execute("http://131.212.131.178:4321/userData", "GET");
     }
 
 
@@ -537,6 +560,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     private static final int PICK_IMAGE = 100;
     private Toast toast;
     private Bitmap bitmap;
+    private String encoded;
     /**
      * GPS information
      */
