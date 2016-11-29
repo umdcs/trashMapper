@@ -1,6 +1,7 @@
 package edu.umn.trashmapper;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -298,8 +299,9 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-            if (requestCode == PICK_IMAGE) {
-                try {
+
+        if (requestCode == PICK_IMAGE) {
+            try {
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
                 // Get the cursor
@@ -309,30 +311,32 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
                 String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 String imgDecodableString = cursor.getString(columnIndex);
-                Log.d("StringBefore", imgDecodableString);
                 cursor.close();
                 photoFile = new File(imgDecodableString);
-
                 String filePath = photoFile.getAbsolutePath();
                 processPhotoFile(path);
 
-                sendJSONUserInformation();
-                sendPictureInformation(photoFile);
-            }catch(NullPointerException e){
+            } catch (NullPointerException e) {
                 toast = Toast.makeText(this, "Invalid picture selected.", Toast.LENGTH_SHORT);
                 toast.show();
-
             }
+        }
 
-            }
-
-            else if (requestCode == REQUEST_TAKE_PHOTO) {
+        else if (requestCode == REQUEST_TAKE_PHOTO  && resultCode == Activity.RESULT_OK) {
+            try {
                 getBitmap();
                 processPhotoFile(photoFile.getAbsolutePath());
-                sendJSONUserInformation();
-                sendCameraPicture();
+            } catch (NullPointerException e) {
+                toast = Toast.makeText(this, "Invalid picture taken.", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+
         }
-   }
+
+        sendJSONUserInformation();
+        sendPictureInformation(photoFile);
+
+    }
 
     private void processPhotoFile(String path){
         try {
@@ -458,22 +462,6 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
 
     }
 
-    private void sendCameraPicture(){
-        try{
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 14, byteArrayOutputStream);
-            byte[] byteArray = byteArrayOutputStream .toByteArray();
-            encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
-            Log.d("picture", encoded);
-
-            JSONObject jason = new JSONObject();
-            jason.put("picture", encoded);
-            restPOSTPhoto(jason);
-        }
-        catch (JSONException e){
-            e.printStackTrace();
-        }
-    }
     /*
     return the type of trash
      */
@@ -533,7 +521,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
 
     public void restGET() {
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://131.212.131.178:4321/userData", "GET");
+        httpAsyncTask.execute("http://131.212.158.248:4321/userData", "GET");
     }
 
 
