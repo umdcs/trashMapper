@@ -33,6 +33,8 @@ public class DisplayActivity extends AppCompatActivity implements AsyncResponse 
         Bundle extra = intent.getExtras();
         //Get the values of the the messages in the intent from the MapsActivity
         String message = extra.getString("TRASH_INFO");
+        TextView info = (TextView) findViewById(R.id.info);
+        //info.setText(message);
         System.out.println("message is " + message);
        try {
            String[] split = message.split("%");
@@ -42,12 +44,9 @@ public class DisplayActivity extends AppCompatActivity implements AsyncResponse 
            index = Integer.parseInt(indexString);
            restGETPhoto();
            //String picture = extra.getString("TRASH_PIC_STRING");
-           TextView textView = new TextView(this);
-           textView.setTextSize(15);
-           textView.setText(normalMessage);
-
-           ViewGroup layout = (ViewGroup) findViewById(R.id.activity_display);
-           layout.addView(textView);
+           info.setTextSize(15);
+           info.setText(normalMessage);
+           info.setText(message);
        }catch (NullPointerException e){
            e.printStackTrace();
        }
@@ -103,12 +102,12 @@ public class DisplayActivity extends AppCompatActivity implements AsyncResponse 
 
     public void restGETPhoto()
     {
-        //httpAsyncTask.execute("http://192.168.1.19:4321/seperate", "GET");
-
-        httpAsyncTask.execute("http://131.212.220.81:4321/seperate", "GET");
+       // httpAsyncTask.execute("http://131.212.216.63:4321/seperate", "GET");
+        httpAsyncTask.execute("https://lempo.d.umn.edu:8193/seperate", "GET");
         //httpAsyncTask.cancel(true);
         // new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData/userData", "GET");
         // new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");
+
     }
 
     @Override

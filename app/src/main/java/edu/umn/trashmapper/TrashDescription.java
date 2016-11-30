@@ -12,7 +12,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.media.ExifInterface;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -29,23 +28,24 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
+
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -300,7 +300,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 
-        if (requestCode == PICK_IMAGE) {
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
             try {
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -320,6 +320,8 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
                 toast = Toast.makeText(this, "Invalid picture selected.", Toast.LENGTH_SHORT);
                 toast.show();
             }
+            sendJSONUserInformation();
+            sendPictureInformation(photoFile);
         }
 
         else if (requestCode == REQUEST_TAKE_PHOTO  && resultCode == Activity.RESULT_OK) {
@@ -330,11 +332,9 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
                 toast = Toast.makeText(this, "Invalid picture taken.", Toast.LENGTH_SHORT);
                 toast.show();
             }
-
+            sendJSONUserInformation();
+            sendPictureInformation(photoFile);
         }
-
-        sendJSONUserInformation();
-        sendPictureInformation(photoFile);
 
     }
 
@@ -501,12 +501,19 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     //Gets called when a user clicks on a photo in the gallery.
     public void restPOST(JSONObject jason) {
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://131.212.220.81:4321/userData", "POST", jason.toString());
+
+       // httpAsyncTask.execute("http://131.212.216.63:4321/userData", "POST", jason.toString());
+        httpAsyncTask.execute("https://lempo.d.umn.edu:8193/userData", "POST", jason.toString());
+        //httpAsyncTask.cancel(true);
+
     }
 
     public void restPOSTPhoto(JSONObject jason){
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://131.212.220.81:4321/seperate", "POST", jason.toString());
+
+       // httpAsyncTask.execute("http://131.212.216.63:4321/seperate", "POST", jason.toString());
+        httpAsyncTask.execute("https://lempo.d.umn.edu:8193/seperate", "POST", jason.toString());
+
     }
     //Creates image file from JSON Object on server.
     private void createFile(String encrypted) throws JSONException {
@@ -521,7 +528,13 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
 
     public void restGET() {
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://131.212.158.248:4321/userData", "GET");
+
+       // httpAsyncTask.execute("http://131.212.216.63:4321/userData", "GET");
+        httpAsyncTask.execute("https://lempo.d.umn.edu:8193/userData", "GET");
+        //httpAsyncTask.cancel(true);
+        // new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData/userData", "GET");
+        // new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");
+
     }
 
 
