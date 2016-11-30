@@ -238,7 +238,7 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 
-            if (requestCode == PICK_IMAGE) {
+            if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
                 try {
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -258,7 +258,9 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
                     toast = Toast.makeText(this, "Invalid picture selected.", Toast.LENGTH_SHORT);
                     toast.show();
                 }
-        }
+                sendJSONTrashBin();
+                sendPictureInformation(photoFile);
+            }
 
             else if (requestCode == REQUEST_TAKE_PHOTO  && resultCode == Activity.RESULT_OK) {
                 try {
@@ -268,12 +270,9 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
                     toast = Toast.makeText(this, "Invalid picture taken.", Toast.LENGTH_SHORT);
                     toast.show();
                 }
-
+                sendJSONTrashBin();
+                sendPictureInformation(photoFile);
             }
-
-            sendJSONTrashBin();
-            sendPictureInformation(photoFile);
-
     }
 
     private void processPhotoFile(String path){
