@@ -50,52 +50,18 @@
                             android:adjustViewBounds="true" />
 
                         <LinearLayout
-                            android:orientation="vertical"
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:weightSum="1"
-                            android:layout_weight="1">
-                                <LinearLayout
-                                    android:orientation="horizontal"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
-
-                                        <Button
-                                            android:text="@string/like"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:id="@+id/like"
-                                            android:layout_weight="0.2"/>
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:id="@+id/number_like"
-                                            android:text = "0"
-                                            android:layout_weight="0.2"/>
-                                </LinearLayout>
+                            android:layout_height="match_parent">
 
                                 <LinearLayout
-                                    android:orientation="horizontal"
+                                    android:orientation="vertical"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="match_parent"
+                                    android:weightSum="1"
+                                    android:layout_weight="1">
 
-                                        <Button
-                                            android:text="@string/dislike"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:id="@+id/dislike"
-                                            android:layout_weight="0.2"/>
                                         <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:id="@+id/number_dislike"
-                                            android:text = "0"
-                                            android:layout_weight="0.2"/>
-                                </LinearLayout>
-                        </LinearLayout>
-
-                        <TextView
                                             android:id="@+id/info"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
@@ -105,7 +71,52 @@
                                             android:textSize="14sp"
                                             android:textStyle="bold"
                                             android:layout_weight="1"
-                                            android:maxLines="1" />
+                                            android:maxLines="1"
+                                            android:lines="5"/>
+
+                                        <LinearLayout
+                                            android:orientation="horizontal"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content">
+
+                                                <Button
+                                                    android:text="@string/like"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:id="@+id/like"
+                                                    android:layout_weight="0.2"/>
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:id="@+id/number_like"
+                                                    android:text = "0"
+                                                    android:layout_weight="0.2"/>
+
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:orientation="horizontal"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content">
+
+                                                <Button
+                                                    android:text="@string/dislike"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:id="@+id/dislike"
+                                                    android:layout_weight="0.2"/>
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:id="@+id/number_dislike"
+                                                    android:text = "0"
+                                                    android:layout_weight="0.2"/>
+
+                                        </LinearLayout>
+                                </LinearLayout>
+
+                        </LinearLayout>
 
                 </LinearLayout>
         </ScrollView>
