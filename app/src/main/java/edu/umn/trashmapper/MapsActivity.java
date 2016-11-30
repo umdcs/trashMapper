@@ -486,6 +486,8 @@ public class MapsActivity extends AppCompatActivity implements
                 JSONObject each = inter.getJSONObject(i);
                 String userName = "hhhh";//each.getString("user_name");
                 String trashType = each.getString("type_of_trash");
+                /*hard code*/
+                trashType="organic";
                 Double trashLat = each.getDouble("trash_latitude");
                 Double trashLong = each.getDouble("trash_longtitude");
                // String trashDate = each.getString("trash_generate_date");
