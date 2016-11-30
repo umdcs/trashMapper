@@ -300,7 +300,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 
-        if (requestCode == PICK_IMAGE) {
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
             try {
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
