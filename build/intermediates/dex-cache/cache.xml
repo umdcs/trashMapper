@@ -61,7 +61,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
-        sha1="91d6bcf9ac81f071e80624cc8774767e754de126">
+        sha1="b743dc3a0c7b0927a2d320a721c23656141265ea">
         <dex dex="/Users/wei/thx2/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_829f01f52423969a7a86a2690b802ab33136bf73/classes.dex" />
     </item>
     <item
@@ -115,7 +115,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
-        sha1="595803413c2e8601d68b086d29f7223329e9d765">
+        sha1="bf5664f25e0c4e3722c9ba47c203811f00d6fb56">
         <dex dex="/Users/wei/thx2/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_0e4209bd78fca5797edf5ea9d6daccb7e12de711/classes.dex" />
     </item>
     <item
