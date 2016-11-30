@@ -58,7 +58,7 @@ public class UserInformationActivity extends AppCompatActivity implements AsyncR
         String userPassword=userPasswordView.getText().toString();
         Log.d("current type in",userPassword);
         if(VerifiedPassword.equals(userPassword)){
-            Intent intent=new Intent(this, TrashDescription.class);
+            Intent intent=new Intent(this, SelectActivity.class);
             intent.putExtra(USER_NAME,userName);
             intent.putExtra(USER_PASSWORD,userPassword);
             startActivity(intent);}
