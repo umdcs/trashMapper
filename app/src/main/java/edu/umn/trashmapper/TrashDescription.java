@@ -330,11 +330,10 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
                 toast = Toast.makeText(this, "Invalid picture taken.", Toast.LENGTH_SHORT);
                 toast.show();
             }
+            sendJSONUserInformation();
+            sendPictureInformation(photoFile);
 
         }
-
-        sendJSONUserInformation();
-        sendPictureInformation(photoFile);
 
     }
 
