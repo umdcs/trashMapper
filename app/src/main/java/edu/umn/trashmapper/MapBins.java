@@ -1,6 +1,7 @@
 package edu.umn.trashmapper;
 
 import android.*;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -42,6 +43,7 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getUserInformation();
         setContentView(R.layout.activity_map_bins);
         Button button = (Button) findViewById(R.id.gallery);
         button.setOnClickListener(new View.OnClickListener() {
@@ -130,7 +132,7 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
     }
 
     public String typeOfTrash() {
-        String returenTypeOfTrash = null;
+        String returenTypeOfTrash = "Not specified";
         if (recycling) {
             returenTypeOfTrash = "recycling";
         }
@@ -211,7 +213,19 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
         startActivityForResult(intent, PICK_IMAGE);
     }
 
-
+    private void getBitmap() {
+        try {
+            if (photoFile.exists()) {
+                bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                //ImageView imageView = (ImageView) findViewById(R.id.imageView);
+                //imageView.setImageBitmap(bitmap);
+            }
+        }
+        catch (NullPointerException e){
+            toast = Toast.makeText(this, "No image taken or selected.", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
     /**
      * sets the selected image to photoFile
      * throws NullPointerException if ImageUri is null
@@ -222,8 +236,10 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        try {
-            if (requestCode == PICK_IMAGE) {
+
+
+            if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
+                try {
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
                 // Get the cursor
@@ -236,35 +252,64 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
                 cursor.close();
                 photoFile = new File(imgDecodableString);
                 String filePath = photoFile.getAbsolutePath();
-                //sendMessage(photoFile);
-                ////////////////lI KUN: track the history location where the user took the photos
-                try {
-                    ExifInterface exif = new ExifInterface(path);
-                    float[] latLong = new float[2];
-                    boolean hasLatLong = exif.getLatLong(latLong);
+                processPhotoFile(path);
 
-                    Log.d("his", "gps latitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF));
-                    Log.d("his", "gps latitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE));    // 緯度
-                    Log.d("his", "gps longitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF));
-                    Log.d("his", "gps longitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE));
-                    Log.d("his", "gps datetime" +
-                            ": " + exif.getAttribute(ExifInterface.TAG_DATETIME));    // 経度
-                    trashGenDate = exif.getAttribute(ExifInterface.TAG_DATETIME);
-                    trashGenLatitude = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
-                    trashGenLongtitude = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
-                    trashGenLatitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
-                    trashGenLongtitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
-                    fixLocation();
-                } catch (IOException e) {
-                    e.printStackTrace();
+             } catch (NullPointerException e) {
+                    toast = Toast.makeText(this, "Invalid picture selected.", Toast.LENGTH_SHORT);
+                    toast.show();
                 }
-
                 sendJSONTrashBin();
                 sendPictureInformation(photoFile);
             }
-        } catch (NullPointerException e) {
-            toast = Toast.makeText(this, "Invalid picture selected.", Toast.LENGTH_SHORT);
-            toast.show();
+
+            else if (requestCode == REQUEST_TAKE_PHOTO  && resultCode == Activity.RESULT_OK) {
+                try {
+                    getBitmap();
+                    processPhotoFile(photoFile.getAbsolutePath());
+                } catch (NullPointerException e) {
+                    toast = Toast.makeText(this, "Invalid picture taken.", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                sendJSONTrashBin();
+                sendPictureInformation(photoFile);
+            }
+    }
+
+    private void processPhotoFile(String path){
+        try {
+            ExifInterface exif = new ExifInterface(path);
+            float[] latLong = new float[2];
+            boolean hasLatLong = exif.getLatLong(latLong);
+
+            Log.d("his", "gps latitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF));
+            Log.d("his", "gps latitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE));    // 緯度
+            Log.d("his", "gps longitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF));
+            Log.d("his", "gps longitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE));
+            Log.d("his", "gps datetime" +
+                    ": " + exif.getAttribute(ExifInterface.TAG_DATETIME));    // 経度
+            trashGenDate = exif.getAttribute(ExifInterface.TAG_DATETIME);
+            trashGenLatitude = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
+            trashGenLongtitude = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
+            trashGenLatitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
+            trashGenLongtitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
+
+            fixLocation();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    public void getUserInformation() {
+        try {
+            Intent intent = getIntent();
+            userEmail = intent.getStringExtra(UserInformationActivity.USER_NAME);
+            userPassword = intent.getStringExtra(UserInformationActivity.USER_PASSWORD);
+            Log.d("User Email", userEmail);
+            Log.d("User password", userPassword);
+        } catch (Exception e) {
+            Log.d("user", "failed");
         }
     }
 
@@ -280,7 +325,9 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
             one is the trash bin array (pin all the trash bins on the map)
             one is the userInformation array (pin all the users' data on the map(share between friends))
              */
-
+                jason.put("type", "UserInformation");
+                jason.put("user_name", userEmail);
+                jason.put("user_password", userPassword);
                 jason.put("type_of_trash", typeOfTrash());
                 jason.put("trash_latitude", Latitude);
                 jason.put("trash_longtitude", Longitude);
@@ -307,45 +354,30 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
     }
     private void restPOST(JSONObject jason){
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://131.212.212.94:4321/userData", "POST", jason.toString());
+        httpAsyncTask.execute("http://131.212.220.81:4321/userData", "POST", jason.toString());
     }
 
     public void restPOSTPhoto(JSONObject jason){
         httpAsyncTask = new HTTPAsyncTask(this);
         //httpAsyncTask.execute("http://192.168.1.19:4321/seperate", "POST", jason.toString());
-        httpAsyncTask.execute("http://131.212.212.94:4321/seperate", "POST", jason.toString());
+        httpAsyncTask.execute("http://131.212.220.81:4321/seperate", "POST", jason.toString());
     }
-    //Creates base64 encoded string for JSON storage.
-    /*private String createPhotoString(File photo) throws IOException {
-        RandomAccessFile stream = null;
-        try {
-            stream = new RandomAccessFile(photo, "r");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        byte[] photoArray = new byte[0];
-        try {
-            photoArray = new byte[(int) stream.length()];
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            stream.readFully(photoArray);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return (encodeToString(photoArray, DEFAULT).replaceAll("\n", ""));
-    }
-*/
+
     private String createPhotoString(File photo) throws IOException {
+
         byte[] imageBytes = new byte[0];
         String encodedImage = "";
-            Bitmap pic = BitmapFactory.decodeFile(photo.getPath());
-            Log.d("Photo.getPath()",photo.getPath());
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            pic.compress(Bitmap.CompressFormat.JPEG, 14, baos);
-            imageBytes = baos.toByteArray();
-            encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+            try {
+                Bitmap pic = BitmapFactory.decodeFile(photo.getPath());
+                Log.d("Photo.getPath()", photo.getPath());
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                pic.compress(Bitmap.CompressFormat.JPEG, 14, baos);
+                imageBytes = baos.toByteArray();
+                encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+            } catch (NullPointerException e){
+                toast = Toast.makeText(this, "Take another picture.", Toast.LENGTH_SHORT);
+                toast.show();
+            }
         return encodedImage;
     }
 
@@ -396,11 +428,13 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
     }
 
     private File photoFile = null;
+    private Bitmap bitmap;
     private static final int PICK_IMAGE=100;
     private Toast toast;
     private HTTPAsyncTask httpAsyncTask = new HTTPAsyncTask(this);
     private CheckBox recyclingBox, compostBox, trashBox;
     private boolean recycling, compost, trash;
+    private String encoded;
     /**
      * GPS information
      */
@@ -411,6 +445,9 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
     private String trashGenLatitudeRef;
     private String trashGenLongtitudeRef;
     private Double Latitude = 0.0, Longitude = 0.0;
+
+    private String userEmail;
+    private String userPassword;
 
 
     // Storage Permissions

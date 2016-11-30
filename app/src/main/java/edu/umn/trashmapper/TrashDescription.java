@@ -1,6 +1,7 @@
 package edu.umn.trashmapper;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -297,8 +298,10 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        try {
-            if (requestCode == PICK_IMAGE) {
+
+
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
+            try {
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
                 // Get the cursor
@@ -308,74 +311,58 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
                 String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 String imgDecodableString = cursor.getString(columnIndex);
-                Log.d("StringBefore", imgDecodableString);
                 cursor.close();
                 photoFile = new File(imgDecodableString);
-                //Add photoFile to a list and add id to a list where the id will be consistent with the picture.
-                fileList.add(imgDecodableString);
-                idList.add(id);
-                id++;
-
                 String filePath = photoFile.getAbsolutePath();
-                ////////////////lI KUN: track the history location where the user took the photos
-                try {
-                    ExifInterface exif = new ExifInterface(path);
-                    float[] latLong = new float[2];
-                    boolean hasLatLong = exif.getLatLong(latLong);
+                processPhotoFile(path);
 
-                    Log.d("his", "gps latitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF));
-                    Log.d("his", "gps latitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE));    // 緯度
-                    Log.d("his", "gps longitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF));
-                    Log.d("his", "gps longitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE));
-                    Log.d("his", "gps datetime" +
-                            ": " + exif.getAttribute(ExifInterface.TAG_DATETIME));    // 経度
-                    trashGenDate = exif.getAttribute(ExifInterface.TAG_DATETIME);
-                    trashGenLatitude = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
-                    trashGenLongtitude = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
-                    trashGenLatitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
-                    trashGenLongtitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
-
-                    fixLocation();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                }
-
-                sendJSONUserInformation();
-                sendPictureInformation(photoFile);
-
+            } catch (NullPointerException e) {
+                toast = Toast.makeText(this, "Invalid picture selected.", Toast.LENGTH_SHORT);
+                toast.show();
             }
-
-            else if (requestCode == REQUEST_TAKE_PHOTO){
-                getBitmap();
-
-                ExifInterface exif = new ExifInterface(photoFile.getAbsolutePath());
-                Log.d("his", "gps latitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF));
-                Log.d("his", "gps latitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE));    // 緯度
-                Log.d("his", "gps longitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF));
-                Log.d("his", "gps longitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE));
-                Log.d("his", "gps datetime" +
-                        ": " + exif.getAttribute(ExifInterface.TAG_DATETIME));
-                trashGenDate = exif.getAttribute(ExifInterface.TAG_DATETIME);
-                trashGenLatitude = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
-                trashGenLongtitude = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
-                trashGenLatitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
-                trashGenLongtitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
-
-                fixLocation();
-            }
-        } catch (NullPointerException e) {
-            toast = Toast.makeText(this, "Invalid picture selected.", Toast.LENGTH_SHORT);
-            toast.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+            sendJSONUserInformation();
+            sendPictureInformation(photoFile);
         }
-        sendJSONUserInformation();
-        sendCameraPicture();
+
+        else if (requestCode == REQUEST_TAKE_PHOTO  && resultCode == Activity.RESULT_OK) {
+            try {
+                getBitmap();
+                processPhotoFile(photoFile.getAbsolutePath());
+            } catch (NullPointerException e) {
+                toast = Toast.makeText(this, "Invalid picture taken.", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            sendJSONUserInformation();
+            sendPictureInformation(photoFile);
+        }
+
     }
 
+    private void processPhotoFile(String path){
+        try {
+            ExifInterface exif = new ExifInterface(path);
+            float[] latLong = new float[2];
+            boolean hasLatLong = exif.getLatLong(latLong);
 
+            Log.d("his", "gps latitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF));
+            Log.d("his", "gps latitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE));    // 緯度
+            Log.d("his", "gps longitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF));
+            Log.d("his", "gps longitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE));
+            Log.d("his", "gps datetime" +
+                    ": " + exif.getAttribute(ExifInterface.TAG_DATETIME));    // 経度
+            trashGenDate = exif.getAttribute(ExifInterface.TAG_DATETIME);
+            trashGenLatitude = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
+            trashGenLongtitude = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
+            trashGenLatitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
+            trashGenLongtitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
+
+            fixLocation();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
     /**
      * Converts the EXIF Location data to a Double containing the location in degrees
      * http://stackoverflow.com/questions/5269462/how-do-i-convert-exif-long-lat-to-real-values
@@ -475,22 +462,6 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
 
     }
 
-    private void sendCameraPicture(){
-        try{
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-            byte[] byteArray = byteArrayOutputStream .toByteArray();
-            encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
-            Log.d("picture", encoded);
-
-            JSONObject jason = new JSONObject();
-            jason.put("picture", encoded);
-            restPOSTPhoto(jason);
-        }
-        catch (JSONException e){
-            e.printStackTrace();
-        }
-    }
     /*
     return the type of trash
      */
@@ -530,12 +501,12 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     //Gets called when a user clicks on a photo in the gallery.
     public void restPOST(JSONObject jason) {
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://131.212.131.178:4321/userData", "POST", jason.toString());
+        httpAsyncTask.execute(httpAsyncTask.address + "/userData", "POST", jason.toString());
     }
 
     public void restPOSTPhoto(JSONObject jason){
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://131.212.131.178:4321/seperate", "POST", jason.toString());
+        httpAsyncTask.execute(httpAsyncTask.address + "/seperate", "POST", jason.toString());
     }
     //Creates image file from JSON Object on server.
     private void createFile(String encrypted) throws JSONException {
@@ -550,7 +521,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
 
     public void restGET() {
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("http://131.212.131.178:4321/userData", "GET");
+        httpAsyncTask.execute(httpAsyncTask.address + "/userData", "GET");
     }
 
 
@@ -615,9 +586,6 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
 
     private HTTPAsyncTask httpAsyncTask;
 
-    private ArrayList<String> fileList = new ArrayList<>();
-    private ArrayList<Integer> idList = new ArrayList<>();
-    private Integer id = 0;
 
     @Override
     public void processFinish(String output) {
