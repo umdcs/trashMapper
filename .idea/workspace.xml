@@ -11,7 +11,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8f894cb7-9548-4726-a668-1834438d4aed" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/umn/trashmapper/HTTPAsyncTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/umn/trashmapper/HTTPAsyncTask.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/umn/trashmapper/TrashDescription.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/umn/trashmapper/TrashDescription.java" />
     </list>
     <ignored path="EPA_Trash_Mapper.iws" />
@@ -70,8 +69,8 @@
       <file leaf-file-name="TrashDescription.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/umn/trashmapper/TrashDescription.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="324" column="90" selection-start-line="324" selection-start-column="90" selection-end-line="324" selection-end-column="90" />
+            <state relative-caret-position="307">
+              <caret line="323" column="46" selection-start-line="323" selection-start-column="46" selection-end-line="323" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -2486,7 +2485,14 @@
       <option name="project" value="LOCAL" />
       <updated>1480544223062</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="fix on activity result">
+      <created>1480544444422</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1480544444422</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -2573,7 +2579,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="The DisplayActivity directly get the normal trash&amp;user information from the intent from the MapsActivity, and the trashPicture directly from the server (Using another route handler '/seperate') and display both" />
     <MESSAGE value="Change the layout, so that the picture displayed on the top and verbal description displayed on the bottom in the display activity&#10;" />
     <MESSAGE value="Change the layout for the menu bar." />
     <MESSAGE value="Assisting of changing the layout of the menu bar&#10;" />
@@ -2598,7 +2603,8 @@
     <MESSAGE value="Refactor the code a bit and change the onActivityResult to make the picture from the camera and the gallery completely independent&#10;" />
     <MESSAGE value="Clean up the code a bit." />
     <MESSAGE value="enter the IP address in the address variable in the asynctask class" />
-    <option name="LAST_COMMIT_MESSAGE" value="enter the IP address in the address variable in the asynctask class" />
+    <MESSAGE value="fix on activity result" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix on activity result" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -2932,8 +2938,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/umn/trashmapper/TrashDescription.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="324" column="90" selection-start-line="324" selection-start-column="90" selection-end-line="324" selection-end-column="90" />
+        <state relative-caret-position="307">
+          <caret line="323" column="46" selection-start-line="323" selection-start-column="46" selection-end-line="323" selection-end-column="46" />
           <folding />
         </state>
       </provider>

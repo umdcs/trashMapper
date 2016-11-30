@@ -320,6 +320,8 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
                 toast = Toast.makeText(this, "Invalid picture selected.", Toast.LENGTH_SHORT);
                 toast.show();
             }
+            sendJSONUserInformation();
+            sendPictureInformation(photoFile);
         }
 
         else if (requestCode == REQUEST_TAKE_PHOTO  && resultCode == Activity.RESULT_OK) {
@@ -332,7 +334,6 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
             }
             sendJSONUserInformation();
             sendPictureInformation(photoFile);
-
         }
 
     }
