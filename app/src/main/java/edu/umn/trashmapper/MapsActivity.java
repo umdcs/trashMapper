@@ -4,10 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.graphics.Color;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -19,21 +16,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.Interpolator;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -55,18 +44,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class MapsActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -509,7 +488,8 @@ public class MapsActivity extends AppCompatActivity implements
                 String trashType = each.getString("type_of_trash");
                 Double trashLat = each.getDouble("trash_latitude");
                 Double trashLong = each.getDouble("trash_longtitude");
-                String trashDate = each.getString("trash_generate_date");
+               // String trashDate = each.getString("trash_generate_date");
+                String trashDate="2016:11:24 19:51:19";
                 String trashInfo = "";//each.getString("trash_information");
                 //String trashPicture = each.getString("picture");
                 //String trashPicture = "picture";
@@ -723,7 +703,13 @@ public class MapsActivity extends AppCompatActivity implements
 
     public void restGET()
     {
-        httpAsyncTask.execute(httpAsyncTask.address + "/userData", "GET");
+
+      //  httpAsyncTask.execute("http://131.212.216.63:4321/userData", "GET");
+        httpAsyncTask.execute("https://lempo.d.umn.edu:8193/userData", "GET");
+        //httpAsyncTask.cancel(true);
+        // new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData/userData", "GET");
+        // new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");
+
     }
 
     HTTPAsyncTask httpAsyncTask;
