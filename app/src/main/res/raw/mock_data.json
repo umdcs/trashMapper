@@ -1,0 +1,8 @@
+[
+  { "user_name": "dummy1@Email.com", "user_password": "11111", "type_of_trash":"organic",  "trash_latitude" : 46.817669, "trash_longtitude" : -92.084765 },
+  { "user_name": "dummy2@Email.com", "user_password": "22222", "type_of_trash":"organic","trash_latitude" : 46.821678, "trash_longtitude" : -92.234451 },
+  { "user_name": "dummy3@Email.com", "user_password": "33333", "type_of_trash":"cans",   "trash_latitude" : 46.765343, "trash_longtitude" : -92.123444 },
+  { "user_name": "dummy4@Email.com", "user_password": "44444", "type_of_trash":"cans","trash_latitude" : 46.238967, "trash_longtitude" : -92.215797 },
+  { "user_name": "dummy5@Email.com", "user_password": "55555", "type_of_trash":"battery","trash_latitude" : 46.752542, "trash_longtitude" : -92.342781 }
+
+]

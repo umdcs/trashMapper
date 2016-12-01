@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_map_bins"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@android:color/holo_green_dark"
+    tools:context="edu.umn.trashmapper.MapBins">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="0dp"
+        android:orientation="horizontal" >
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="0dp"
+            android:background="@drawable/recycling"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:id="@+id/recycle_bin" />
+        <CheckBox
+            android:text="@string/recycling"
+            android:layout_margin="10dp"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recycling"
+            android:textColor="#FFFFFFFF"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="0dp"
+        android:orientation="horizontal" >
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="0dp"
+            android:background="@drawable/trash_can"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:id="@+id/waste_bin" />
+        <CheckBox
+            android:text="@string/waste"
+            android:layout_margin="10dp"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/waste"
+            android:textColor="#FFFFFFFF"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="0dp"
+        android:orientation="horizontal" >
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="0dp"
+            android:background="@drawable/compost_bin"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:id="@+id/compost_bin" />
+        <CheckBox
+            android:text="@string/compost"
+            android:layout_margin="10dp"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/compost"
+            android:textColor="#FFFFFFFF"/>
+    </LinearLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/editText"
+            android:selectAllOnFocus="false"
+            android:hint="@string/description"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:text="@string/gallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/gallery"
+                android:layout_weight="1" />
+
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/camera"
+                android:background="@drawable/camera_filled"/>
+
+            <Button
+                android:text="@string/mapit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/map"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>
