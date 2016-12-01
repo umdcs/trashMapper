@@ -1,6 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var app = express()
+var app = express();
 
   app.set("port", 4321);
 
@@ -15,8 +15,8 @@ app.use(bodyParser.urlencoded({   // support encoded bodies
 //app.use(bodyParser.urlencoded({limit: '100000mb', extended: true}));
 
 //app.use(bodyParser.json({limit: '100000mb'}));
-  var jsonParser       = bodyParser.json({limit:1024*1024*20, type:'application/json'});
-  var urlencodedParser = bodyParser.urlencoded({ extended:true,limit:1024*1024*20,type:'application/x-www-form-urlencoding' })
+  var jsonParser       = bodyParser.json({limit:1024*1024*20*1024, type:'application/json'});
+  var urlencodedParser = bodyParser.urlencoded({ extended:true,limit:1024*1024*20*1024,type:'application/x-www-form-urlencoding' })
 
   app.use(jsonParser);
   app.use(urlencodedParser);
