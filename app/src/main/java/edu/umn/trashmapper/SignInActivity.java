@@ -36,7 +36,7 @@ public class SignInActivity extends AppCompatActivity implements AsyncResponse{
 
     public void restPOSTSignIn(JSONObject jason){
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("https://lempo.d.umn.edu:8193/userAccount", "POST", jason.toString());
+        httpAsyncTask.execute(httpAsyncTask.address + "/userAccount", "POST", jason.toString());
     }
 
     @Override

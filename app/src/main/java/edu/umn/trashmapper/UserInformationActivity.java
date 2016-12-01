@@ -38,7 +38,7 @@ public class UserInformationActivity extends AppCompatActivity implements AsyncR
 
     public void restPOSTSignIn(JSONObject jason){
         httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute("https://lempo.d.umn.edu:8193/userPassword", "POST", jason.toString());
+        httpAsyncTask.execute(httpAsyncTask.address + "/userPassword", "POST", jason.toString());
     }
 
     @Override
