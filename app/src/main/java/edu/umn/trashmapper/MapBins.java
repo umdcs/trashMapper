@@ -360,13 +360,13 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
     private void restPOST(JSONObject jason){
         httpAsyncTask = new HTTPAsyncTask(this);
 
-        httpAsyncTask.execute("https://lempo.d.umn.edu:8193/userData", "POST", jason.toString());
+        httpAsyncTask.execute(httpAsyncTask.address + "/userData", "POST", jason.toString());
     }
 
     public void restPOSTPhoto(JSONObject jason){
         httpAsyncTask = new HTTPAsyncTask(this);
         //httpAsyncTask.execute("http://192.168.1.19:4321/seperate", "POST", jason.toString());
-        httpAsyncTask.execute("http://lempo.d.umn.edu:8193/seperate", "POST", jason.toString());
+        httpAsyncTask.execute(httpAsyncTask.address + "/seperate", "POST", jason.toString());
 
     }
 

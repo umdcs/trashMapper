@@ -102,12 +102,7 @@ public class DisplayActivity extends AppCompatActivity implements AsyncResponse 
 
     public void restGETPhoto()
     {
-       // httpAsyncTask.execute("http://131.212.216.63:4321/seperate", "GET");
-        httpAsyncTask.execute("https://lempo.d.umn.edu:8193/seperate", "GET");
-        //httpAsyncTask.cancel(true);
-        // new HTTPAsyncTask().execute("http://10.0.2.2:4321/userData/userData", "GET");
-        // new HTTPAsyncTask().execute("https://lempo.d.umn.edu:8193/userData", "GET");
-
+        httpAsyncTask.execute(httpAsyncTask.address + "/seperate", "GET");
     }
 
     @Override
