@@ -57,15 +57,19 @@ public class UserInformationActivity extends AppCompatActivity implements AsyncR
         }
         String userPassword=userPasswordView.getText().toString();
         Log.d("current type in",userPassword);
-        if(VerifiedPassword.equals(userPassword)){
-            Intent intent=new Intent(this, SelectActivity.class);
-            intent.putExtra(USER_NAME,userName);
-            intent.putExtra(USER_PASSWORD,userPassword);
-            startActivity(intent);}
-        else{
-            Toast.makeText(getApplicationContext(),
-                    "please try again", Toast.LENGTH_LONG).show();
-
+        try {
+            if (VerifiedPassword.equals(userPassword)) {
+                Intent intent = new Intent(this, SelectActivity.class);
+                intent.putExtra(USER_NAME, userName);
+                intent.putExtra(USER_PASSWORD, userPassword);
+                startActivity(intent);
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "please try again", Toast.LENGTH_LONG).show();
+            }
+        }
+        catch (NullPointerException e){
+            Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show();
         }
     }
 

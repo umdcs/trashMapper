@@ -118,5 +118,4 @@ class HTTPAsyncTask extends AsyncTask<String, Integer, String>
     JSONArray jasonarr;
     String temp = "";
     public String address = "https://lempo.d.umn.edu:8193"; //https://lempo.d.umn.edu:8193
-
 }
