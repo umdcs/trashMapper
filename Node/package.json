@@ -1,0 +1,20 @@
+{
+  "name": "epatrashmapperserver",
+  "version": "0.1.0",
+  "description": "Trash Mapping NodeJS Server",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "forever": "^0.15.3",
+    "mongojs": "^2.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "forever start -al forever.log -o log/out.log -e log/error.log index.js",
+    "stop": "forever stop index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
