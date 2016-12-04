@@ -4,8 +4,8 @@
     <string name="title_activity_welcome">WelcomeActivity</string>
     <string name="welcome_message">Trash Collector!</string>
     <string name="log_in">Log In</string>
-    <string name="create">Sign in</string>
-    <string name="finishRegister">Log in my account</string>
+    <string name="create">Register</string>
+    <string name="finishRegister">Log in to my account</string>
     <string name="title_activity_user_information">Sign in</string>
 
     <!-- Strings related to login -->
