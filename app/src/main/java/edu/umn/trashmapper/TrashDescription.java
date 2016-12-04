@@ -411,6 +411,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         pic.compress(Bitmap.CompressFormat.JPEG, 14, baos);
         imageBytes = baos.toByteArray();
         encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        Log.d("Picture string", encodedImage);
         return encodedImage;
     }
 
