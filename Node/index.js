@@ -36,7 +36,12 @@ var mongodb = require('./trashMapperUser.js')();
 //var json = '{"pictures":[]}';
 
 var basic = {
-    trash:[]
+    trash:[],
+    user_account:[]
+}
+
+var logIn={
+   user_account:[]
 }
 var split = {
 
@@ -67,7 +72,8 @@ app.post('/userAccount', function (req, res)
             user_name: usr_name,
 	    user_password: usr_password,
 	    };
-	    basic.trash.push(LogInJsonObject);
+	    basic.user_account.push(LogInJsonObject);
+	    logIn.user_account.push(LogInJsonObject);
 	 });
 
 app.post('/userPassword', function(req, res) {
@@ -76,8 +82,8 @@ app.post('/userPassword', function(req, res) {
        var objName="dummy";
        var objPassword;
        var i=0;
-       while(i<basic.trash.length||objName!=userFromClient){
-       var obj=basic.trash[i];
+       while(i<basic.user_account.length||objName!=userFromClient){
+       var obj=basic.user_account[i];
        objName=obj.user_name;
        objPassword=obj.user_password;
        i++;
@@ -119,7 +125,7 @@ app.post('/userData', function (req, res)
 	var info = req.body.trash_information;
         var jsonObject = {
             user_name: usr_name,
-	    user_password: usr_password,
+
 	    type_of_trash: trash_type,
 	    trash_latitude: latitude,
 	    trash_longtitude: longtitude,

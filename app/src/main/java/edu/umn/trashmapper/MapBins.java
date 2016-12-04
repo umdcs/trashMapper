@@ -1,9 +1,6 @@
 package edu.umn.trashmapper;
 
-import android.*;
 import android.app.Activity;
-
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,14 +16,12 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-
-import android.os.Bundle;
 import android.util.Base64;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -34,21 +29,29 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static android.util.Base64.DEFAULT;
-import static android.util.Base64.encodeToString;
 
 public class MapBins extends AppCompatActivity implements AsyncResponse{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getUserInformation();
+        Intent intent = getIntent();
+        userName = intent.getStringExtra("user_name");
+        if(userName==null){
+            userName=intent.getStringExtra("user_name_from_Map");
+        }
+        EditText trashEdit = (EditText) findViewById(R.id.editText);
+        try {
+            //EditText trashEdit = (EditText) findViewById(R.id.editText);
+            trashInfo=trashEdit.getText().toString();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        //getUserInformation();
         setContentView(R.layout.activity_map_bins);
         Button button = (Button) findViewById(R.id.gallery);
         button.setOnClickListener(new View.OnClickListener() {
@@ -306,7 +309,7 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
         }
     }
 
-    public void getUserInformation() {
+    /*public void getUserInformation() {
         try {
             Intent intent = getIntent();
             userEmail = intent.getStringExtra(UserInformationActivity.USER_NAME);
@@ -316,7 +319,7 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
         } catch (Exception e) {
             Log.d("user", "failed");
         }
-    }
+    }*/
 
     public void sendJSONTrashBin(/*File photo*/) {
         try {
@@ -331,12 +334,13 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
             one is the userInformation array (pin all the users' data on the map(share between friends))
              */
                 jason.put("type", "UserInformation");
-                jason.put("user_name", userEmail);
-                jason.put("user_password", userPassword);
+                jason.put("user_name", userName);
+                //jason.put("user_password", userPassword);
                 jason.put("type_of_trash", typeOfTrash());
                 jason.put("trash_latitude", Latitude);
                 jason.put("trash_longtitude", Longitude);
                 jason.put("trash_generate_date", trashGenDate);
+                jason.put("trash_information", trashInfo);
                 //jason.put("picture", createPhotoString(photo));
 
             restPOST(jason);
@@ -453,8 +457,9 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
     private String trashGenLongtitudeRef;
     private Double Latitude = 0.0, Longitude = 0.0;
 
-    private String userEmail;
+    private String userName;
     private String userPassword;
+    private String trashInfo;
 
 
     // Storage Permissions

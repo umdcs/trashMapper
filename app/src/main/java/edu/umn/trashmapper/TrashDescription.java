@@ -8,8 +8,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -31,33 +30,24 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 import static android.util.Base64.DEFAULT;
-import static android.util.Base64.encodeToString;
 
 public class TrashDescription extends AppCompatActivity implements AsyncResponse{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getUserInformation();
+        //getUserInformation();
+        Intent intent = getIntent();
+        userName = intent.getStringExtra("user_name");
+        if(userName==null){
+            userName=intent.getStringExtra("user_name_from_Map");
+        }
         super.onCreate(savedInstanceState);
         httpAsyncTask = new HTTPAsyncTask(this);
 
@@ -68,7 +58,12 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         cansBox = (CheckBox) findViewById(R.id.checkbox_cans);
         batteryBox = (CheckBox) findViewById(R.id.checkbox_battery);
         checkBoxes();
-
+        EditText trashEdit=(EditText) findViewById(R.id.reason);
+        try{
+         trashInfo=trashEdit.getText().toString();}
+        catch(Exception e){
+            e.printStackTrace();
+        }
         Button mapButton = (Button) findViewById(R.id.map_button);
         Button galleryButton = (Button) findViewById(R.id.gallery);
         //takePhoto();
@@ -190,7 +185,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     }
 
     //get the user's information
-    public void getUserInformation() {
+    /*public void getUserInformation() {
         try {
             Intent intent = getIntent();
             userEmail = intent.getStringExtra(UserInformationActivity.USER_NAME);
@@ -200,7 +195,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         } catch (Exception e) {
             Log.d("user", "failed");
         }
-    }
+    }*/
 
 
     //opens the gallery after permissions granted
@@ -435,13 +430,13 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         try {
             JSONObject jason = new JSONObject();
             jason.put("type", "UserInformation");
-            jason.put("user_name", userEmail);
-            jason.put("user_password", userPassword);
+            jason.put("user_name", userName);
+            //jason.put("user_password", userPassword);
             jason.put("type_of_trash", typeOfTrash());
             jason.put("trash_latitude", Latitude);
             jason.put("trash_longtitude", Longitude);
             jason.put("trash_generate_date", trashGenDate);
-            jason.put("trash_information", trashInformation);
+            jason.put("trash_information", trashInfo);
             // jason.put("picture", createPhotoString(photo));
             restPOST(jason);
         } catch (JSONException e) {
@@ -551,7 +546,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     //private String userEmail;
     //private String userPassword;
 
-    private String userEmail;
+    private String userName;
     private String userPassword;
     /*
     trash type
@@ -568,7 +563,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     /*
     map the trash bin
      */
-    private String trashInformation;
+    private String trashInfo;
     /*
     photo location
      */

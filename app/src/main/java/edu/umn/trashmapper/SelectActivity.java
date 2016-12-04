@@ -11,6 +11,8 @@ public class SelectActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent i = getIntent();
+        userName = i.getStringExtra("com.example.USER_NAME");
         setContentView(R.layout.activity_select);
 
         Button button;
@@ -43,15 +45,19 @@ public class SelectActivity extends AppCompatActivity {
 
     private void mapBins(){
         Intent intent = new Intent(this, MapBins.class);
+        intent.putExtra("user_name",userName);
         startActivity(intent);
     }
 
     private void mapTrash(){
         Intent intent = new Intent(this, TrashDescription.class);
+        intent.putExtra("user_name",userName);
         startActivity(intent);
     }
 
     private void map(){
 
     }
+
+    private String userName;
 }

@@ -484,14 +484,14 @@ public class MapsActivity extends AppCompatActivity implements
 
                 Log.d("TEST", inter.toString());
                 JSONObject each = inter.getJSONObject(i);
-                String userName = "hhhh";//each.getString("user_name");
+                userName = each.getString("user_name");
                 String trashType = each.getString("type_of_trash");
                 /*hard code*/
-                trashType="organic";
+                //trashType="organic";
                 Double trashLat = each.getDouble("trash_latitude");
                 Double trashLong = each.getDouble("trash_longtitude");
-               // String trashDate = each.getString("trash_generate_date");
-                String trashDate="2016:11:24 19:51:19";
+                String trashDate = each.getString("trash_generate_date");
+               // String trashDate="2016:11:24 19:51:19";
                 String trashInfo = "";//each.getString("trash_information");
                 //String trashPicture = each.getString("picture");
                 //String trashPicture = "picture";
@@ -684,9 +684,11 @@ public class MapsActivity extends AppCompatActivity implements
 
         if (id == R.id.nav_trash) {
             Intent intent = new Intent(MapsActivity.this, TrashDescription.class);
+            intent.putExtra("user_name_from_Map",userName);
             startActivity(intent);
         } else if (id == R.id.nav_trash_bin) {
             Intent intent = new Intent(MapsActivity.this, MapBins.class);
+            intent.putExtra("user_name_from_Map",userName);
             startActivity(intent);
 
         } else if (id == R.id.nav_statistics){
@@ -730,4 +732,5 @@ public class MapsActivity extends AppCompatActivity implements
         httpAsyncTask.cancel(true);
     }
     String temp;
+    String userName;
 }
