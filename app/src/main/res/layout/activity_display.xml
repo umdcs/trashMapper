@@ -44,7 +44,6 @@
                               app:srcCompat="@drawable/trash"
                               android:id="@+id/trash"
                             android:contentDescription=""
-                            android:rotation="90"
                             android:scaleType="fitCenter"
                             android:cropToPadding="false"
                             android:adjustViewBounds="true" />
