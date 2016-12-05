@@ -56,7 +56,7 @@ app.post('/userData', function (req, res)
 	var usr_password = req.body.user_password;
 	var trash_type = req.body.type_of_trash;
 	var latitude = req.body.trash_latitude;
-	var longitude = req.body.trash_longitude;
+	var longtitude = req.body.trash_longtitude;
 	var date = req.body.trash_generate_date;
 	var info = req.body.trash_information;	
         var jsonObject = {
@@ -64,7 +64,7 @@ app.post('/userData', function (req, res)
 	    user_password: usr_password,
 	    type_of_trash: trash_type,
 	    trash_latitude: latitude,
-	    trash_longitude: longitude,
+	    trash_longtitude: longtitude,
 	    trash_generate_date: date,
 	    trash_information: info
 	};

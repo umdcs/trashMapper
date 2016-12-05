@@ -47,6 +47,8 @@ public class UserInformationActivity extends AppCompatActivity implements Loader
      */
     public final static String USER_PASSWORD = "edu.umn.trashmapper.USER_PASSWORD";
 
+    public final static String SIGN_IN_CHECK = "CHECK NEW LOGIN";
+
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -58,6 +60,9 @@ public class UserInformationActivity extends AppCompatActivity implements Loader
     private String password;
     private  String mEmail=null; //final
      private  String mPassword=null; //final
+
+    //For testing
+    private boolean newSignIn = false;
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -166,6 +171,7 @@ public class UserInformationActivity extends AppCompatActivity implements Loader
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
+       newSignIn = true;
         if (mAuthTask != null) {
             return;
         }
@@ -207,13 +213,16 @@ public class UserInformationActivity extends AppCompatActivity implements Loader
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            //mAuthTask = new UserLoginTask(email, password);
+            //mAuthTask.execute((Void) null);
             ////////////////////////
             //Intent intent = new Intent(this, TrashDescription.class);
             Intent intent = new Intent(this, SelectActivity.class);
-            intent.putExtra(USER_NAME, mEmail);
-            intent.putExtra(USER_PASSWORD, mPassword);
+            intent.putExtra(USER_NAME, email);
+            intent.putExtra(USER_PASSWORD, password);
+            intent.putExtra(SIGN_IN_CHECK,newSignIn);
+            Log.d("user_EmailUsrInfo",email);
+            Log.d("user_PwdUsrInfo",password);
             startActivity(intent);
         }
     }
@@ -375,13 +384,5 @@ public class UserInformationActivity extends AppCompatActivity implements Loader
         }
     }
 
-    public void switchToDescription(View a){
-        Intent intent = new Intent(this, SelectActivity.class);
-        intent.putExtra(USER_NAME, mEmail);
-        intent.putExtra(USER_PASSWORD, mPassword);
-        Log.d("user_ori",email);
-        Log.d("user_ori",password);
-        startActivity(intent);
-    }
 }
 

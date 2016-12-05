@@ -12,7 +12,10 @@ public class SelectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
-
+        Intent intent = getIntent();
+        userName = intent.getStringExtra(UserInformationActivity.USER_NAME);
+        userPassword = intent.getStringExtra(UserInformationActivity.USER_PASSWORD);
+        newSignIn   = intent.getExtras().getBoolean(UserInformationActivity.SIGN_IN_CHECK);
         Button button;
         button = (Button) findViewById(R.id.mapTrash);
         button.setOnClickListener(new View.OnClickListener() {
@@ -35,7 +38,10 @@ public class SelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SelectActivity.this, MapsActivity.class);
+                //if(newSignIn == true)
+                //sendInfo(intent);
                 startActivity(intent);
+
             }
         });
 
@@ -43,15 +49,21 @@ public class SelectActivity extends AppCompatActivity {
 
     private void mapBins(){
         Intent intent = new Intent(this, MapBins.class);
+        sendInfo(intent);
         startActivity(intent);
     }
 
     private void mapTrash(){
         Intent intent = new Intent(this, TrashDescription.class);
+        sendInfo(intent);
         startActivity(intent);
     }
 
-    private void map(){
-
+    private void sendInfo(Intent intent){
+        intent.putExtra(UserInformationActivity.USER_NAME, userName);
+        intent.putExtra(UserInformationActivity.USER_PASSWORD, userPassword);
     }
+    private String userName;
+    private String userPassword;
+    private boolean newSignIn;
 }

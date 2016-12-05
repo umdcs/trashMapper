@@ -4,10 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.graphics.Color;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -19,21 +16,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.Interpolator;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -55,18 +44,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class MapsActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -120,10 +99,11 @@ public class MapsActivity extends AppCompatActivity implements
     private Marker customMarker;
     private String returned1 = "";
     private Button goToInfo;
-    private HashMap<Marker, String> eventMarkerMap;
     private HashMap<Marker, String> infoMarkerMap;
     private ArrayList<Marker> markerList;
     private ArrayList<String> returnedList;
+
+
     /*
      * TEST
      */
@@ -167,27 +147,6 @@ public class MapsActivity extends AppCompatActivity implements
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
-
-        //addDrawerItems();
-        //setupDrawer();
-
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setHomeButtonEnabled(true);
-
-
-        /********** Test ***********/
-    /*    Bundle b = getIntent().getExtras();
-       // lati = b.getDouble("lat");
-       // longi = b.getDouble("long");
-        String jsonArray = b.getString("jsonArray");
-
-        try {
-            inter = new JSONArray(jsonArray);
-           // System.out.println(array.toString(2));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-*/
         restGET(); // Get the trash
     }
 
@@ -257,8 +216,6 @@ public class MapsActivity extends AppCompatActivity implements
         String sLongitude = String.valueOf(location.getLongitude());
 
         String s = "Lattitude is " + sLattitude + " Longitude is " + sLongitude;
-
-
 
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
         //    LatLng latLng = new LatLng(lati, longi);
@@ -341,7 +298,6 @@ public class MapsActivity extends AppCompatActivity implements
 
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //location = null;
                 enableMyLocation();
                 startLocationUpdates();
                 Log.d("Test","Permission granteed");
@@ -404,9 +360,8 @@ public class MapsActivity extends AppCompatActivity implements
         googleMap.setIndoorEnabled(true);
         googleMap.setBuildingsEnabled(true);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-        //addMarkers();
         //mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
-        //mMap.setOnMarkerClickListener(this);
+        mMap.setOnMarkerClickListener(this);
         //mMap.setOnInfoWindowClickListener(this);
 
 
@@ -487,15 +442,6 @@ public class MapsActivity extends AppCompatActivity implements
 
     }
     private void addMarkers(){
-       /* InputStream inputStream = getResources().openRawResource(R.raw.mock_data);
-        String json = new Scanner(inputStream).useDelimiter(REGEX_INPUT_BOUNDARY_BEGINNING).next();
-       try {
-           inter = new JSONArray(json);
-       }
-       catch (JSONException e){
-           Log.e("NOTE", "Cannot parse JSON");
-           e.printStackTrace();
-       }*/
 
         markerList = new ArrayList<>(inter.length());
         returnedList = new ArrayList<>(inter.length());
@@ -505,30 +451,38 @@ public class MapsActivity extends AppCompatActivity implements
 
                 Log.d("TEST", inter.toString());
                 JSONObject each = inter.getJSONObject(i);
-                String userName = "hhhh";//each.getString("user_name");
+                String userName = "";
+                try {
+                    userName = each.getString("user_name");
+                } catch(JSONException e){
+                    Log.d("NameNotFound","No value for user_name");
+                }
                 String trashType = each.getString("type_of_trash");
                 Double trashLat = each.getDouble("trash_latitude");
                 Double trashLong = each.getDouble("trash_longtitude");
                 String trashDate = each.getString("trash_generate_date");
-                String trashInfo = "";//each.getString("trash_information");
-                //String trashPicture = each.getString("picture");
-                //String trashPicture = "picture";
+                String trashInfo;
+                try {
+                     trashInfo = each.getString("trash_information");
+                }catch (Exception e){
+                    trashInfo = "No Trash Description";
+                }
 
                 LatLng latLng = new LatLng(trashLat, trashLong);
                 LatLng latLngNew = adjustMarkers(latLng, markerList);
-                //String returned = "User Name: " + userName + "\n" + "Trash Type: " + trashType + "\n"
-                //        + "Trash Latitude: " + trashLat + "\n" + "Trash Longitude: " + trashLong + "\n"
-                //        + "Trash Date: " + trashDate + "\n" + "%" + trashPicture;/*+ "Trash Info: " + trashInfo*/;
+
                 String returned = "";
                 if(trashType.equals("recycling")|| trashType.equals("compost") || trashType.equals("waste")) {
                     returned = "User Name: " + userName + "\n" + "Trash Bin Type: " + trashType + "\n"
                             + "Trash Bin Latitude: " + trashLat + "\n" + "Trash Bin Longitude: " + trashLong + "\n"
-                            + "Trash Bin Date: " + trashDate + "\n" + "%" + String.valueOf(i);
+                            + "Trash Bin Date: " + trashDate + "\n" + "Trash Bin Description: " + trashInfo + "\n" +
+                             "%" + String.valueOf(i);
                 }
                 else{
                     returned = "User Name: " + userName + "\n" + "Trash Type: " + trashType + "\n"
                             + "Trash Latitude: " + trashLat + "\n" + "Trash Longitude: " + trashLong + "\n"
-                            + "Trash Date: " + trashDate + "\n" + "%" + String.valueOf(i);
+                            + "Trash Date: " + trashDate + "\n" + "Trash Description: " + trashInfo + "\n"
+                            + "%" + String.valueOf(i);
                 }
 
                 returnedList.add(returned);
@@ -536,9 +490,7 @@ public class MapsActivity extends AppCompatActivity implements
                         .position(latLngNew)
                         .title(userName)
                         .snippet("Click on to see more information")
-                        //.snippet(returned)
                         .icon(BitmapDescriptorFactory.fromResource(chooseMarker(trashType)));
-                //System.out.println("returned is" + returned);
 
                 Marker customMarker = mMap.addMarker(options);
                 markerList.add(customMarker);
@@ -556,13 +508,7 @@ public class MapsActivity extends AppCompatActivity implements
                                 if(!marker.getTitle().equals("Initial Location!")) {
                                     Intent intent = new Intent(MapsActivity.this, DisplayActivity.class);
                                     Bundle extras = new Bundle();
-                                    //extras.putString("TRASH_INFO", marker.getSnippet()); // put the mpg_message var into bundle
-                                    //extras.putString("TRASH_INFO", returned);
                                     extras.putString("TRASH_INFO", infoMarkerMap.get(marker));
-                                    //extras.putString("TRASH_PIC_STRING",pic);
-                                    //System.out.println("returned is " + marker.getSnippet());
-                                    // System.out.println("returned is: " + returned);
-                                    // System.out.println("returned String is " + infoMarkerMap.get(marker));
                                     intent.putExtras(extras);
                                     startActivity(intent);
                                 }
@@ -606,56 +552,8 @@ public class MapsActivity extends AppCompatActivity implements
             // Passing 0 to setImageResource will clear the image view.
             badge = 0;
         }
-      //  ((ImageView) view.findViewById(R.id.badge)).setImageResource(badge);
         return badge;
     }
-
-
-    /*private void addDrawerItems() {
-        String[] itemArray = {"Saved locations", "Others on the map", "Profile"};
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, itemArray);
-        mDrawerList.setAdapter(mAdapter);
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MapsActivity.this, "HaHaHaHaHa!", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }*/
-
-    /*private void setupDrawer() {
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
-
-            /** Called when a drawer has settled in a completely open state. */
-           /* public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle("Menu");
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-
-            /** Called when a drawer has settled in a completely closed state. */
-           /* public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                getSupportActionBar().setTitle(mActivityTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-        };
-
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-    }*/
-
-   // @Override
-    /*protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -675,25 +573,6 @@ public class MapsActivity extends AppCompatActivity implements
     }
 
 
-   /* @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.string.action_settings) {
-            return true;
-        }
-
-        // Activate the navigation drawer toggle
-        /*if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }*/
-
-        //return super.onOptionsItemSelected(item);
-   // }*/
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -702,13 +581,20 @@ public class MapsActivity extends AppCompatActivity implements
 
         if (id == R.id.nav_trash) {
             Intent intent = new Intent(MapsActivity.this, TrashDescription.class);
+
+            intent.putExtra("user_name_from_map", directName);
+            intent.putExtra("user_pwd_from_map", directPassword);
+
             startActivity(intent);
         } else if (id == R.id.nav_trash_bin) {
             Intent intent = new Intent(MapsActivity.this, MapBins.class);
+            intent.putExtra("user_name_from_map", directName);
+            intent.putExtra("user_pwd_from_map", directPassword);
             startActivity(intent);
 
-        } else if (id == R.id.nav_statistics){
-
+        } else if (id == R.id.nav_SignOut){
+            Intent intent = new Intent(MapsActivity.this, UserInformationActivity.class);
+            startActivity(intent);
         }
         else if (id == R.id.nav_profile) {
 
@@ -734,8 +620,8 @@ public class MapsActivity extends AppCompatActivity implements
         {
             JSONObject bjason = new JSONObject(result);
             inter = bjason.getJSONArray("trash");
-           // JSONObject sjason = inter.getJSONObject(0);
-            // Log.d("DEBUG", sjason.getString("longitude"));
+            directName = inter.getJSONObject(inter.length()-1).getString("user_name");
+            directPassword = inter.getJSONObject(inter.length()-1).getString("user_password");
             temp = inter.toString();
             Log.d("asdasdasdasdasMAPS", temp);
             addMarkers();
@@ -748,4 +634,8 @@ public class MapsActivity extends AppCompatActivity implements
         httpAsyncTask.cancel(true);
     }
     String temp;
+    private String directName;
+    private String directPassword;
+
+
 }

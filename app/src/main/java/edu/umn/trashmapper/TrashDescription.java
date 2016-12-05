@@ -25,6 +25,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -58,10 +59,17 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getUserInformation();
+
         super.onCreate(savedInstanceState);
         httpAsyncTask = new HTTPAsyncTask(this);
 
         setContentView(R.layout.activity_trash_description);
+        EditText trashEdit = (EditText) findViewById(R.id.reason);
+        try{
+            trashInfo = trashEdit.getText().toString();
+        } catch(NullPointerException e){
+            e.printStackTrace();
+        }
         organicBox = (CheckBox) findViewById(R.id.checkbox_organic);
         paperBox = (CheckBox) findViewById(R.id.checkbox_paper);
         plasticBox = (CheckBox) findViewById(R.id.checkbox_plastic);
@@ -71,35 +79,21 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
 
         Button mapButton = (Button) findViewById(R.id.map_button);
         Button galleryButton = (Button) findViewById(R.id.gallery);
-        //takePhoto();
         ImageButton cameraButton = (ImageButton) findViewById(R.id.camera_button);
-
-
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dispatchTakePictureIntent();
             }
         });
-
         mapButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(TrashDescription.this, MapsActivity.class);
-                //Bundle b = new Bundle();
-
-                /***** Test ******/
-                //b.putDouble("lat", Latitude);
-                //b.putDouble("long", Longitude);
-                //b.putString("jsonArray",temp);
-                //intent.putExtras(b);
-                //intent.putExtra("jsonArray",temp);
                 httpAsyncTask.cancel(true);
-                //unTint();
                 startActivity(intent);
 
             }
         });
-
 
         galleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,11 +186,16 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     //get the user's information
     public void getUserInformation() {
         try {
-            Intent intent = getIntent();
-            userEmail = intent.getStringExtra(UserInformationActivity.USER_NAME);
-            userPassword = intent.getStringExtra(UserInformationActivity.USER_PASSWORD);
-            Log.d("User Email", userEmail);
-            Log.d("User password", userPassword);
+            if(getIntent().hasExtra(UserInformationActivity.USER_NAME)) {
+                userEmail = getIntent().getStringExtra(UserInformationActivity.USER_NAME);
+                userPassword = getIntent().getStringExtra(UserInformationActivity.USER_PASSWORD);
+                Log.d("User EmailTrashDes", userEmail);
+                Log.d("User passwordTrashDes", userPassword);
+            }
+            else if(getIntent().hasExtra("user_name_from_map")){
+                tempEmail = getIntent().getStringExtra("user_name_from_map");
+                tempPassword = getIntent().getStringExtra("user_pwd_from_map");
+            }
         } catch (Exception e) {
             Log.d("user", "failed");
         }
@@ -356,6 +355,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
             trashGenLatitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
             trashGenLongtitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
 
+            trashOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,1);
             fixLocation();
 
         } catch (Exception e) {
@@ -434,15 +434,22 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     public void sendJSONUserInformation() {
         try {
             JSONObject jason = new JSONObject();
-            jason.put("type", "UserInformation");
-            jason.put("user_name", userEmail);
-            jason.put("user_password", userPassword);
+            //jason.put("type", "UserInformation");
+            if(userEmail == null){
+                jason.put("user_name", tempEmail);
+                jason.put("user_password", tempPassword);
+            }
+            else {
+                jason.put("user_name", userEmail);
+                jason.put("user_password", userPassword);
+            }
             jason.put("type_of_trash", typeOfTrash());
             jason.put("trash_latitude", Latitude);
             jason.put("trash_longtitude", Longitude);
             jason.put("trash_generate_date", trashGenDate);
-            jason.put("trash_information", trashInformation);
-            // jason.put("picture", createPhotoString(photo));
+            jason.put("trash_information", trashInfo);
+            jason.put("trash_orientation",trashOrientation);
+
             restPOST(jason);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -453,6 +460,8 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         try{
             JSONObject jason = new JSONObject();
             jason.put("picture", createPhotoString(photo));
+            jason.put("trash_likes", 0);
+            jason.put("trash_dislikes", 0);
             restPOSTPhoto(jason);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -541,12 +550,14 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     private String trashGenLongtitude;
     private String trashGenLatitudeRef;
     private String trashGenLongtitudeRef;
+    private int trashOrientation;
     private Double Latitude = 0.0, Longitude = 0.0;
+
+    private String tempEmail;
+    private String tempPassword;
     /**
      * User's information
      */
-    //private String userEmail;
-    //private String userPassword;
 
     private String userEmail;
     private String userPassword;
@@ -565,7 +576,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     /*
     map the trash bin
      */
-    private String trashInformation;
+    private String trashInfo;
     /*
     photo location
      */
@@ -574,11 +585,6 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     /*
      icon buttons
      */
-    private ImageButton organicCamera;
-    private ImageButton plasticCamera;
-    private ImageButton paperCamera;
-    private ImageButton cansCamera;
-    private ImageButton batteryCamera;
 
     private CheckBox organicBox, plasticBox, paperBox, cansBox, batteryBox;
     // Storage Permissions
