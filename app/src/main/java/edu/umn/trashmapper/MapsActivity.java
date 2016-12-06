@@ -462,6 +462,7 @@ public class MapsActivity extends AppCompatActivity implements
                 Double trashLong = each.getDouble("trash_longtitude");
                 String trashDate = each.getString("trash_generate_date");
                 String trashInfo;
+                orientation = each.getInt("trash_orientation");
                 try {
                      trashInfo = each.getString("trash_information");
                 }catch (Exception e){
@@ -509,6 +510,7 @@ public class MapsActivity extends AppCompatActivity implements
                                     Intent intent = new Intent(MapsActivity.this, DisplayActivity.class);
                                     Bundle extras = new Bundle();
                                     extras.putString("TRASH_INFO", infoMarkerMap.get(marker));
+                                    extras.putInt("TRASH_ORIENTATION", orientation);
                                     intent.putExtras(extras);
                                     startActivity(intent);
                                 }
@@ -636,6 +638,5 @@ public class MapsActivity extends AppCompatActivity implements
     String temp;
     private String directName;
     private String directPassword;
-
-
+    private int orientation;
 }
