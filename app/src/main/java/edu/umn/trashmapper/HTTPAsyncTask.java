@@ -97,6 +97,6 @@ class HTTPAsyncTask extends AsyncTask<String, Integer, String>
     }
 
     public AsyncResponse delegate;
-    public String address = "http://131.212.159.140:4321";
+    public String address = "http://131.212.220.81:4321";
 
 }

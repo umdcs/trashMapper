@@ -4,7 +4,7 @@
     <string name="title_activity_welcome">WelcomeActivity</string>
     <string name="welcome_message">Trash Collector!</string>
     <string name="log_in">Log In</string>
-    <string name="help">Help</string>
+    <string name="sign_up">Sign Up</string>
     <string name="title_activity_user_information">Sign in</string>
 
     <!-- Strings related to login -->
@@ -33,7 +33,7 @@
     <string name="gallery">Gallery</string>
     <string name="mapit">Map It</string>
     <string name="like">Like It!</string>
-    <string name= "dislike">Dislike It!</string>
+    <string name="dislike">Dislike It!</string>
 
     <!--     Selection Screen     -->
     <string name="mapBins">Map Bins</string>

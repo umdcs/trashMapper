@@ -15,7 +15,7 @@ public class SelectActivity extends AppCompatActivity {
         Intent intent = getIntent();
         userName = intent.getStringExtra(UserInformationActivity.USER_NAME);
         userPassword = intent.getStringExtra(UserInformationActivity.USER_PASSWORD);
-        newSignIn   = intent.getExtras().getBoolean(UserInformationActivity.SIGN_IN_CHECK);
+        //newSignIn   = intent.getExtras().getBoolean(UserInformationActivity.SIGN_IN_CHECK);
         Button button;
         button = (Button) findViewById(R.id.mapTrash);
         button.setOnClickListener(new View.OnClickListener() {
@@ -63,5 +63,5 @@ public class SelectActivity extends AppCompatActivity {
     }
     private String userName;
     private String userPassword;
-    private boolean newSignIn;
+   // private boolean newSignIn;
 }
