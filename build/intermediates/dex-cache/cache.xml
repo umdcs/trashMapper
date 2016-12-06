@@ -12,24 +12,6 @@
     </item>
     <item
         is-multidex="true"
-        jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="4ccbcda5c72027c7f7c14be9ff8640d9cb0d8da0">
-        <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.0.0_4f22c4fd17028e667980ff983733b86c6121aa3f/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="75b1f366ff0bbc78f8b1f7cf0dc82e7c53afef6a">
-        <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-25.0.0_f1002b85cc72c16b4255439770c21a4141f7e6df/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/Users/likun/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.0.0/support-annotations-25.0.0.jar"
         jumboMode="true"
         optimize="true"
@@ -57,48 +39,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="ef553892d6a417c253e052c68f97e0ab9dd35faf">
-        <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_4b759e79ef4440f4e011b47ab69dca18de9d2645/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.0.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
         sha1="5e497d60f0cb6ce87c458ac5420a46d0fed49bd0">
         <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-25.0.0_199669f8ca8866e5bc370ebd9b7da6cf6420f48d/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="d29714cc76b38157e3cbd034c66e1ec808eb4c19">
-        <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-25.0.0_9455955bf39cb0a3cd738d28ecd9846b52496d86/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="26674000177e45447a0326a6ad84612761199a13">
-        <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.0.0_572e3f2cb7e32362ad4b1cf33e519f96990f6813/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/design/25.0.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="26384be22ddc74cfe197ebda9edbc7d1fd8bd537">
-        <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-25.0.0_61e6d5a22327cfb73d6ca91c32e2ee5bc3d5cdf5/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -138,30 +84,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.8.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="7e92aadd0697922316d1395c1887a23aebec640a">
-        <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-base-9.8.0_21ddc0b11e0485a485fa29176336afe9a010dda8/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
-        sha1="8713c5c021b373036341595572276ddfb19eea27">
+        sha1="0885c4d974182ee7a1597997668aac80140149be">
         <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_5b782de93a8773f6141ba11f6689c466262c966a/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.0/jars/libs/internal_impl-25.0.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="ee5faf4dee5b6a4364bf51587871047dde7c703a">
-        <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_c20c9b31ed09562720f361b59b5b71e0e5ebf899/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -171,15 +99,6 @@
         revision="24.0.2"
         sha1="53a420cd4f49274db6bd43475f8006ba67ef6bbd">
         <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-25.0.0_52e80b041d15b98d5b5663e1a8d2beb51591c11b/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/jars/libs/internal_impl-25.0.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="e5343c9d19cb19ff55f6b268c7f3fe8c9d224f6f">
-        <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_40e0bd82e030a4c6e5aa7a88e6bc6175a11f3bb1/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -207,6 +126,87 @@
         revision="24.0.2"
         sha1="f2e3b9bc1ec25f652e8007ce7774c991e38f6a00">
         <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_637a36e7de81e5adf497a452ad39ecac2d7b5ad0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="4ccbcda5c72027c7f7c14be9ff8640d9cb0d8da0">
+        <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.0.0_4f22c4fd17028e667980ff983733b86c6121aa3f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="75b1f366ff0bbc78f8b1f7cf0dc82e7c53afef6a">
+        <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-25.0.0_f1002b85cc72c16b4255439770c21a4141f7e6df/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="b62c9c7a7e6d7ef341f1f279e8f7768acc30ae1a">
+        <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_4b759e79ef4440f4e011b47ab69dca18de9d2645/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="d29714cc76b38157e3cbd034c66e1ec808eb4c19">
+        <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-25.0.0_9455955bf39cb0a3cd738d28ecd9846b52496d86/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="26674000177e45447a0326a6ad84612761199a13">
+        <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.0.0_572e3f2cb7e32362ad4b1cf33e519f96990f6813/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/design/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="26384be22ddc74cfe197ebda9edbc7d1fd8bd537">
+        <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-25.0.0_61e6d5a22327cfb73d6ca91c32e2ee5bc3d5cdf5/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="7e92aadd0697922316d1395c1887a23aebec640a">
+        <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-base-9.8.0_21ddc0b11e0485a485fa29176336afe9a010dda8/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="ee5faf4dee5b6a4364bf51587871047dde7c703a">
+        <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_c20c9b31ed09562720f361b59b5b71e0e5ebf899/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="e5343c9d19cb19ff55f6b268c7f3fe8c9d224f6f">
+        <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_40e0bd82e030a4c6e5aa7a88e6bc6175a11f3bb1/classes.dex" />
     </item>
     <item
         is-multidex="true"
