@@ -5,12 +5,15 @@ var app = express()
 app.set("port", 4321);
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(bodyParser.json({limit: '50mb'}));
+
 var basic = {
     trash:[]
-}
+};
+
 var split = {
  items:[]
 };
+
 app.delete('/userData', function(req, res){
     console.log('/userData DELETE URI accessed');
     if(!req.body) return res.sendStatus(400);
@@ -19,14 +22,17 @@ app.delete('/userData', function(req, res){
     split.items.splice(index, 1);
     res.json(req.body);
 });
+
 app.get('/seperate',function(req,res){
     console.log('/seperate GET URI accessed');
     res.send(JSON.stringify(split));
 });
+
 app.get('/userData', function(req, res) {
        console.log('/userData GET URI accessed');
        res.send(basic);
    });
+
 app.post('/opinion',function(req,res)
     {
     console.log('/opinion POST URI accessed');
@@ -38,6 +44,7 @@ app.post('/opinion',function(req,res)
     split.items[index].trash_dislikes = dislikes;
     res.json(req.body);
        });
+
 app.post('/seperate',function(req,res)
     {
     console.log('/seperate POST URI accessed');
@@ -53,6 +60,7 @@ app.post('/seperate',function(req,res)
     split.items.push(jsonObject);
     res.json(req.body);
     });
+
 app.post('/userData', function (req, res)
     {
     console.log('/userData POST URI accessed');
@@ -79,19 +87,23 @@ app.post('/userData', function (req, res)
     basic.trash.push(jsonObject);
     res.json(req.body);
     });
+
   app.get('/', function(req, res) {
        res.send('<HTML><HEAD></HEAD><BODY><H1>hello world</H1></BODY></HTML>');
        console.log(req);
        });
+
 app.use(function(req, res, next)
    {
        res.status(404).send('Sorry cant find that!');
    });
+
 app.use(function(err, req, res, next)
    {
        console.error(err.stack);
        res.status(500).send('Internal Server Error message - very strange request came in and we do not know how to handle it!!!');
    });
+
 app.listen(app.get("port"), function ()
       {
           console.log('CS4531 Node Example: Node app listening on port: ', app.get("port"));

@@ -187,7 +187,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
-        sha1="af3a6aa66134c2b895a8836b1e9196d52b24c231">
+        sha1="c8177ee1ab31b6ecb0645b3c293d36df70bc0155">
         <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_c03f745e9fb73107efd3518a0cd3c739dc40fd43/classes.dex" />
     </item>
     <item
@@ -196,7 +196,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
-        sha1="cb02774b5315d5682fd5ccd5670d41f24299f2f1">
+        sha1="6df5d0f0e432ea5e105ede736ff19d1a633bc2ab">
         <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_bffc335f35581f21d8666aa8e9af1bf5ce96902b/classes.dex" />
     </item>
     <item

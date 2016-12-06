@@ -81,34 +81,13 @@ public class MapsActivity extends AppCompatActivity implements
     private int count = 0;
 
     /*
-     * The instance fields for the map interface
-     */
-    private ListView mDrawerList;
-    //private ArrayAdapter<String> mAdapter;
-    private ActionBarDrawerToggle mDrawerToggle;
-    private DrawerLayout mDrawerLayout;
-    private String mActivityTitle;
-
-    /*
      * The instance fields for the marker display
      */
 
-    JSONObject obj;
     JSONArray inter;
-    private static final String REGEX_INPUT_BOUNDARY_BEGINNING = "\\A";
-    private Marker customMarker;
-    private String returned1 = "";
-    private Button goToInfo;
     private HashMap<Marker, String> infoMarkerMap;
     private ArrayList<Marker> markerList;
     private ArrayList<String> returnedList;
-
-
-    /*
-     * TEST
-     */
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,13 +95,10 @@ public class MapsActivity extends AppCompatActivity implements
         httpAsyncTask = new HTTPAsyncTask(this);
         setContentView(R.layout.activity_maps);
 
-        //The following are for the map interface
-        //mDrawerList = (ListView)findViewById(R.id.navList);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
-        //mActivityTitle = getTitle().toString();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close);
 
@@ -218,14 +194,12 @@ public class MapsActivity extends AppCompatActivity implements
         String s = "Lattitude is " + sLattitude + " Longitude is " + sLongitude;
 
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-        //    LatLng latLng = new LatLng(lati, longi);
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
                 .title("Initial Location!");
         if(count == 0) {
             Toast.makeText(MapsActivity.this, s, Toast.LENGTH_SHORT).show();
             mMap.addMarker(options);
-            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5));
             count++;
         }
     }
@@ -360,11 +334,7 @@ public class MapsActivity extends AppCompatActivity implements
         googleMap.setIndoorEnabled(true);
         googleMap.setBuildingsEnabled(true);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-        //mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
         mMap.setOnMarkerClickListener(this);
-        //mMap.setOnInfoWindowClickListener(this);
-
-
     }
 
     @Override
@@ -431,8 +401,8 @@ public class MapsActivity extends AppCompatActivity implements
                 //if a marker already exists in the same position as this marker
                 if (current.equals(pos)) {
                     //update the position of the coincident marker by applying a small multipler to its coordinates
-                    double newLat = current.latitude + (Math.random() -.5) / 1500;// * (Math.random() * (max - min) + min);
-                    double newLng = current.longitude + (Math.random() -.5) / 1500;// * (Math.random() * (max - min) + min);
+                    double newLat = current.latitude + (Math.random() -.5) / 1500;
+                    double newLng = current.longitude + (Math.random() -.5) / 1500;
                     finalLatLng = new LatLng(newLat,newLng);
                     break;
                 }

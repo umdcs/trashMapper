@@ -1,9 +1,10 @@
 package edu.umn.trashmapper;
 
 /**
- * Created by mattl on 11/16/2016.
+ * Created by Matt Jallen on 11/16/2016.
  */
 
-public interface AsyncResponse {
+public interface AsyncResponse
+{
     void processFinish(String output);
 }

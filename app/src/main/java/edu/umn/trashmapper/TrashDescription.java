@@ -8,11 +8,8 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.media.ExifInterface;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -27,32 +24,17 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.RandomAccessFile;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
-import static android.util.Base64.DEFAULT;
-import static android.util.Base64.encodeToString;
 
 public class TrashDescription extends AppCompatActivity implements AsyncResponse{
 
@@ -247,14 +229,15 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     }
 
     private void getBitmap() {
-        try {
-            if (photoFile.exists()) {
+        try
+        {
+            if (photoFile.exists())
+            {
                 bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                //ImageView imageView = (ImageView) findViewById(R.id.imageView);
-                //imageView.setImageBitmap(bitmap);
             }
         }
-        catch (NullPointerException e){
+        catch (NullPointerException e)
+        {
             toast = Toast.makeText(this, "No image taken or selected.", Toast.LENGTH_SHORT);
             toast.show();
         }
@@ -312,7 +295,6 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
                 String imgDecodableString = cursor.getString(columnIndex);
                 cursor.close();
                 photoFile = new File(imgDecodableString);
-                String filePath = photoFile.getAbsolutePath();
                 processPhotoFile(path);
 
             } catch (NullPointerException e) {
@@ -347,14 +329,12 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
             Log.d("his", "gps latitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE));    // 緯度
             Log.d("his", "gps longitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF));
             Log.d("his", "gps longitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE));
-            Log.d("his", "gps datetime" +
-                    ": " + exif.getAttribute(ExifInterface.TAG_DATETIME));    // 経度
+            Log.d("his", "gps datetime" + ": " + exif.getAttribute(ExifInterface.TAG_DATETIME));    // 経度
             trashGenDate = exif.getAttribute(ExifInterface.TAG_DATETIME);
             trashGenLatitude = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
             trashGenLongtitude = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
             trashGenLatitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
             trashGenLongtitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
-
             trashOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,1);
             fixLocation();
 
@@ -434,7 +414,6 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     public void sendJSONUserInformation() {
         try {
             JSONObject jason = new JSONObject();
-            //jason.put("type", "UserInformation");
             if(userEmail == null){
                 jason.put("user_name", tempEmail);
                 jason.put("user_password", tempPassword);
@@ -517,23 +496,6 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         httpAsyncTask = new HTTPAsyncTask(this);
         httpAsyncTask.execute(httpAsyncTask.address + "/seperate", "POST", jason.toString());
     }
-    //Creates image file from JSON Object on server.
-    private void createFile(String encrypted) throws JSONException {
-        if (encrypted != null) {
-            Log.d("Debug", "String is " + encrypted);
-            byte[] decoded = Base64.decode(encrypted, DEFAULT);
-            Bitmap pic = BitmapFactory.decodeByteArray(decoded, 0, decoded.length);
-            ImageView image = (ImageView) findViewById(R.id.trash);
-            image.setImageBitmap(pic);
-        }
-    }
-
-    public void restGET() {
-        httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute(httpAsyncTask.address + "/userData", "GET");
-    }
-
-
 
     //This is the picture that the user takes using the camera.
     private File photoFile = null;
@@ -569,19 +531,12 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     private boolean cans;
     private boolean plastic;
     private boolean battery;
-    /*
-    map the trash bin
-     */
-    private boolean trashBin;
+
     /*
     map the trash bin
      */
     private String trashInfo;
-    /*
-    photo location
-     */
-    private String latitude;
-    private String longtitude;
+
     /*
      icon buttons
      */
@@ -594,7 +549,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
 
 
     @Override
-    public void processFinish(String output) {
-
+    public void processFinish(String output)
+    {
     }
 }

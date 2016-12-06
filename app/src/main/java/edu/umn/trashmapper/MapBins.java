@@ -1,6 +1,5 @@
 package edu.umn.trashmapper;
 
-import android.*;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -30,14 +29,9 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static android.util.Base64.DEFAULT;
-import static android.util.Base64.encodeToString;
 
 public class MapBins extends AppCompatActivity implements AsyncResponse{
 
@@ -221,8 +215,6 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
         try {
             if (photoFile.exists()) {
                 bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                //ImageView imageView = (ImageView) findViewById(R.id.imageView);
-                //imageView.setImageBitmap(bitmap);
             }
         }
         catch (NullPointerException e){
@@ -255,7 +247,6 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
                 String imgDecodableString = cursor.getString(columnIndex);
                 cursor.close();
                 photoFile = new File(imgDecodableString);
-                String filePath = photoFile.getAbsolutePath();
                 processPhotoFile(path);
 
              } catch (NullPointerException e) {
@@ -289,15 +280,13 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
             Log.d("his", "gps latitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE));    // 緯度
             Log.d("his", "gps longitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF));
             Log.d("his", "gps longitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE));
-            Log.d("his", "gps datetime" +
-                    ": " + exif.getAttribute(ExifInterface.TAG_DATETIME));    // 経度
+            Log.d("his", "gps datetime" + ": " + exif.getAttribute(ExifInterface.TAG_DATETIME));    // 経度
             trashGenDate = exif.getAttribute(ExifInterface.TAG_DATETIME);
             trashGenLatitude = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
             trashGenLongtitude = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
             trashGenLatitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
             trashGenLongtitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
             trashOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,1);
-
             fixLocation();
 
         } catch (Exception e) {
@@ -308,7 +297,6 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
 
     public void getUserInformation() {
         try {
-            //Intent intent = getIntent();
             if(getIntent().hasExtra(UserInformationActivity.USER_NAME)) {
                 userEmail = getIntent().getStringExtra(UserInformationActivity.USER_NAME);
                 userPassword = getIntent().getStringExtra(UserInformationActivity.USER_PASSWORD);
@@ -324,7 +312,7 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
         }
     }
 
-    public void sendJSONTrashBin(/*File photo*/) {
+    public void sendJSONTrashBin() {
         try {
             JSONObject jason = new JSONObject();
             /*
@@ -336,7 +324,6 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
             one is the trash bin array (pin all the trash bins on the map)
             one is the userInformation array (pin all the users' data on the map(share between friends))
              */
-               // jason.put("type", "UserInformation");
             if(userEmail == null){
                 Log.d("UserEmail Null","UsrEmail is null");
                 jason.put("user_name", tempEmail);
@@ -380,7 +367,6 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
 
     public void restPOSTPhoto(JSONObject jason){
         httpAsyncTask = new HTTPAsyncTask(this);
-        //httpAsyncTask.execute("http://192.168.1.19:4321/seperate", "POST", jason.toString());
         httpAsyncTask.execute(httpAsyncTask.address + "/seperate", "POST", jason.toString());
     }
 
@@ -455,7 +441,6 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
     private HTTPAsyncTask httpAsyncTask = new HTTPAsyncTask(this);
     private CheckBox recyclingBox, compostBox, trashBox;
     private boolean recycling, compost, trash;
-    private String encoded;
     /**
      * GPS information
      */
@@ -480,6 +465,5 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
 
     @Override
     public void processFinish(String output) {
-
     }
 }

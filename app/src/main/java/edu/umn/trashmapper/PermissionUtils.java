@@ -4,7 +4,6 @@ package edu.umn.trashmapper;
  * Created by wei on 16/10/31.
  */
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -14,9 +13,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
-
-
-
 
 /**
  * Utility class for access to runtime permissions.
@@ -38,22 +34,6 @@ public abstract class PermissionUtils {
             ActivityCompat.requestPermissions(activity, new String[]{permission}, requestId);
 
         }
-    }
-
-    /**
-     * Checks if the result contains a {@link PackageManager#PERMISSION_GRANTED} result for a
-     * permission from a runtime permissions request.
-     *
-     * @see android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback
-     */
-    public static boolean isPermissionGranted(String[] grantPermissions, int[] grantResults,
-                                              String permission) {
-        for (int i = 0; i < grantPermissions.length; i++) {
-            if (permission.equals(grantPermissions[i])) {
-                return grantResults[i] == PackageManager.PERMISSION_GRANTED;
-            }
-        }
-        return false;
     }
 
     /**
@@ -135,29 +115,6 @@ public abstract class PermissionUtils {
             dialog.setArguments(arguments);
             return dialog;
         }
-
-        /*@Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            Bundle arguments = getArguments();
-            final int requestCode = arguments.getInt(ARGUMENT_PERMISSION_REQUEST_CODE);
-            mFinishActivity = arguments.getBoolean(ARGUMENT_FINISH_ACTIVITY);
-
-            return new AlertDialog.Builder(getActivity())
-                    .setMessage(R.string.permission_rationale_location)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // After click on Ok, request the permission.
-                            ActivityCompat.requestPermissions(getActivity(),
-                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                    requestCode);
-                            // Do not finish the Activity while requesting permission.
-                            mFinishActivity = false;
-                        }
-                    })
-                    .setNegativeButton(android.R.string.cancel, null)
-                    .create();
-        }*/
 
         @Override
         public void onDismiss(DialogInterface dialog) {

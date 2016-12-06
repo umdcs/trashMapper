@@ -38,8 +38,6 @@ public class SelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SelectActivity.this, MapsActivity.class);
-                //if(newSignIn == true)
-                //sendInfo(intent);
                 startActivity(intent);
 
             }

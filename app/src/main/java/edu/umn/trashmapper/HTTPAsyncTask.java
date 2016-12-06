@@ -3,7 +3,6 @@ package edu.umn.trashmapper;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -95,28 +94,9 @@ class HTTPAsyncTask extends AsyncTask<String, Integer, String>
     protected void onPostExecute(String result)
     {
         delegate.processFinish(result);
-        /*try
-        {
-            JSONObject bjason = new JSONObject(result);
-            jasonarr = bjason.getJSONArray("pictures");
-            JSONObject sjason = jasonarr.getJSONObject(0);
-            // Log.d("DEBUG", sjason.getString("longitude"));
-            temp = jasonarr.toString();
-            Log.d("asdasdasdasdas", temp);
-        }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }*/
-    }
-    public JSONArray getJasonarr(){
-        Log.d("asdasdasdasdasdasd", temp);
-        return jasonarr;
     }
 
     public AsyncResponse delegate;
-    JSONArray jasonarr;
-    String temp = "";
-    public String address = "http://131.212.220.81:4321"; //https://lempo.d.umn.edu:8193
+    public String address = "http://131.212.159.140:4321";
 
 }

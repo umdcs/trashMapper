@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -197,7 +196,6 @@ public class DisplayActivity extends AppCompatActivity implements AsyncResponse
     HTTPAsyncTask httpAsyncTask;
     JSONObject obj;
     JSONArray inter;
-    ImageView image;
     String test = "In createImage";
     private boolean opinion = false;
     private int orientation;
