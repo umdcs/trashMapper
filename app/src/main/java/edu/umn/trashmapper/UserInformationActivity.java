@@ -1,3 +1,4 @@
+
 package edu.umn.trashmapper;
 
 import android.content.Intent;
@@ -24,7 +25,7 @@ public class UserInformationActivity extends AppCompatActivity implements AsyncR
         userNameView=(EditText) findViewById(R.id.log_in_email);
         userPasswordView=(EditText)findViewById(R.id.log_in_password);
         userName=userNameView.getText().toString();
-       // String userPassword=userPasswordView.getText().toString();
+        // String userPassword=userPasswordView.getText().toString();
         try {
             JSONObject jason = new JSONObject();
             jason.put("user_name", userName);
@@ -43,10 +44,10 @@ public class UserInformationActivity extends AppCompatActivity implements AsyncR
 
     @Override
     public void processFinish(String output) {
-      //  Log.d("get password","hahaha");
+        Log.d("get password","hahaha");
         try{
-        JSONObject bjason = new JSONObject(output);
-        VerifiedPassword = bjason.getString("user_password");
+            JSONObject bjason = new JSONObject(output);
+            VerifiedPassword = bjason.getString("user_password");
         } catch(JSONException e){
             e.printStackTrace();
         }

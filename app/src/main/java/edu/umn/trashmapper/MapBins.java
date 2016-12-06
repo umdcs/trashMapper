@@ -9,13 +9,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -38,22 +38,15 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        userName = intent.getStringExtra("user_name");
-        if(userName==null){
-            userName=intent.getStringExtra("user_name_from_Map");
-        }
-        EditText trashEdit = (EditText) findViewById(R.id.editText);
-        try {
-            //EditText trashEdit = (EditText) findViewById(R.id.editText);
-            trashInfo=trashEdit.getText().toString();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        //getUserInformation();
+        getUserInformation();
         setContentView(R.layout.activity_map_bins);
         Button button = (Button) findViewById(R.id.gallery);
+        EditText trashEdit = (EditText) findViewById(R.id.editText);
+        try{
+            trashInfo = trashEdit.getText().toString();}
+        catch(Exception e){
+            e.printStackTrace();
+        }
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,25 +62,22 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
                 }
             }
         });
-        button = (Button) findViewById(R.id.camera);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button cameraButton = (Button) findViewById(R.id.camera);
+        cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dispatchTakePictureIntent();
             }
         });
-        button = (Button) findViewById(R.id.map);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button Mapbutton = (Button) findViewById(R.id.map);
+        Mapbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(photoFile != null) {
-                  //  sendJSONTrashBin();
-
-                }
                 Intent intent = new Intent(MapBins.this, MapsActivity.class);
                 startActivity(intent);
             }
         });
+
         recyclingBox = (CheckBox) findViewById(R.id.recycling);
         trashBox = (CheckBox) findViewById(R.id.waste);
         compostBox = (CheckBox) findViewById(R.id.compost);
@@ -225,8 +215,6 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
         try {
             if (photoFile.exists()) {
                 bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                //ImageView imageView = (ImageView) findViewById(R.id.imageView);
-                //imageView.setImageBitmap(bitmap);
             }
         }
         catch (NullPointerException e){
@@ -246,8 +234,8 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 
-            if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
-                try {
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
+            try {
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
                 // Get the cursor
@@ -259,28 +247,27 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
                 String imgDecodableString = cursor.getString(columnIndex);
                 cursor.close();
                 photoFile = new File(imgDecodableString);
-                String filePath = photoFile.getAbsolutePath();
                 processPhotoFile(path);
 
-             } catch (NullPointerException e) {
-                    toast = Toast.makeText(this, "Invalid picture selected.", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-                sendJSONTrashBin();
-                sendPictureInformation(photoFile);
+            } catch (NullPointerException e) {
+                toast = Toast.makeText(this, "Invalid picture selected.", Toast.LENGTH_SHORT);
+                toast.show();
             }
+            sendJSONTrashBin();
+            sendPictureInformation(photoFile);
+        }
 
-            else if (requestCode == REQUEST_TAKE_PHOTO  && resultCode == Activity.RESULT_OK) {
-                try {
-                    getBitmap();
-                    processPhotoFile(photoFile.getAbsolutePath());
-                } catch (NullPointerException e) {
-                    toast = Toast.makeText(this, "Invalid picture taken.", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-                sendJSONTrashBin();
-                sendPictureInformation(photoFile);
+        else if (requestCode == REQUEST_TAKE_PHOTO  && resultCode == Activity.RESULT_OK) {
+            try {
+                getBitmap();
+                processPhotoFile(photoFile.getAbsolutePath());
+            } catch (NullPointerException e) {
+                toast = Toast.makeText(this, "Invalid picture taken.", Toast.LENGTH_SHORT);
+                toast.show();
             }
+            sendJSONTrashBin();
+            sendPictureInformation(photoFile);
+        }
     }
 
     private void processPhotoFile(String path){
@@ -293,14 +280,13 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
             Log.d("his", "gps latitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE));    // 緯度
             Log.d("his", "gps longitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF));
             Log.d("his", "gps longitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE));
-            Log.d("his", "gps datetime" +
-                    ": " + exif.getAttribute(ExifInterface.TAG_DATETIME));    // 経度
+            Log.d("his", "gps datetime" + ": " + exif.getAttribute(ExifInterface.TAG_DATETIME));    // 経度
             trashGenDate = exif.getAttribute(ExifInterface.TAG_DATETIME);
             trashGenLatitude = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
             trashGenLongtitude = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
             trashGenLatitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
             trashGenLongtitudeRef = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
-
+            trashOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,1);
             fixLocation();
 
         } catch (Exception e) {
@@ -309,19 +295,24 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
         }
     }
 
-    /*public void getUserInformation() {
+    public void getUserInformation() {
         try {
-            Intent intent = getIntent();
-            userEmail = intent.getStringExtra(UserInformationActivity.USER_NAME);
-            userPassword = intent.getStringExtra(UserInformationActivity.USER_PASSWORD);
-            Log.d("User Email", userEmail);
-            Log.d("User password", userPassword);
+            if(getIntent().hasExtra(UserInformationActivity.USER_NAME)) {
+                userEmail = getIntent().getStringExtra(UserInformationActivity.USER_NAME);
+                userPassword = getIntent().getStringExtra(UserInformationActivity.USER_PASSWORD);
+                Log.d("User EmailTrashDes", userEmail);
+                Log.d("User passwordTrashDes", userPassword);
+            }
+            else if(getIntent().hasExtra("user_name_from_map")){
+                tempEmail = getIntent().getStringExtra("user_name_from_map");
+                tempPassword = getIntent().getStringExtra("user_pwd_from_map");
+            }
         } catch (Exception e) {
             Log.d("user", "failed");
         }
-    }*/
+    }
 
-    public void sendJSONTrashBin(/*File photo*/) {
+    public void sendJSONTrashBin() {
         try {
             JSONObject jason = new JSONObject();
             /*
@@ -333,15 +324,21 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
             one is the trash bin array (pin all the trash bins on the map)
             one is the userInformation array (pin all the users' data on the map(share between friends))
              */
-                jason.put("type", "UserInformation");
-                jason.put("user_name", userName);
-                //jason.put("user_password", userPassword);
-                jason.put("type_of_trash", typeOfTrash());
-                jason.put("trash_latitude", Latitude);
-                jason.put("trash_longtitude", Longitude);
-                jason.put("trash_generate_date", trashGenDate);
-                jason.put("trash_information", trashInfo);
-                //jason.put("picture", createPhotoString(photo));
+            if(userEmail == null){
+                Log.d("UserEmail Null","UsrEmail is null");
+                jason.put("user_name", tempEmail);
+                jason.put("user_password", tempPassword);
+            }
+            else {
+                jason.put("user_name", userEmail);
+                jason.put("user_password", userPassword);
+            }
+            jason.put("type_of_trash", typeOfTrash());
+            jason.put("trash_latitude", Latitude);
+            jason.put("trash_longtitude", Longitude);
+            jason.put("trash_generate_date", trashGenDate);
+            jason.put("trash_information",trashInfo);
+            jason.put("trash_orientation",trashOrientation);
 
             restPOST(jason);
         } catch (JSONException e) {
@@ -353,6 +350,8 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
         try{
             JSONObject jason = new JSONObject();
             jason.put("picture", createPhotoString(photo));
+            jason.put("trash_likes", 0);
+            jason.put("trash_dislikes", 0);
             restPOSTPhoto(jason);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -363,32 +362,29 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
     }
     private void restPOST(JSONObject jason){
         httpAsyncTask = new HTTPAsyncTask(this);
-
         httpAsyncTask.execute(httpAsyncTask.address + "/userData", "POST", jason.toString());
     }
 
     public void restPOSTPhoto(JSONObject jason){
         httpAsyncTask = new HTTPAsyncTask(this);
-        //httpAsyncTask.execute("http://192.168.1.19:4321/seperate", "POST", jason.toString());
         httpAsyncTask.execute(httpAsyncTask.address + "/seperate", "POST", jason.toString());
-
     }
 
     private String createPhotoString(File photo) throws IOException {
 
         byte[] imageBytes = new byte[0];
         String encodedImage = "";
-            try {
-                Bitmap pic = BitmapFactory.decodeFile(photo.getPath());
-                Log.d("Photo.getPath()", photo.getPath());
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                pic.compress(Bitmap.CompressFormat.JPEG, 14, baos);
-                imageBytes = baos.toByteArray();
-                encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-            } catch (NullPointerException e){
-                toast = Toast.makeText(this, "Take another picture.", Toast.LENGTH_SHORT);
-                toast.show();
-            }
+        try {
+            Bitmap pic = BitmapFactory.decodeFile(photo.getPath());
+            Log.d("Photo.getPath()", photo.getPath());
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            pic.compress(Bitmap.CompressFormat.JPEG, 14, baos);
+            imageBytes = baos.toByteArray();
+            encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        } catch (NullPointerException e){
+            toast = Toast.makeText(this, "Take another picture.", Toast.LENGTH_SHORT);
+            toast.show();
+        }
         return encodedImage;
     }
 
@@ -445,7 +441,6 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
     private HTTPAsyncTask httpAsyncTask = new HTTPAsyncTask(this);
     private CheckBox recyclingBox, compostBox, trashBox;
     private boolean recycling, compost, trash;
-    private String encoded;
     /**
      * GPS information
      */
@@ -455,18 +450,21 @@ public class MapBins extends AppCompatActivity implements AsyncResponse{
     private String trashGenLongtitude;
     private String trashGenLatitudeRef;
     private String trashGenLongtitudeRef;
+    private int trashOrientation;
     private Double Latitude = 0.0, Longitude = 0.0;
 
-    private String userName;
+    private String userEmail;
     private String userPassword;
-    private String trashInfo;
 
+    private String tempEmail;
+    private String tempPassword;
+    private String trashInfo;
 
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
 
     @Override
     public void processFinish(String output) {
-
     }
 }
+

@@ -6,15 +6,6 @@
     android:id = "@+id/activity_display"
     android:layout_height="match_parent"
    >
-
-        <!--<ScrollView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--tools:ignore="UselessParent">-->
-                <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:orientation="vertical">-->
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -44,7 +35,6 @@
                               app:srcCompat="@drawable/trash"
                               android:id="@+id/trash"
                             android:contentDescription=""
-                            android:rotation="90"
                             android:scaleType="fitCenter"
                             android:cropToPadding="false"
                             android:adjustViewBounds="true" />
@@ -71,7 +61,8 @@
                                             android:textSize="14sp"
                                             android:textStyle="bold"
                                             android:layout_weight="1"
-                                            android:lines="5"/>
+                                            android:maxLines="1"
+                                            android:lines="10"/>
 
                                         <LinearLayout
                                             android:orientation="horizontal"

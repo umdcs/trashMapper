@@ -3,6 +3,7 @@
 
     <item
         is-multidex="true"
+<<<<<<< HEAD
         jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-places/9.8.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -103,10 +104,113 @@
     <item
         is-multidex="true"
         jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.0/jars/classes.jar"
+=======
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="f2e3b9bc1ec25f652e8007ce7774c991e38f6a00">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_f624441edf4fa8e42b863aee9d74f343c293f2f9/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-25.0.0_dda05a3b23929faf5149b5735d60358a94abbc11/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="75b1f366ff0bbc78f8b1f7cf0dc82e7c53afef6a">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-25.0.0_ecd66c587f84bca9b27d1c0bbe37889fc2799d4a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="665d21a8a069c96b4d9e8b434f5096d865b4e261">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_75a59c7727f4c0ad9cb77f0181801c3b3358c3a5/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="76fb65a4b41ea42dab8a1310ed772a2420c96b52">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-25.0.0_d128da0976af316ab68614689fa4908cebbd0efe/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.0.0/support-annotations-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="a22d2cc94da87b254451fa8ed28afc30b4653773">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.0.0_f03e313073b83dc8b1444d9b683ae05c54a54c0d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="53a420cd4f49274db6bd43475f8006ba67ef6bbd">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-25.0.0_c5c46c4f68a13159eaecac24d4b62d42ee3cf288/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="5e497d60f0cb6ce87c458ac5420a46d0fed49bd0">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-25.0.0_51a5c5495d5f2c6eeffb93a623fa7761c7fb4f2f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="ee5faf4dee5b6a4364bf51587871047dde7c703a">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_a8e745c64dc28917f2ab04652e3e929acf4af3da/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="bf2e1838e4428616c1aa26edf43de72b5b99bf84">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-tasks-9.8.0_de2aeadf15c3517e59d3485c1fde3d122ff4785b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/design/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="26384be22ddc74cfe197ebda9edbc7d1fd8bd537">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-25.0.0_cb37e3a6a0b8e6eb06ae7366595ca50f61ec37f5/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.0/jars/classes.jar"
+>>>>>>> oldCompleteMap
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
         sha1="07daa0b6e1d455c82a38422ffe287c18823d339a">
+<<<<<<< HEAD
         <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-25.0.0_29a4123d92dc062c95752e47beee4c0bce591e3f/classes.dex" />
     </item>
     <item
@@ -157,10 +261,63 @@
     <item
         is-multidex="true"
         jar="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.0/jars/classes.jar"
+=======
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-25.0.0_45f8b06efed8568503c3ef03771fc56c116d95e1/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="8bc45ce1f63d1a391fd38b32a201be5a42f9c95d">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-25.0.0_b16d190aa9caf88c0f261fc6bb9982e205feec28/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="e5343c9d19cb19ff55f6b268c7f3fe8c9d224f6f">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_d4ebcbc6f489c10d953adb41f7f115efa48caddb/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="122ec9237acd8a57d974b9d529987f1ee6ca5aea">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-maps-9.8.0_3c646abad9791188da3786a02e88f67eb31b6efe/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="3b61a70884adaf0be3fc06c70c801e3e6df13133">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_0464882db081ffc7cd3253adba6b1a495e07d90c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="7e92aadd0697922316d1395c1887a23aebec640a">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-base-9.8.0_bbe36d0473259520ec13492e9b6b1eedd10f5207/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.0/jars/classes.jar"
+>>>>>>> oldCompleteMap
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
         sha1="d29714cc76b38157e3cbd034c66e1ec808eb4c19">
+<<<<<<< HEAD
         <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-25.0.0_9455955bf39cb0a3cd738d28ecd9846b52496d86/classes.dex" />
     </item>
     <item
@@ -234,6 +391,81 @@
         revision="24.0.2"
         sha1="76fb65a4b41ea42dab8a1310ed772a2420c96b52">
         <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-25.0.0_6869646ddfdc8b103335eb2b0bf6d6f4460e8d36/classes.dex" />
+=======
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-25.0.0_fb3d5f05241f8bbb892b7c92696f5e8f63ecfc3e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="4ccbcda5c72027c7f7c14be9ff8640d9cb0d8da0">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.0.0_8cb3af55b26b794650838ca2757a1ed93b54ff07/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="26674000177e45447a0326a6ad84612761199a13">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.0.0_eec1a8408dc119518d81907943021a4ff1d3da84/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="af3a6aa66134c2b895a8836b1e9196d52b24c231">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_c03f745e9fb73107efd3518a0cd3c739dc40fd43/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="cb02774b5315d5682fd5ccd5670d41f24299f2f1">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_bffc335f35581f21d8666aa8e9af1bf5ce96902b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/transition/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="0c6d948e6cb9ea6f535d175fb61ba2930719c0e9">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-transition-25.0.0_cf2f70e0bd0fdeffb4ca7e99ff9b00bf8fba9a56/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-places/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="679251204de40ace98776a6f4e3a649c27e3d89f">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-places-9.8.0_2a5f84dae73e4784cfbfd857524483d4cb30bb34/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="9f6d236bac26d02b410e4ee186ba517ace5ee661">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-basement-9.8.0_2b8e0b0031c7da97f2f24e2c4181715669ef8c9c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="04bbbddf868aa02dd33f9e90d8f5d908c360f638">
+        <dex dex="/Users/Jake/AndroidStudioProjects/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-location-9.8.0_c815edf746f4ebbb05d3ec79b8565983ac6f31b9/classes.dex" />
+>>>>>>> oldCompleteMap
     </item>
 
 </items>

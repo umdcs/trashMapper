@@ -81,33 +81,13 @@ public class MapsActivity extends AppCompatActivity implements
     private int count = 0;
 
     /*
-     * The instance fields for the map interface
-     */
-    private ListView mDrawerList;
-    //private ArrayAdapter<String> mAdapter;
-    private ActionBarDrawerToggle mDrawerToggle;
-    private DrawerLayout mDrawerLayout;
-    private String mActivityTitle;
-
-    /*
      * The instance fields for the marker display
      */
 
-    JSONObject obj;
     JSONArray inter;
-    private static final String REGEX_INPUT_BOUNDARY_BEGINNING = "\\A";
-    private Marker customMarker;
-    private String returned1 = "";
-    private Button goToInfo;
-    private HashMap<Marker, String> eventMarkerMap;
     private HashMap<Marker, String> infoMarkerMap;
     private ArrayList<Marker> markerList;
     private ArrayList<String> returnedList;
-    /*
-     * TEST
-     */
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,13 +95,10 @@ public class MapsActivity extends AppCompatActivity implements
         httpAsyncTask = new HTTPAsyncTask(this);
         setContentView(R.layout.activity_maps);
 
-        //The following are for the map interface
-        //mDrawerList = (ListView)findViewById(R.id.navList);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
-        //mActivityTitle = getTitle().toString();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close);
 
@@ -146,27 +123,6 @@ public class MapsActivity extends AppCompatActivity implements
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
-
-        //addDrawerItems();
-        //setupDrawer();
-
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setHomeButtonEnabled(true);
-
-
-        /********** Test ***********/
-    /*    Bundle b = getIntent().getExtras();
-       // lati = b.getDouble("lat");
-       // longi = b.getDouble("long");
-        String jsonArray = b.getString("jsonArray");
-
-        try {
-            inter = new JSONArray(jsonArray);
-           // System.out.println(array.toString(2));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-*/
         restGET(); // Get the trash
     }
 
@@ -237,17 +193,13 @@ public class MapsActivity extends AppCompatActivity implements
 
         String s = "Lattitude is " + sLattitude + " Longitude is " + sLongitude;
 
-
-
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-        //    LatLng latLng = new LatLng(lati, longi);
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
                 .title("Initial Location!");
         if(count == 0) {
             Toast.makeText(MapsActivity.this, s, Toast.LENGTH_SHORT).show();
             mMap.addMarker(options);
-            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5));
             count++;
         }
     }
@@ -320,7 +272,6 @@ public class MapsActivity extends AppCompatActivity implements
 
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //location = null;
                 enableMyLocation();
                 startLocationUpdates();
                 Log.d("Test","Permission granteed");
@@ -383,12 +334,7 @@ public class MapsActivity extends AppCompatActivity implements
         googleMap.setIndoorEnabled(true);
         googleMap.setBuildingsEnabled(true);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-        //addMarkers();
-        //mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
-        //mMap.setOnMarkerClickListener(this);
-        //mMap.setOnInfoWindowClickListener(this);
-
-
+        mMap.setOnMarkerClickListener(this);
     }
 
     @Override
@@ -418,27 +364,27 @@ public class MapsActivity extends AppCompatActivity implements
     @Override
     public boolean onMarkerClick(final Marker marker) {
 
-            // This causes the marker at Perth to bounce into position when it is clicked.
-            final Handler handler = new Handler();
-            final long start = SystemClock.uptimeMillis();
-            final long duration = 1500;
+        // This causes the marker at Perth to bounce into position when it is clicked.
+        final Handler handler = new Handler();
+        final long start = SystemClock.uptimeMillis();
+        final long duration = 1500;
 
-            final Interpolator interpolator = new BounceInterpolator();
+        final Interpolator interpolator = new BounceInterpolator();
 
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    long elapsed = SystemClock.uptimeMillis() - start;
-                    float t = Math.max(
-                            1 - interpolator.getInterpolation((float) elapsed / duration), 0);
-                    marker.setAnchor(0.5f, 1.0f + 2 * t);
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                long elapsed = SystemClock.uptimeMillis() - start;
+                float t = Math.max(
+                        1 - interpolator.getInterpolation((float) elapsed / duration), 0);
+                marker.setAnchor(0.5f, 1.0f + 2 * t);
 
-                    if (t > 0.0) {
-                        // Post again 16ms later.
-                        handler.postDelayed(this, 16);
-                    }
+                if (t > 0.0) {
+                    // Post again 16ms later.
+                    handler.postDelayed(this, 16);
                 }
-            });
+            }
+        });
         // We return false to indicate that we have not consumed the event and that we wish
         // for the default behavior to occur (which is for the camera to move such that the
         // marker is centered and for the marker's info window to open, if it has one).
@@ -455,26 +401,17 @@ public class MapsActivity extends AppCompatActivity implements
                 //if a marker already exists in the same position as this marker
                 if (current.equals(pos)) {
                     //update the position of the coincident marker by applying a small multipler to its coordinates
-                    double newLat = current.latitude + (Math.random() -.5) / 1500;// * (Math.random() * (max - min) + min);
-                    double newLng = current.longitude + (Math.random() -.5) / 1500;// * (Math.random() * (max - min) + min);
+                    double newLat = current.latitude + (Math.random() -.5) / 1500;
+                    double newLng = current.longitude + (Math.random() -.5) / 1500;
                     finalLatLng = new LatLng(newLat,newLng);
                     break;
                 }
             }
         }
-    return finalLatLng;
+        return finalLatLng;
 
     }
     private void addMarkers(){
-       /* InputStream inputStream = getResources().openRawResource(R.raw.mock_data);
-        String json = new Scanner(inputStream).useDelimiter(REGEX_INPUT_BOUNDARY_BEGINNING).next();
-       try {
-           inter = new JSONArray(json);
-       }
-       catch (JSONException e){
-           Log.e("NOTE", "Cannot parse JSON");
-           e.printStackTrace();
-       }*/
 
         markerList = new ArrayList<>(inter.length());
         returnedList = new ArrayList<>(inter.length());
@@ -484,33 +421,39 @@ public class MapsActivity extends AppCompatActivity implements
 
                 Log.d("TEST", inter.toString());
                 JSONObject each = inter.getJSONObject(i);
-                userName = each.getString("user_name");
+                String userName = "";
+                try {
+                    userName = each.getString("user_name");
+                } catch(JSONException e){
+                    Log.d("NameNotFound","No value for user_name");
+                }
                 String trashType = each.getString("type_of_trash");
-                /*hard code*/
-                //trashType="organic";
                 Double trashLat = each.getDouble("trash_latitude");
                 Double trashLong = each.getDouble("trash_longtitude");
                 String trashDate = each.getString("trash_generate_date");
-               // String trashDate="2016:11:24 19:51:19";
-                String trashInfo = "";//each.getString("trash_information");
-                //String trashPicture = each.getString("picture");
-                //String trashPicture = "picture";
+                String trashInfo;
+                orientation = each.getInt("trash_orientation");
+                try {
+                    trashInfo = each.getString("trash_information");
+                }catch (Exception e){
+                    trashInfo = "No Trash Description";
+                }
 
                 LatLng latLng = new LatLng(trashLat, trashLong);
                 LatLng latLngNew = adjustMarkers(latLng, markerList);
-                //String returned = "User Name: " + userName + "\n" + "Trash Type: " + trashType + "\n"
-                //        + "Trash Latitude: " + trashLat + "\n" + "Trash Longitude: " + trashLong + "\n"
-                //        + "Trash Date: " + trashDate + "\n" + "%" + trashPicture;/*+ "Trash Info: " + trashInfo*/;
+
                 String returned = "";
                 if(trashType.equals("recycling")|| trashType.equals("compost") || trashType.equals("waste")) {
                     returned = "User Name: " + userName + "\n" + "Trash Bin Type: " + trashType + "\n"
                             + "Trash Bin Latitude: " + trashLat + "\n" + "Trash Bin Longitude: " + trashLong + "\n"
-                            + "Trash Bin Date: " + trashDate + "\n" + "%" + String.valueOf(i);
+                            + "Trash Bin Date: " + trashDate + "\n" + "Trash Bin Description: " + trashInfo + "\n" +
+                            "%" + String.valueOf(i);
                 }
                 else{
                     returned = "User Name: " + userName + "\n" + "Trash Type: " + trashType + "\n"
                             + "Trash Latitude: " + trashLat + "\n" + "Trash Longitude: " + trashLong + "\n"
-                            + "Trash Date: " + trashDate + "\n" + "%" + String.valueOf(i);
+                            + "Trash Date: " + trashDate + "\n" + "Trash Description: " + trashInfo + "\n"
+                            + "%" + String.valueOf(i);
                 }
 
                 returnedList.add(returned);
@@ -518,9 +461,7 @@ public class MapsActivity extends AppCompatActivity implements
                         .position(latLngNew)
                         .title(userName)
                         .snippet("Click on to see more information")
-                        //.snippet(returned)
                         .icon(BitmapDescriptorFactory.fromResource(chooseMarker(trashType)));
-                //System.out.println("returned is" + returned);
 
                 Marker customMarker = mMap.addMarker(options);
                 markerList.add(customMarker);
@@ -538,13 +479,8 @@ public class MapsActivity extends AppCompatActivity implements
                                 if(!marker.getTitle().equals("Initial Location!")) {
                                     Intent intent = new Intent(MapsActivity.this, DisplayActivity.class);
                                     Bundle extras = new Bundle();
-                                    //extras.putString("TRASH_INFO", marker.getSnippet()); // put the mpg_message var into bundle
-                                    //extras.putString("TRASH_INFO", returned);
                                     extras.putString("TRASH_INFO", infoMarkerMap.get(marker));
-                                    //extras.putString("TRASH_PIC_STRING",pic);
-                                    //System.out.println("returned is " + marker.getSnippet());
-                                    // System.out.println("returned is: " + returned);
-                                    // System.out.println("returned String is " + infoMarkerMap.get(marker));
+                                    extras.putInt("TRASH_ORIENTATION", orientation);
                                     intent.putExtras(extras);
                                     startActivity(intent);
                                 }
@@ -588,56 +524,8 @@ public class MapsActivity extends AppCompatActivity implements
             // Passing 0 to setImageResource will clear the image view.
             badge = 0;
         }
-      //  ((ImageView) view.findViewById(R.id.badge)).setImageResource(badge);
         return badge;
     }
-
-
-    /*private void addDrawerItems() {
-        String[] itemArray = {"Saved locations", "Others on the map", "Profile"};
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, itemArray);
-        mDrawerList.setAdapter(mAdapter);
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MapsActivity.this, "HaHaHaHaHa!", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }*/
-
-    /*private void setupDrawer() {
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
-
-            /** Called when a drawer has settled in a completely open state. */
-           /* public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle("Menu");
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-
-            /** Called when a drawer has settled in a completely closed state. */
-           /* public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                getSupportActionBar().setTitle(mActivityTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-        };
-
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-    }*/
-
-   // @Override
-    /*protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -657,25 +545,6 @@ public class MapsActivity extends AppCompatActivity implements
     }
 
 
-   /* @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.string.action_settings) {
-            return true;
-        }
-
-        // Activate the navigation drawer toggle
-        /*if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }*/
-
-        //return super.onOptionsItemSelected(item);
-   // }*/
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -684,15 +553,20 @@ public class MapsActivity extends AppCompatActivity implements
 
         if (id == R.id.nav_trash) {
             Intent intent = new Intent(MapsActivity.this, TrashDescription.class);
-            intent.putExtra("user_name_from_Map",userName);
+
+            intent.putExtra("user_name_from_map", directName);
+            intent.putExtra("user_pwd_from_map", directPassword);
+
             startActivity(intent);
         } else if (id == R.id.nav_trash_bin) {
             Intent intent = new Intent(MapsActivity.this, MapBins.class);
-            intent.putExtra("user_name_from_Map",userName);
+            intent.putExtra("user_name_from_map", directName);
+            intent.putExtra("user_pwd_from_map", directPassword);
             startActivity(intent);
 
-        } else if (id == R.id.nav_statistics){
-
+        } else if (id == R.id.nav_SignOut){
+            Intent intent = new Intent(MapsActivity.this, UserInformationActivity.class);
+            startActivity(intent);
         }
         else if (id == R.id.nav_profile) {
 
@@ -718,8 +592,8 @@ public class MapsActivity extends AppCompatActivity implements
         {
             JSONObject bjason = new JSONObject(result);
             inter = bjason.getJSONArray("trash");
-           // JSONObject sjason = inter.getJSONObject(0);
-            // Log.d("DEBUG", sjason.getString("longitude"));
+            directName = inter.getJSONObject(inter.length()-1).getString("user_name");
+            directPassword = inter.getJSONObject(inter.length()-1).getString("user_password");
             temp = inter.toString();
             Log.d("asdasdasdasdasMAPS", temp);
             addMarkers();
@@ -732,5 +606,7 @@ public class MapsActivity extends AppCompatActivity implements
         httpAsyncTask.cancel(true);
     }
     String temp;
-    String userName;
+    private String directName;
+    private String directPassword;
+    private int orientation;
 }
