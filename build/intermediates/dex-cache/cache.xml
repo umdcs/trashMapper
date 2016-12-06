@@ -12,6 +12,24 @@
     </item>
     <item
         is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-25.0.0_f5d7a0f8a48301aec05736ad0ee6cdbc770bd91a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/transition/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="0c6d948e6cb9ea6f535d175fb61ba2930719c0e9">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-transition-25.0.0_1a6d414e874077ca99ec925a982e1b587b1ab993/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/wei/merge2/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -21,12 +39,48 @@
     </item>
     <item
         is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="f2e3b9bc1ec25f652e8007ce7774c991e38f6a00">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_8fb2e3c3eae6e9aa8faa93922bc6f4695f8fa57d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/wei/merge2/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/9.8.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
         sha1="bf2e1838e4428616c1aa26edf43de72b5b99bf84">
         <dex dex="/Users/wei/merge2/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-tasks-9.8.0_62aa72268615fbd37604e0556b620e6bd4829af4/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="a1347df7f350a636367e0ba0ebe56e22d044115b">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_74fe095f043920f73d8812d24f98aaa06b93d722/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="2d19b6549cafceaea078471d42305b760a53a330">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_508bd8eea232be853f0b56b772f0261f93a8a742/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-places/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="679251204de40ace98776a6f4e3a649c27e3d89f">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-places-9.8.0_3baf535654795e267574313b244e20496c9062e1/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -57,6 +111,33 @@
     </item>
     <item
         is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="4ccbcda5c72027c7f7c14be9ff8640d9cb0d8da0">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.0.0_abd3f2818acbd6192ca4efdcea8be9355c90298a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="7e92aadd0697922316d1395c1887a23aebec640a">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-base-9.8.0_9f34c9a3b57024a37ad21deb18a02da4c5d7654a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/design/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="26384be22ddc74cfe197ebda9edbc7d1fd8bd537">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-25.0.0_0e0dfaf464aa055066f89e026edeaa0aea0ac6cd/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/wei/merge2/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.8.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -72,6 +153,24 @@
         revision="24.0.2"
         sha1="ee5faf4dee5b6a4364bf51587871047dde7c703a">
         <dex dex="/Users/wei/merge2/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_e87e12fe3cfc9f38ce0f0b07e1f2498f3ada106c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="5e497d60f0cb6ce87c458ac5420a46d0fed49bd0">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-25.0.0_3f435346c469bfe21e572dad9d1498022d7d275c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="53a420cd4f49274db6bd43475f8006ba67ef6bbd">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-25.0.0_6ef241f4b16c3e4809b16d0fcd500271318333f8/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -93,21 +192,21 @@
     </item>
     <item
         is-multidex="true"
-        jar="/Users/wei/merge2/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.0.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="5e497d60f0cb6ce87c458ac5420a46d0fed49bd0">
-        <dex dex="/Users/wei/merge2/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-25.0.0_9e29cfd285f2c78b282f9658b02a899830ca07e2/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/Users/wei/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.0.0/support-annotations-25.0.0.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
         sha1="a22d2cc94da87b254451fa8ed28afc30b4653773">
         <dex dex="/Users/wei/merge2/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.0.0_7349363299a8906d50def4df859d6d17ed7902c8/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/wei/merge2/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="5e497d60f0cb6ce87c458ac5420a46d0fed49bd0">
+        <dex dex="/Users/wei/merge2/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-25.0.0_9e29cfd285f2c78b282f9658b02a899830ca07e2/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -120,12 +219,30 @@
     </item>
     <item
         is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="d29714cc76b38157e3cbd034c66e1ec808eb4c19">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-25.0.0_e1523e0accc432240a8c637e2c98712d2dd9ed36/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/wei/merge2/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
         sha1="4ccbcda5c72027c7f7c14be9ff8640d9cb0d8da0">
         <dex dex="/Users/wei/merge2/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.0.0_f46a660e2b0f57ae44dce27bf7baca0dc766e399/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="9f6d236bac26d02b410e4ee186ba517ace5ee661">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-basement-9.8.0_6c86a4b74dcb043182cde069587e74689c84f698/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -147,12 +264,57 @@
     </item>
     <item
         is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="bf2e1838e4428616c1aa26edf43de72b5b99bf84">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-tasks-9.8.0_c9fedf23cbc71d41863ddecf324e72b6010c02f9/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/wei/merge2/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/design/25.0.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
         sha1="26384be22ddc74cfe197ebda9edbc7d1fd8bd537">
         <dex dex="/Users/wei/merge2/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-25.0.0_fd4f20bcd6c5714ef4d6438a610aa723434b3bf8/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="26674000177e45447a0326a6ad84612761199a13">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.0.0_50210f4025b34f45bd7ca5d63bcbbbe0746e51be/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="122ec9237acd8a57d974b9d529987f1ee6ca5aea">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-maps-9.8.0_e0d346b1d5e2e9b53a9795ddb9b76c08e1cdf864/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="e5343c9d19cb19ff55f6b268c7f3fe8c9d224f6f">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_db8964545c0418996f73fd447fef4eef18ca38db/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="ee5faf4dee5b6a4364bf51587871047dde7c703a">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_a1076c9dfe52b4bd2132018bac099aa620606b78/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -165,6 +327,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="665d21a8a069c96b4d9e8b434f5096d865b4e261">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_cccc06e9291c6cefa370087a896c55f99fd75f00/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/wei/merge2/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/9.8.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -174,12 +345,39 @@
     </item>
     <item
         is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="04bbbddf868aa02dd33f9e90d8f5d908c360f638">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-location-9.8.0_942db8d628cc3ec828d53bf5d2bdb9b919a0b231/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="75b1f366ff0bbc78f8b1f7cf0dc82e7c53afef6a">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-25.0.0_f7d08709ae840290819d2d1ae2b57ec70aca8af0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/wei/merge2/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
         sha1="d29714cc76b38157e3cbd034c66e1ec808eb4c19">
         <dex dex="/Users/wei/merge2/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-25.0.0_4597a641c3d080b9bc82c7d59654226e1ce75d81/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="3b61a70884adaf0be3fc06c70c801e3e6df13133">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_26c429fc7ff19896a649b675e8d2f061d10f0898/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -210,12 +408,39 @@
     </item>
     <item
         is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="07daa0b6e1d455c82a38422ffe287c18823d339a">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-25.0.0_430dbe342dac138ec6fb19147b3fd4c509d8f8c2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/wei/merge2/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/transition/25.0.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
         sha1="0c6d948e6cb9ea6f535d175fb61ba2930719c0e9">
         <dex dex="/Users/wei/merge2/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-transition-25.0.0_4cf3fba4db5c8b7ba13e37b8da20c3fb8666510b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="76fb65a4b41ea42dab8a1310ed772a2420c96b52">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-25.0.0_45bc57e3de0bb6dae11434e80e48bcbcc0b82134/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="8bc45ce1f63d1a391fd38b32a201be5a42f9c95d">
+        <dex dex="/Users/wei/merge3/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-25.0.0_e96f056e0257a168feade1902fc2b873de2e1906/classes.dex" />
     </item>
     <item
         is-multidex="true"
