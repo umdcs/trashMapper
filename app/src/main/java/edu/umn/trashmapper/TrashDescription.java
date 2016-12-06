@@ -42,7 +42,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //getUserInformation();
+
         Intent intent = getIntent();
         userName = intent.getStringExtra("user_name");
         if(userName==null){
@@ -66,9 +66,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         }
         Button mapButton = (Button) findViewById(R.id.map_button);
         Button galleryButton = (Button) findViewById(R.id.gallery);
-        //takePhoto();
         ImageButton cameraButton = (ImageButton) findViewById(R.id.camera_button);
-
 
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,21 +78,11 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         mapButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(TrashDescription.this, MapsActivity.class);
-                //Bundle b = new Bundle();
-
-                /***** Test ******/
-                //b.putDouble("lat", Latitude);
-                //b.putDouble("long", Longitude);
-                //b.putString("jsonArray",temp);
-                //intent.putExtras(b);
-                //intent.putExtra("jsonArray",temp);
                 httpAsyncTask.cancel(true);
-                //unTint();
                 startActivity(intent);
 
             }
         });
-
 
         galleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,87 +104,38 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         organicBox.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                if(organicBox.isChecked())
-                {
-                    organic = true;
-                }
-                else
-                {
-                    organic = false;
-                }
+                organic = organicBox.isChecked();
             }
         });
 
         paperBox.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                if(paperBox.isChecked())
-                {
-                    paper = true;
-                }
-                else
-                {
-                    paper = false;
-                }
+                paper = paperBox.isChecked();
             }
         });
 
         plasticBox.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                if(plasticBox.isChecked())
-                {
-                    plastic = true;
-                }
-                else
-                {
-                    plastic = false;
-                }
+                plastic = plasticBox.isChecked();
             }
         });
 
         cansBox.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                if(cansBox.isChecked())
-                {
-                    cans = true;
-                }
-                else
-                {
-                    cans = false;
-                }
+                cans = cansBox.isChecked();
             }
         });
 
         batteryBox.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                if(batteryBox.isChecked())
-                {
-                    battery = true;
-                }
-                else
-                {
-                    battery = false;
-                }
+                battery = batteryBox.isChecked();
             }
         });
     }
-
-    //get the user's information
-    /*public void getUserInformation() {
-        try {
-            Intent intent = getIntent();
-            userEmail = intent.getStringExtra(UserInformationActivity.USER_NAME);
-            userPassword = intent.getStringExtra(UserInformationActivity.USER_PASSWORD);
-            Log.d("User Email", userEmail);
-            Log.d("User password", userPassword);
-        } catch (Exception e) {
-            Log.d("user", "failed");
-        }
-    }*/
-
 
     //opens the gallery after permissions granted
     @Override
@@ -220,7 +159,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
      * Made following
      * https://developer.android.com/training/camera/photobasics.html
      */
-    static final int REQUEST_TAKE_PHOTO = 1;
+    private static final int REQUEST_TAKE_PHOTO = 1;
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -245,9 +184,7 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     private void getBitmap() {
         try {
             if (photoFile.exists()) {
-                bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                //ImageView imageView = (ImageView) findViewById(R.id.imageView);
-                //imageView.setImageBitmap(bitmap);
+                Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
             }
         }
         catch (NullPointerException e){
@@ -267,7 +204,10 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
-        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        /*
+      GPS information
+     */
+        String mCurrentPhotoPath = "file:" + image.getAbsolutePath();
         return image;
     }
 
@@ -281,19 +221,17 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         startActivityForResult(intent, PICK_IMAGE);
     }
 
-
     /**
      * sets the selected image to photoFile
      * throws NullPointerException if ImageUri is null
      * http://programmerguru.com/android-tutorial/how-to-pick-image-from-gallery/
      *
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     * @param requestCode is the code that is used to differentiate what intent the data is from
+     * @param resultCode Lets you know if the intent ended crrectly
+     * @param data includes the data that is returned from the intent
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
 
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
             try {
@@ -302,13 +240,14 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
                 // Get the cursor
                 Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
                 // Move to first row
+                assert cursor != null;
                 cursor.moveToFirst();
                 String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 String imgDecodableString = cursor.getString(columnIndex);
                 cursor.close();
                 photoFile = new File(imgDecodableString);
-                String filePath = photoFile.getAbsolutePath();
+                //String filePath = photoFile.getAbsolutePath();
                 processPhotoFile(path);
 
             } catch (NullPointerException e) {
@@ -323,21 +262,20 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
             try {
                 getBitmap();
                 processPhotoFile(photoFile.getAbsolutePath());
-            } catch (NullPointerException e) {
+            }
+            catch (NullPointerException e) {
                 toast = Toast.makeText(this, "Invalid picture taken.", Toast.LENGTH_SHORT);
                 toast.show();
             }
             sendJSONUserInformation();
             sendPictureInformation(photoFile);
         }
-
     }
 
     private void processPhotoFile(String path){
         try {
             ExifInterface exif = new ExifInterface(path);
             float[] latLong = new float[2];
-            boolean hasLatLong = exif.getLatLong(latLong);
 
             Log.d("his", "gps latitude ref: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF));
             Log.d("his", "gps latitude: " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE));    // 緯度
@@ -355,9 +293,9 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
 
         } catch (Exception e) {
             e.printStackTrace();
-
         }
     }
+
     /**
      * Converts the EXIF Location data to a Double containing the location in degrees
      * http://stackoverflow.com/questions/5269462/how-do-i-convert-exif-long-lat-to-real-values
@@ -381,42 +319,27 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     }
 
     private Double convertToDegree(String stringDMS) {
-        Double result = null;
+        Double result;
         String[] DMS = stringDMS.split(",", 3);
 
         String[] stringD = DMS[0].split("/", 2);
-        Double D0 = new Double(stringD[0]);
-        Double D1 = new Double(stringD[1]);
+        Double D0 = Double.valueOf(stringD[0]);
+        Double D1 = Double.valueOf(stringD[1]);
         Double FloatD = D0 / D1;
 
         String[] stringM = DMS[1].split("/", 2);
-        Double M0 = new Double(stringM[0]);
-        Double M1 = new Double(stringM[1]);
+        Double M0 = Double.valueOf(stringM[0]);
+        Double M1 = Double.valueOf(stringM[1]);
         Double FloatM = M0 / M1;
 
         String[] stringS = DMS[2].split("/", 2);
-        Double S0 = new Double(stringS[0]);
-        Double S1 = new Double(stringS[1]);
+        Double S0 = Double.valueOf(stringS[0]);
+        Double S1 = Double.valueOf(stringS[1]);
         Double FloatS = S0 / S1;
 
-        result = new Double(FloatD + (FloatM / 60) + (FloatS / 3600));
+        result = Double.valueOf(FloatD + (FloatM / 60) + (FloatS / 3600));
 
         return result;
-    }
-
-    //Packages the image file in a JSON object and calls restPOST() in it.
-    public void sendMessage(File photo) {
-        try {
-            JSONObject jason = new JSONObject();
-            try {
-                jason.put("picture", createPhotoString(photo));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            restPOST(jason);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     /*
@@ -426,41 +349,40 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     I tried send two HTTP request in two activities
     Crash...crash...and crash...
      */
-    public void sendJSONUserInformation() {
+    private void sendJSONUserInformation() {
         try {
             JSONObject jason = new JSONObject();
             jason.put("type", "UserInformation");
             jason.put("user_name", userName);
-            //jason.put("user_password", userPassword);
             jason.put("type_of_trash", typeOfTrash());
             jason.put("trash_latitude", Latitude);
             jason.put("trash_longtitude", Longitude);
             jason.put("trash_generate_date", trashGenDate);
             jason.put("trash_information", trashInfo);
-            // jason.put("picture", createPhotoString(photo));
             restPOST(jason);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public void sendPictureInformation(File photo){
+    private void sendPictureInformation(File photo){
         try{
             JSONObject jason = new JSONObject();
             jason.put("picture", createPhotoString(photo));
             restPOSTPhoto(jason);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        }
+        catch (JSONException e) {
             e.printStackTrace();
         }
-
+        catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     /*
     return the type of trash
      */
-    public String typeOfTrash() {
+    private String typeOfTrash() {
         String returenTypeOfTrash = null;
         if (paper) {
             returenTypeOfTrash = "paper";
@@ -480,77 +402,45 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
         return returenTypeOfTrash;
     }
 
-
-    private String createPhotoString(File photo) throws IOException {
-        byte[] imageBytes = new byte[0];
-        String encodedImage = "";
+    private String createPhotoString(File photo) {
+        byte[] imageBytes;
+        String encodedImage;
         Bitmap pic = BitmapFactory.decodeFile(photo.getPath());
         Log.d("Photo.getPath()",photo.getPath());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         pic.compress(Bitmap.CompressFormat.JPEG, 14, baos);
         imageBytes = baos.toByteArray();
         encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        Log.d("Picture string", encodedImage);
         return encodedImage;
     }
 
     //Gets called when a user clicks on a photo in the gallery.
-    public void restPOST(JSONObject jason) {
+    private void restPOST(JSONObject jason) {
         httpAsyncTask = new HTTPAsyncTask(this);
         httpAsyncTask.execute(httpAsyncTask.address +  "/userData", "POST", jason.toString());
-
     }
 
-    public void restPOSTPhoto(JSONObject jason){
+    private void restPOSTPhoto(JSONObject jason){
         httpAsyncTask = new HTTPAsyncTask(this);
         httpAsyncTask.execute(httpAsyncTask.address + "/seperate", "POST", jason.toString());
-
-    }
-    //Creates image file from JSON Object on server.
-    private void createFile(String encrypted) throws JSONException {
-        if (encrypted != null) {
-            Log.d("Debug", "String is " + encrypted);
-            byte[] decoded = Base64.decode(encrypted, DEFAULT);
-            Bitmap pic = BitmapFactory.decodeByteArray(decoded, 0, decoded.length);
-            ImageView image = (ImageView) findViewById(R.id.trash);
-            image.setImageBitmap(pic);
-        }
     }
 
-    public void restGET() {
-        httpAsyncTask = new HTTPAsyncTask(this);
-        httpAsyncTask.execute(httpAsyncTask.address + "/userData", "GET");
-
-    }
-
-
+    @Override
+    public void processFinish(String output) {}
 
     //This is the picture that the user takes using the camera.
     private File photoFile = null;
     private static final int PICK_IMAGE = 100;
     private Toast toast;
-    private Bitmap bitmap;
-    private String encoded;
-    /**
-     * GPS information
-     */
-    private String mCurrentPhotoPath;
     private String trashGenDate;
     private String trashGenLatitude;
     private String trashGenLongtitude;
     private String trashGenLatitudeRef;
     private String trashGenLongtitudeRef;
     private Double Latitude = 0.0, Longitude = 0.0;
-    /**
-     * User's information
-     */
-    //private String userEmail;
-    //private String userPassword;
-
     private String userName;
-    private String userPassword;
-    /*
-    trash type
-    */
+    /*trash type*/
     private boolean organic;
     private boolean paper;
     private boolean cans;
@@ -559,34 +449,11 @@ public class TrashDescription extends AppCompatActivity implements AsyncResponse
     /*
     map the trash bin
      */
-    private boolean trashBin;
-    /*
-    map the trash bin
-     */
     private String trashInfo;
-    /*
-    photo location
-     */
-    private String latitude;
-    private String longtitude;
-    /*
-     icon buttons
-     */
-    private ImageButton organicCamera;
-    private ImageButton plasticCamera;
-    private ImageButton paperCamera;
-    private ImageButton cansCamera;
-    private ImageButton batteryCamera;
 
     private CheckBox organicBox, plasticBox, paperBox, cansBox, batteryBox;
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
 
     private HTTPAsyncTask httpAsyncTask;
-
-
-    @Override
-    public void processFinish(String output) {
-
-    }
 }

@@ -82,7 +82,7 @@ app.post('/userPassword', function(req, res) {
        console.log('/userPassword POST URI accessed');
        var userFromClient=req.body.user_name;
        var objName="dummy";
-       var objPassword;r
+       var objPassword;
        var i=0;
        while(i<logIn.user_account.length||objName!=userFromClient){
        var obj=logIn.user_account[i];
