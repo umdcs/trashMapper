@@ -43,7 +43,7 @@ public class UserInformationActivity extends AppCompatActivity implements AsyncR
 
     @Override
     public void processFinish(String output) {
-        Log.d("get password","hahaha");
+      //  Log.d("get password","hahaha");
         try{
         JSONObject bjason = new JSONObject(output);
         VerifiedPassword = bjason.getString("user_password");

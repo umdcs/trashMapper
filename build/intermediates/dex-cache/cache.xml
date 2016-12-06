@@ -88,7 +88,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
-        sha1="fc050cb64ea585b89f6cffa77cda712ffd13e2e1">
+        sha1="8713c5c021b373036341595572276ddfb19eea27">
         <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_5b782de93a8773f6141ba11f6689c466262c966a/classes.dex" />
     </item>
     <item
@@ -151,7 +151,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
-        sha1="055a6f4f70511b0cd33d9951992fb768fb249d13">
+        sha1="42b32afc3018958119e3b0cef9231ec8350dff5a">
         <dex dex="/Users/likun/Desktop/EPA_Trash_Mapper/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_4b759e79ef4440f4e011b47ab69dca18de9d2645/classes.dex" />
     </item>
     <item

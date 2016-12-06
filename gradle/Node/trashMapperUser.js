@@ -44,28 +44,6 @@ module.exports = function() {
     };
 
 
-    /**
-     * findWeek - Finds specific information about a week
-     * @param week
-     * @param callback
-     */
-    mongodb.findWeek = function(weekId, callback) {
-
-	console.log( 'Searching for weekId: ' + weekId );
-
-	// Get the documents collection
-	mongodb.collection('pictures').find({ week: Number(weekId) }).toArray(function(err, docs) {
-
-	    // if (!err) {
-	    console.log("Found the following records");
-	    console.log(docs);
-	    callback(docs);
-	    // } else {
-	    // onErr(err, callback);
-            // }
-
-	});
-    }
 
     /**
      * insertPictures - funcion that inserts a week record as a JSON object into
@@ -76,7 +54,7 @@ module.exports = function() {
     mongodb.insertPicture = function(picClient) {
         console.log("try to inset a new picture into the pictures collection.");
         mongodb.collection('pictures').save({pic: picClient}, function (err, result) {
-            if(err || !result) console.log ("picture sent from client not saved in database.");
+            if(err || !result) console.log ("picture sent from client can not be saved in database.");
             else console.log("Inserted a new picture into the pictures collection.");
         });
     };
@@ -89,7 +67,7 @@ module.exports = function() {
     mongodb.insertUsers = function(userClient) {
 
         mongodb.collection('users').save({user: userClient}, function (err, result) {
-            if(err || !result) console.log ("picture sent from client not saved in database.");
+            if(err || !result) console.log ("user data can not be saved in database.");
             else console.log("Inserted a new user info into the users collection.");
         });
     };

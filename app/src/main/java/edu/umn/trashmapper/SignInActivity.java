@@ -30,8 +30,7 @@ public class SignInActivity extends AppCompatActivity implements AsyncResponse{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Intent intent = new Intent(this, UserInformationActivity.class);
-        startActivity(intent);
+
     }
 
     public void restPOSTSignIn(JSONObject jason){
@@ -42,6 +41,8 @@ public class SignInActivity extends AppCompatActivity implements AsyncResponse{
     @Override
     public void processFinish(String output) {
        // httpAsyncTask.cancel(true);
+        Intent intent = new Intent(this, UserInformationActivity.class);
+        startActivity(intent);
 
     }
     private HTTPAsyncTask httpAsyncTask;

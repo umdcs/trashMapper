@@ -74,16 +74,18 @@ app.post('/userAccount', function (req, res)
 	    };
 	    basic.user_account.push(LogInJsonObject);
 	    logIn.user_account.push(LogInJsonObject);
-	 });
+        console.log('/userAccount DOUBLE POST URI accessed');
+        res.send(req.body);
+        });
 
 app.post('/userPassword', function(req, res) {
        console.log('/userPassword POST URI accessed');
        var userFromClient=req.body.user_name;
        var objName="dummy";
-       var objPassword;
+       var objPassword;r
        var i=0;
-       while(i<basic.user_account.length||objName!=userFromClient){
-       var obj=basic.user_account[i];
+       while(i<logIn.user_account.length||objName!=userFromClient){
+       var obj=logIn.user_account[i];
        objName=obj.user_name;
        objPassword=obj.user_password;
        i++;
