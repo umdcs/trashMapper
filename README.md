@@ -17,15 +17,16 @@ The Android Studio version last used is 2.2.2
 #To run the application:
 
 Part 1. Node Server
-     1. To run the node server, type in the following commands in the Node directory of the project:
-        1.1 start mongodb: mongod
-        1.2 install dependencies: npm install
-        1.3 run node server: node index.js
+  To run the node server, type in the following commands in the Node directory of the project:
+  1. start mongodb: mongod
+  2. install dependencies: npm install
+  3. run node server: node index.js
         
 Part 2. Android
-     1. Install android studio
-     2. Communication with server
-        2.1 If you want to test this app on your localhost, you should go to the HttpAsyncTask class and change the address field at the bottom to your local IP address or server address. ie: "http://192.168.1.1:4321". And make sure port number is 4321 in the index.js file under the Node directory.
-        2.2 To reconnect to the lempo server (the port is currently unaccessible), change the address field in the HttpAsyncTask back to "https://lempo.d.umn.edu:8193". Change the port number in the index.js to 8192 as well. 
+1. Install android studio
+2. Communication with server
+2.1 If you want to test this app on your localhost, you should go to the HttpAsyncTask class and change the address field at the bottom to your local IP address or server address. ie: "http://192.168.1.1:4321". And make sure port number is 4321 in the index.js file under the Node directory.
+        
+2.2 To reconnect to the lempo server (the port is currently unaccessible), change the address field in the HttpAsyncTask back to "https://lempo.d.umn.edu:8193". Change the port number in the index.js to 8192 as well. 
 
 ##This project was created by: Matt Jallen, Yichen Wei, Jake Pulkkinen, and Kun Li.
