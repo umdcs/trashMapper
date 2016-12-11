@@ -565,7 +565,7 @@ public class MapsActivity extends AppCompatActivity implements
             startActivity(intent);
 
         } else if (id == R.id.nav_SignOut){
-            Intent intent = new Intent(MapsActivity.this, UserInformationActivity.class);
+            Intent intent = new Intent(MapsActivity.this, LogInActivity.class);
             startActivity(intent);
         }
         else if (id == R.id.nav_profile) {

@@ -41,7 +41,6 @@ public class DisplayActivity extends AppCompatActivity implements AsyncResponse
             restGETPhoto();
             info.setTextSize(15);
             info.setText(normalMessage);
-            info.setText(message);
         }
         catch (NullPointerException e)
         {
