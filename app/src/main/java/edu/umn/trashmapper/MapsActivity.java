@@ -21,8 +21,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.Interpolator;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -83,7 +81,7 @@ public class MapsActivity extends AppCompatActivity implements
     /*
      * The instance fields for the marker display
      */
-
+    JSONArray user;
     JSONArray inter;
     private HashMap<Marker, String> infoMarkerMap;
     private ArrayList<Marker> markerList;
@@ -464,7 +462,8 @@ public class MapsActivity extends AppCompatActivity implements
                         .icon(BitmapDescriptorFactory.fromResource(chooseMarker(trashType)));
 
                 Marker customMarker = mMap.addMarker(options);
-                markerList.add(customMarker);
+                markerList.
+                        add(customMarker);
                 infoMarkerMap = new HashMap<Marker, String>();
 
                 for(int j = 0; j < markerList.size(); ++j) {
@@ -592,9 +591,10 @@ public class MapsActivity extends AppCompatActivity implements
         {
             JSONObject bjason = new JSONObject(result);
             inter = bjason.getJSONArray("trash");
-            directName = inter.getJSONObject(inter.length()-1).getString("user_name");
-            directPassword = inter.getJSONObject(inter.length()-1).getString("user_password");
-            temp = inter.toString();
+            user = bjason.getJSONArray("user_account");
+            directName = user.getJSONObject(user.length()-1).getString("user_name");
+            directPassword = user.getJSONObject(user.length()-1).getString("user_password");
+            temp = user.toString();
             Log.d("asdasdasdasdasMAPS", temp);
             addMarkers();
 
